@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://can-5.github.io/foxai-browser/sitemap.xml
