@@ -16,6 +16,7 @@ const els = {
   consent: $("consent"), consentText: $("consentText"), consentDetail: $("consentDetail"),
   consentYes: $("consentYes"), consentNo: $("consentNo"), revokeBtn: $("revokeBtn"),
   result: $("result"), resultPanel: $("resultPanel"), privacyNote: $("privacyNote"),
+  ver: $("ver"),
 };
 
 let pending = null; // { mode, target, provider }
@@ -308,6 +309,10 @@ els.chatClear.addEventListener("click", () => {
 });
 
 (async () => {
+  try {
+    const m = browser.runtime.getManifest();
+    if (m && m.version) els.ver.textContent = "FoxAI AI v" + m.version;
+  } catch (e) {}
   await loadCfg();
   await loadProviders();
   if (cfg.apiKey) els.apiKey.value = cfg.apiKey;

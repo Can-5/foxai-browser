@@ -41,3 +41,4 @@ button {
   background: linear-gradient(135deg, var(--accent), var(--accent2));
 }
 button:hover { filter: brightness(1.12); }
+.version { margin: 18px 0 0; color: var(--muted); font-size: 12px; }

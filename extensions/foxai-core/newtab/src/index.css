@@ -397,6 +397,33 @@ body {
   font: inherit;
   cursor: pointer;
 }
+.modal-card .select {
+  width: auto;
+  max-width: 60%;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 5px 8px;
+  font: inherit;
+}
+.modal-danger {
+  margin-top: 10px;
+  width: 100%;
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  background: transparent;
+  color: var(--accent);
+  border-radius: 10px;
+  padding: 8px;
+  font: inherit;
+  cursor: pointer;
+}
+.modal-footer {
+  margin: 12px 0 4px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+}
 
 .theme-light .search-card,
 .theme-light .card {

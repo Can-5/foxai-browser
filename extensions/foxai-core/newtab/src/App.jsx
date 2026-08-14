@@ -16,7 +16,15 @@ const save = (key, value) => {
 
 const THEMES = ["gray", "aurora", "midnight", "ocean", "light"];
 
-function Clock() {
+const SEARCH_ENGINES = {
+  duckduckgo: { label: "DuckDuckGo", url: "https://duckduckgo.com/?q={q}" },
+  bing: { label: "Bing", url: "https://www.bing.com/search?q={q}" },
+  google: { label: "Google", url: "https://www.google.com/search?q={q}" },
+  brave: { label: "Brave", url: "https://search.brave.com/search?q={q}" },
+  startpage: { label: "Startpage", url: "https://www.startpage.com/sp/search?query={q}" },
+};
+
+function Clock({ hour12 }) {
   const [now, setNow] = useState(() => new Date());
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 1000);
@@ -24,7 +32,9 @@ function Clock() {
   }, []);
   return (
     <div className="clock">
-      <div className="time">{now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}</div>
+      <div className="time">
+        {now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12 })}
+      </div>
       <div className="date">
         {now.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
       </div>
@@ -63,11 +73,25 @@ export default function App() {
   const [notes, setNotes] = useState(() => load("fx:notes", ""));
   const [todos, setTodos] = useState(() => load("fx:todos", []));
   const [todoInput, setTodoInput] = useState("");
-  const [widgets, setWidgets] = useState(() => load("fx:w", { notes: true, todo: true, bookmarks: true, weather: false }));
+  const [widgets, setWidgets] = useState(() =>
+    load("fx:w", { notes: true, todo: true, bookmarks: true, weather: false, clock: true })
+  );
   const [bg, setBg] = useState(() => load("fx:bg", "gray"));
   const [bgImage, setBgImage] = useState(() => load("fx:bgimg", ""));
+  const [engine, setEngine] = useState(() => load("fx:engine", "duckduckgo"));
+  const [clock24, setClock24] = useState(() => load("fx:clock", true));
+  const [openTabs, setOpenTabs] = useState(() => load("fx:opentabs", true));
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [topSites, setTopSites] = useState([]);
+  const [ver, setVer] = useState(null);
+
+  useEffect(() => {
+    try {
+      if (typeof browser !== "undefined" && browser.runtime && browser.runtime.getManifest) {
+        setVer(browser.runtime.getManifest().version);
+      }
+    } catch (e) {}
+  }, []);
 
   useEffect(() => {
     if (typeof browser !== "undefined" && browser.topSites && browser.topSites.get) {
@@ -94,11 +118,36 @@ export default function App() {
     setBgImage(d);
     save("fx:bgimg", d);
   };
+  const setEngineSave = (e) => {
+    setEngine(e);
+    save("fx:engine", e);
+  };
+  const setClock24Save = (v) => {
+    setClock24(v);
+    save("fx:clock", v);
+  };
+  const setOpenTabsSave = (v) => {
+    setOpenTabs(v);
+    save("fx:opentabs", v);
+  };
+  const resetSettings = () => {
+    try {
+      ["fx:bg", "fx:bgimg", "fx:w", "fx:engine", "fx:clock", "fx:opentabs", "fx:notes", "fx:todos"].forEach((k) =>
+        localStorage.removeItem(k)
+      );
+    } catch (e) {}
+    window.location.reload();
+  };
 
   const doSearch = (e) => {
     e.preventDefault();
     const q = query.trim();
     if (!q) return;
+    const eng = SEARCH_ENGINES[engine];
+    if (eng) {
+      window.location.href = eng.url.replace("{q}", encodeURIComponent(q));
+      return;
+    }
     if (typeof browser !== "undefined" && browser.search && browser.search.search) {
       browser.search.search({ query: q }).catch(() => {
         window.location.href = "https://duckduckgo.com/?q=" + encodeURIComponent(q);
@@ -151,7 +200,7 @@ export default function App() {
         </div>
         <div className="top-right">
           {widgets.weather && <Weather />}
-          <Clock />
+          {widgets.clock && <Clock hour12={!clock24} />}
         </div>
       </header>
 
@@ -217,7 +266,7 @@ export default function App() {
                 <ul className="bookmark-list">
                   {topSites.map((s, i) => (
                     <li key={i}>
-                      <a href={s.url} title={s.title || s.url}>
+                      <a href={s.url} title={s.title || s.url} target={openTabs ? "_blank" : undefined}>
                         <span className="bookmark-icon">
                           {s.favicon ? (
                             <img src={s.favicon} alt="" width="18" height="18" />
@@ -274,6 +323,14 @@ export default function App() {
             <fieldset>
               <legend>Widgets</legend>
               <label className="toggle-row">
+                <span>Clock</span>
+                <input
+                  type="checkbox"
+                  checked={widgets.clock}
+                  onChange={(e) => setWidgetsSave({ ...widgets, clock: e.target.checked })}
+                />
+              </label>
+              <label className="toggle-row">
                 <span>Weather</span>
                 <input
                   type="checkbox"
@@ -316,6 +373,48 @@ export default function App() {
                 </button>
               )}
             </fieldset>
+
+            <fieldset>
+              <legend>Search</legend>
+              <label className="toggle-row">
+                <span>Search engine</span>
+                <select value={engine} onChange={(e) => setEngineSave(e.target.value)} className="select">
+                  {Object.keys(SEARCH_ENGINES).map((k) => (
+                    <option key={k} value={k}>
+                      {SEARCH_ENGINES[k].label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </fieldset>
+
+            <fieldset>
+              <legend>Clock &amp; links</legend>
+              <label className="toggle-row">
+                <span>24-hour clock</span>
+                <input
+                  type="checkbox"
+                  checked={clock24}
+                  onChange={(e) => setClock24Save(e.target.checked)}
+                />
+              </label>
+              <label className="toggle-row">
+                <span>Open bookmarks in a new tab</span>
+                <input
+                  type="checkbox"
+                  checked={openTabs}
+                  onChange={(e) => setOpenTabsSave(e.target.checked)}
+                />
+              </label>
+            </fieldset>
+
+            <button type="button" className="modal-danger" onClick={resetSettings}>
+              Reset all settings
+            </button>
+
+            <div className="modal-footer">
+              {ver ? `FoxAI Start v${ver}` : "FoxAI Start"}
+            </div>
 
             <button type="button" className="modal-close" onClick={() => setSettingsOpen(false)}>
               Close

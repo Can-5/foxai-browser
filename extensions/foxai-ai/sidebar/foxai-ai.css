@@ -73,6 +73,15 @@ button.ghost { background: transparent; }
 
 .hint { color: var(--muted); font-size: 11px; }
 
+footer.ver {
+  text-align: center;
+  color: var(--muted);
+  font-size: 11px;
+  padding: 8px;
+  border-top: 1px solid var(--line);
+  opacity: 0.75;
+}
+
 .result {
   white-space: pre-wrap;
   word-break: break-word;

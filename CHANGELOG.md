@@ -1,5 +1,22 @@
 # Changelog
 
+## v1.3.0 (2026-08-14)
+
+### Added
+- New settings in the FoxAI Start modal:
+  - **Search engine** dropdown — DuckDuckGo (default), Bing, Google, Brave, Startpage.
+  - **24-hour clock** toggle (off = 12-hour AM/PM).
+  - **Clock widget** on/off toggle.
+  - **Open bookmarks in a new tab** toggle.
+  - **Reset all settings** button (clears stored prefs and reloads).
+- **Version is now visible** in three places, read live from the extension manifest:
+  - FoxAI Start settings modal footer ("FoxAI Start v1.3.0").
+  - FoxAI Search start page footer.
+  - FoxAI AI sidebar footer.
+
+### Changed
+- Version bumped to 1.3.0 (all extensions + release zip `FoxAI-Browser-v1.3.0.zip`).
+
 ## v1.2.0 (2026-08-14)
 
 Full security & privacy hardening pass ("close all leaks").
