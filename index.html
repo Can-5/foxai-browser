@@ -22,6 +22,7 @@
       <a href="#why" data-i18n="nav_why">Why</a>
       <a href="#ai" data-i18n="nav_ai">AI</a>
       <a href="#privacy" data-i18n="nav_privacy">Privacy</a>
+      <a href="#hub" data-i18n="nav_hub">Hub</a>
       <a href="#about" data-i18n="nav_about">About</a>
       <button class="lang-btn" id="langBtn" type="button" title="Switch language">TR</button>
       <a href="#download" class="btn small" data-i18n="nav_download">Download</a>
@@ -206,7 +207,55 @@
         <li data-i18n-html="road7"><span>v1.5.0</span> Real-fork defaults: LibreWolf-style hardening (letterboxing, cookie partitioning, clear-on-shutdown, WebGL/DRM off, telemetry fully off) and fork tab behaviour.</li>
         <li data-i18n-html="road8"><span>v1.5.1</span> Leak-test pass: DNS-over-HTTPS on (leak tests now show Cloudflare, not your ISP), WebRTC verified No Leak, Safe Browsing remote reporting off.</li>
         <li data-i18n-html="road9"><span>v1.6.0</span> Built-in SOCKS5 proxy (Settings → Proxy): route all traffic through a proxy so leak tests show the proxy address — with no silent direct fallback if the proxy dies.</li>
+        <li data-i18n-html="road10"><span>v1.7.0</span> Launcher + auto-updater: <code>FoxAI Browser.cmd</code> starts the browser, <code>FoxAI Update.cmd</code> checks GitHub, installs the newest release and keeps your profile.</li>
+        <li data-i18n-html="road11"><span>v1.8.0</span> Full leak &amp; hardening audit: RFP fully on, every phone-home connection off (updates, studies, region, captive portal, connectivity), partitioned storage, faster network + cache, and the FoxAI Hub.</li>
       </ul>
+    </section>
+
+    <section id="hub" class="section alt">
+      <h2 data-i18n="hub_h">FoxAI Hub</h2>
+      <p class="sub" data-i18n="hub_sub">Everything FoxAI in one place — release, source, changelog and ways to verify or reach us.</p>
+      <div class="grid">
+        <article class="card">
+          <span class="card-ico">🚀</span>
+          <h3 data-i18n="hub1_t">Latest release</h3>
+          <p data-i18n="hub1_d">Portable build with the built-in launcher and auto-updater. One download, unzip anywhere, <code>FoxAI Update.cmd</code> keeps it fresh.</p>
+          <a class="btn small" href="#download" data-i18n="hub1_b">Download</a>
+        </article>
+        <article class="card">
+          <span class="card-ico">📦</span>
+          <h3 data-i18n="hub2_t">Source</h3>
+          <p data-i18n="hub2_d">Everything is built from a public repo — no dark magic, fully reproducible.</p>
+          <a class="btn small" href="https://github.com/Can-5/foxai-browser" rel="noopener" data-i18n="hub2_b">Open GitHub</a>
+        </article>
+        <article class="card">
+          <span class="card-ico">📄</span>
+          <h3 data-i18n="hub3_t">Changelog</h3>
+          <p data-i18n="hub3_d">Every release documented: what changed, why, and how it was verified.</p>
+          <a class="btn small" href="https://github.com/Can-5/foxai-browser/releases" rel="noopener" data-i18n="hub3_b">Releases</a>
+        </article>
+        <article class="card">
+          <span class="card-ico">💬</span>
+          <h3 data-i18n="hub4_t">Feedback</h3>
+          <p data-i18n="hub4_d">Bug report, idea or question? Issues are open and read.</p>
+          <a class="btn small" href="https://github.com/Can-5/foxai-browser/issues" rel="noopener" data-i18n="hub4_b">Open an issue</a>
+        </article>
+        <article class="card">
+          <span class="card-ico">🛡️</span>
+          <h3 data-i18n="hub5_t">Verify it yourself</h3>
+          <p data-i18n="hub5_d">Leak tests to run after install — expect the proxy or your connection's IP, never a browser leak.</p>
+          <p class="links-row">
+            <a href="https://browserleaks.com" rel="noopener">browserleaks.com</a> ·
+            <a href="https://ipleak.net" rel="noopener">ipleak.net</a> ·
+            <a href="https://dnsleaktest.com" rel="noopener">dnsleaktest.com</a>
+          </p>
+        </article>
+        <article class="card">
+          <span class="card-ico">⚡</span>
+          <h3 data-i18n="hub6_t">Quick start</h3>
+          <p data-i18n="hub6_d"><code>FoxAI Browser.cmd</code> starts the browser, <code>FoxAI Update.cmd</code> checks for updates. Nothing is installed to the system.</p>
+        </article>
+      </div>
     </section>
 
     <section id="download" class="section">
