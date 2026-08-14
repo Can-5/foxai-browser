@@ -1,7 +1,7 @@
 ﻿{
   "manifest_version": 2,
   "name": "FoxAI Search",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "FoxAI private search engine and start page.",
   "browser_specific_settings": {
     "gecko": {
@@ -13,8 +13,7 @@
     "search_provider": {
       "name": "FoxAI Search",
       "keyword": "@foxai",
-      "search_url": "https://duckduckgo.com/?q={searchTerms}&t=foxai",
-      "suggest_url": "https://duckduckgo.com/ac/?q={searchTerms}&type=list",
+      "search_url": "https://duckduckgo.com/?q={searchTerms}",
       "is_default": false
     }
   },

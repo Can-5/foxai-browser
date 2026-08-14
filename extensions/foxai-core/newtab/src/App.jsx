@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const load = (key, def) => {
   try {
@@ -14,7 +14,7 @@ const save = (key, value) => {
   } catch (e) {}
 };
 
-const THEMES = ["gray", "aurora", "midnight", "ocean", "light"];
+const THEMES = ["gray", "aurora", "midnight", "ocean", "light", "forest", "sunset"];
 
 const SEARCH_ENGINES = {
   duckduckgo: { label: "DuckDuckGo", url: "https://duckduckgo.com/?q={q}" },
@@ -24,7 +24,7 @@ const SEARCH_ENGINES = {
   startpage: { label: "Startpage", url: "https://www.startpage.com/sp/search?query={q}" },
 };
 
-function Clock({ hour12 }) {
+function Clock({ hour12, showDate }) {
   const [now, setNow] = useState(() => new Date());
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 1000);
@@ -35,14 +35,16 @@ function Clock({ hour12 }) {
       <div className="time">
         {now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12 })}
       </div>
-      <div className="date">
-        {now.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
-      </div>
+      {showDate && (
+        <div className="date">
+          {now.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
+        </div>
+      )}
     </div>
   );
 }
 
-function Weather() {
+function Weather({ unit }) {
   const [w, setW] = useState(null);
   useEffect(() => {
     let cancelled = false;
@@ -65,7 +67,9 @@ function Weather() {
     };
   }, []);
   if (!w) return null;
-  return <span className="weather">{Math.round(w.temperature_2m)}°C</span>;
+  const c = Math.round(w.temperature_2m);
+  const shown = unit === "f" ? Math.round((c * 9) / 5 + 32) + "°F" : c + "°C";
+  return <span className="weather">{shown}</span>;
 }
 
 export default function App() {
@@ -81,9 +85,16 @@ export default function App() {
   const [engine, setEngine] = useState(() => load("fx:engine", "duckduckgo"));
   const [clock24, setClock24] = useState(() => load("fx:clock", true));
   const [openTabs, setOpenTabs] = useState(() => load("fx:opentabs", true));
+  const [name, setName] = useState(() => load("fx:name", ""));
+  const [unit, setUnit] = useState(() => load("fx:unit", "c"));
+  const [showDate, setShowDate] = useState(() => load("fx:showdate", true));
+  const [searchNewTab, setSearchNewTab] = useState(() => load("fx:searchnewtab", true));
+  const [siteCount, setSiteCount] = useState(() => load("fx:sitecount", 8));
+  const [compact, setCompact] = useState(() => load("fx:compact", false));
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [topSites, setTopSites] = useState([]);
   const [ver, setVer] = useState(null);
+  const importRef = useRef(null);
 
   useEffect(() => {
     try {
@@ -96,11 +107,11 @@ export default function App() {
   useEffect(() => {
     if (typeof browser !== "undefined" && browser.topSites && browser.topSites.get) {
       browser.topSites
-        .get({ limit: 8 })
+        .get({ limit: siteCount })
         .then((sites) => setTopSites(sites || []))
         .catch(() => setTopSites([]));
     }
-  }, []);
+  }, [siteCount]);
 
   const setNotesSave = (v) => {
     setNotes(v);
@@ -130,30 +141,95 @@ export default function App() {
     setOpenTabs(v);
     save("fx:opentabs", v);
   };
+  const setNameSave = (v) => {
+    setName(v);
+    save("fx:name", v);
+  };
+  const setUnitSave = (v) => {
+    setUnit(v);
+    save("fx:unit", v);
+  };
+  const setShowDateSave = (v) => {
+    setShowDate(v);
+    save("fx:showdate", v);
+  };
+  const setSearchNewTabSave = (v) => {
+    setSearchNewTab(v);
+    save("fx:searchnewtab", v);
+  };
+  const setSiteCountSave = (v) => {
+    setSiteCount(v);
+    save("fx:sitecount", v);
+  };
+  const setCompactSave = (v) => {
+    setCompact(v);
+    save("fx:compact", v);
+  };
   const resetSettings = () => {
     try {
-      ["fx:bg", "fx:bgimg", "fx:w", "fx:engine", "fx:clock", "fx:opentabs", "fx:notes", "fx:todos"].forEach((k) =>
+      ["fx:bg", "fx:bgimg", "fx:w", "fx:engine", "fx:clock", "fx:opentabs", "fx:name", "fx:unit", "fx:showdate", "fx:searchnewtab", "fx:sitecount", "fx:compact", "fx:notes", "fx:todos"].forEach((k) =>
         localStorage.removeItem(k)
       );
     } catch (e) {}
     window.location.reload();
+  };
+  const exportSettings = () => {
+    try {
+      const data = {
+        bg, bgImage, engine, clock24, openTabs, name, unit, showDate, searchNewTab, siteCount, compact, widgets,
+      };
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "foxai-settings.json";
+      a.click();
+      URL.revokeObjectURL(a.href);
+    } catch (e) {}
+  };
+  const onImport = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const d = JSON.parse(reader.result);
+        setBg(d.bg || "gray"); save("fx:bg", d.bg || "gray");
+        setBgImage(d.bgImage || ""); save("fx:bgimg", d.bgImage || "");
+        setEngine(d.engine || "duckduckgo"); save("fx:engine", d.engine || "duckduckgo");
+        setClock24(d.clock24 !== false); save("fx:clock", d.clock24 !== false);
+        setOpenTabs(d.openTabs !== false); save("fx:opentabs", d.openTabs !== false);
+        setName(d.name || ""); save("fx:name", d.name || "");
+        setUnit(d.unit || "c"); save("fx:unit", d.unit || "c");
+        setShowDate(d.showDate !== false); save("fx:showdate", d.showDate !== false);
+        setSearchNewTab(d.searchNewTab !== false); save("fx:searchnewtab", d.searchNewTab !== false);
+        setSiteCount(d.siteCount || 8); save("fx:sitecount", d.siteCount || 8);
+        setCompact(!!d.compact); save("fx:compact", !!d.compact);
+        setWidgets(d.widgets || widgets); save("fx:w", d.widgets || widgets);
+      } catch (err) {}
+    };
+    reader.readAsText(file);
+    if (e.target) e.target.value = "";
   };
 
   const doSearch = (e) => {
     e.preventDefault();
     const q = query.trim();
     if (!q) return;
+    const go = (url) => {
+      if (searchNewTab) window.open(url, "_blank", "noopener");
+      else window.location.href = url;
+    };
     const eng = SEARCH_ENGINES[engine];
     if (eng) {
-      window.location.href = eng.url.replace("{q}", encodeURIComponent(q));
+      go(eng.url.replace("{q}", encodeURIComponent(q)));
       return;
     }
     if (typeof browser !== "undefined" && browser.search && browser.search.search) {
       browser.search.search({ query: q }).catch(() => {
-        window.location.href = "https://duckduckgo.com/?q=" + encodeURIComponent(q);
+        go("https://duckduckgo.com/?q=" + encodeURIComponent(q));
       });
     } else {
-      window.location.href = "https://duckduckgo.com/?q=" + encodeURIComponent(q);
+      go("https://duckduckgo.com/?q=" + encodeURIComponent(q));
     }
   };
 
@@ -190,17 +266,26 @@ export default function App() {
 
   const theme = bgImage ? "aurora" : bg;
   const appStyle = bgImage ? { backgroundImage: `url("${bgImage}")` } : undefined;
+  const toggleWeather = async (on) => {
+    if (on && typeof browser !== "undefined" && browser.permissions && browser.permissions.request) {
+      try {
+        const ok = await browser.permissions.request({ permissions: ["geolocation"] });
+        if (!ok) return;
+      } catch (e) {}
+    }
+    setWidgetsSave({ ...widgets, weather: on });
+  };
 
   return (
-    <div className={"app theme-" + theme} style={appStyle}>
+    <div className={"app theme-" + theme + (compact ? " compact" : "")} style={appStyle}>
       <header className="topbar">
         <div className="brand">
           <img src="./favicon.svg" alt="FoxAI" className="brand-mark" />
-          <span>FoxAI Start</span>
+          <span>FoxAI Start{name ? <em className="greet"> · Hi, {name}</em> : null}</span>
         </div>
         <div className="top-right">
-          {widgets.weather && <Weather />}
-          {widgets.clock && <Clock hour12={!clock24} />}
+          {widgets.weather && <Weather unit={unit} />}
+          {widgets.clock && <Clock hour12={!clock24} showDate={showDate} />}
         </div>
       </header>
 
@@ -335,7 +420,7 @@ export default function App() {
                 <input
                   type="checkbox"
                   checked={widgets.weather}
-                  onChange={(e) => setWidgetsSave({ ...widgets, weather: e.target.checked })}
+                  onChange={(e) => toggleWeather(e.target.checked)}
                 />
               </label>
               <label className="toggle-row">
@@ -386,6 +471,14 @@ export default function App() {
                   ))}
                 </select>
               </label>
+              <label className="toggle-row">
+                <span>Open results in a new tab</span>
+                <input
+                  type="checkbox"
+                  checked={searchNewTab}
+                  onChange={(e) => setSearchNewTabSave(e.target.checked)}
+                />
+              </label>
             </fieldset>
 
             <fieldset>
@@ -399,6 +492,14 @@ export default function App() {
                 />
               </label>
               <label className="toggle-row">
+                <span>Show date under the clock</span>
+                <input
+                  type="checkbox"
+                  checked={showDate}
+                  onChange={(e) => setShowDateSave(e.target.checked)}
+                />
+              </label>
+              <label className="toggle-row">
                 <span>Open bookmarks in a new tab</span>
                 <input
                   type="checkbox"
@@ -406,6 +507,69 @@ export default function App() {
                   onChange={(e) => setOpenTabsSave(e.target.checked)}
                 />
               </label>
+            </fieldset>
+
+            <fieldset>
+              <legend>Appearance</legend>
+              <label className="toggle-row">
+                <span>Greeting name</span>
+                <input
+                  type="text"
+                  className="select text"
+                  placeholder="Your name"
+                  value={name}
+                  maxLength={30}
+                  onChange={(e) => setNameSave(e.target.value)}
+                />
+              </label>
+              <label className="toggle-row">
+                <span>Weather unit</span>
+                <select value={unit} onChange={(e) => setUnitSave(e.target.value)} className="select">
+                  <option value="c">Celsius (°C)</option>
+                  <option value="f">Fahrenheit (°F)</option>
+                </select>
+              </label>
+              <label className="toggle-row">
+                <span>Bookmark count</span>
+                <select
+                  value={siteCount}
+                  onChange={(e) => setSiteCountSave(Number(e.target.value))}
+                  className="select"
+                >
+                  {[4, 6, 8, 12].map((n) => (
+                    <option key={n} value={n}>
+                      {n}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="toggle-row">
+                <span>Compact layout</span>
+                <input
+                  type="checkbox"
+                  checked={compact}
+                  onChange={(e) => setCompactSave(e.target.checked)}
+                />
+              </label>
+            </fieldset>
+
+            <fieldset>
+              <legend>Data</legend>
+              <div className="data-row">
+                <button type="button" className="modal-ghost" onClick={exportSettings}>
+                  Export settings
+                </button>
+                <button type="button" className="modal-ghost" onClick={() => importRef.current && importRef.current.click()}>
+                  Import settings
+                </button>
+                <input
+                  ref={importRef}
+                  type="file"
+                  accept="application/json,.json"
+                  className="hidden-file"
+                  onChange={onImport}
+                />
+              </div>
             </fieldset>
 
             <button type="button" className="modal-danger" onClick={resetSettings}>

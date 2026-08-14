@@ -1,7 +1,7 @@
 ﻿{
   "manifest_version": 2,
   "name": "FoxAI Start",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "FoxAI new tab page and browser settings.",
   "browser_specific_settings": {
     "gecko": {
@@ -24,11 +24,13 @@
     "storage",
     "search",
     "topSites",
-    "geolocation",
     "contextualIdentities",
     "contextMenus",
     "downloads",
     "activeTab"
+  ],
+  "optional_permissions": [
+    "geolocation"
   ],
   "icons": {
     "32": "icons/foxai-32.png",

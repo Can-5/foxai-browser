@@ -1,5 +1,34 @@
 # Changelog
 
+## v1.4.0 (2026-08-14)
+
+Privacy & security audit pass 2, plus a large settings expansion.
+
+### Privacy
+- **Geolocation moved to `optional_permissions`**: the location permission is no longer requested at install. It is only requested if/when the user enables the Weather widget, and can be denied.
+- **FoxAI Search engine stripped of tracking extras**: removed the `&t=foxai` source tag and the DuckDuckGo `suggest_url` — keystrokes can never leave the browser, and DDG no longer sees an attribution tag.
+- New hardened browser prefs (`config/foxai.cfg` + `config/user.js`):
+  - WebRTC disabled (`media.peerconnection.enabled=false`) — no IP leaks via STUN/ICE.
+  - HTTPS-only mode on (`dom.security.https_only_mode=true`) — no plaintext HTTP by default.
+  - Encrypted Client Hello enabled (ECH) for DNS/HTTPS.
+  - Pocket integration off (`extensions.pocket.enabled=false`).
+  - Password manager off (`signon.rememberSignons=false`).
+  - Master referrer switch off (`network.http.referer.sendRefererHeader=0`).
+  - UITour + crash reports off.
+
+### Added settings (FoxAI Start modal)
+- **2 new themes**: `forest` and `sunset` (7 themes total).
+- **Greeting name** — shown next to the brand ("Hi, your name").
+- **Weather unit** — Celsius / Fahrenheit.
+- **Show date under the clock** toggle.
+- **Open search results in a new tab** toggle (results open with `noopener`).
+- **Bookmark count** — 4 / 6 / 8 / 12 top sites.
+- **Compact layout** toggle (tighter cards, smaller clock).
+- **Export settings** (downloads `foxai-settings.json`) and **Import settings** (restores from file).
+
+### Changed
+- Version bumped to 1.4.0 (all extensions + release zip `FoxAI-Browser-v1.4.0.zip`).
+
 ## v1.3.0 (2026-08-14)
 
 ### Added
