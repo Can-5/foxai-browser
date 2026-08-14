@@ -1,5 +1,5 @@
 // FoxAI Browser landing page — version, year, language toggle (EN/TR).
-const VERSION = "1.5.0";
+const VERSION = "1.5.1";
 const LANG_KEY = "fxweb:lang";
 
 const DICT = {
@@ -81,6 +81,7 @@ const DICT = {
     road5: "<span>now</span> This website, built the same way everything else is: local, static, no trackers.",
     road6: "<span>v1.4.0</span> Audit pass 2: geolocation is opt-in, WebRTC off, HTTPS-only on, tracking tags removed — plus a big settings upgrade.",
     road7: "<span>v1.5.0</span> Real-fork defaults: LibreWolf-style hardening (letterboxing, cookie partitioning, clear-on-shutdown, WebGL/DRM off, telemetry fully off) and fork tab behaviour.",
+    road8: "<span>v1.5.1</span> Leak-test pass: DNS-over-HTTPS on (leak tests now show Cloudflare, not your ISP), WebRTC verified No Leak, Safe Browsing remote reporting off.",
     dl_h: "Get FoxAI Browser",
     dl_sub: "A portable, branded Firefox ESR build with everything pre-installed. Unzip, run, done — nothing is installed to your system.",
     dl_btn: "Download v" + VERSION,
@@ -169,6 +170,7 @@ const DICT = {
     road5: "<span>şimdi</span> Bu web sitesi, her şeyle aynı şekilde inşa edildi: yerel, statik, izleyicisiz.",
     road6: "<span>v1.4.0</span> Denetim turu 2: konum isteğe bağlı, WebRTC kapalı, HTTPS-only açık, izleme etiketleri kaldırıldı — ve büyük bir ayar güncellemesi.",
     road7: "<span>v1.5.0</span> Gerçek-fork varsayılanları: LibreWolf tarzı sağlamlaştırma (letterboxing, çerez bölümleme, kapanışta temizleme, WebGL/DRM kapalı, telemetri tamamen kapalı) ve fork sekme davranışı.",
+    road8: "<span>v1.5.1</span> Sızıntı testi turu: DNS-over-HTTPS açık (sızıntı testleri artık ISP yerine Cloudflare gösteriyor), WebRTC doğrulandı No Leak, Safe Browsing uzak raporlama kapalı.",
     dl_h: "FoxAI Browser'ı indir",
     dl_sub: "Her şeyi önceden kurulu, taşınabilir, markalı bir Firefox ESR derlemesi. Aç, çalıştır, bitti — sistemine hiçbir şey kurulmaz.",
     dl_btn: "v" + VERSION + " İndir",

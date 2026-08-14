@@ -73,3 +73,16 @@ user_pref("browser.tabs.unloadOnLowMemory", true);
 user_pref("browser.tabs.allowTabDetach", true);
 user_pref("browser.sessionstore.restore_on_demand", true);
 user_pref("browser.sessionstore.resume_from_crash", false);
+
+// ---- DNS-over-HTTPS (kills DNS leak tests) ----
+user_pref("network.trr.mode", 2);
+user_pref("network.trr.uri", "https://mozilla.cloudflare-dns.com/dns-query");
+
+// ---- Extra leak hardening ----
+user_pref("privacy.trackingprotection.fingerprinting.enabled", true);
+user_pref("privacy.trackingprotection.cryptomining.enabled", true);
+user_pref("media.peerconnection.ice.no_host", true);
+user_pref("media.peerconnection.ice.default_address_only", true);
+user_pref("browser.safebrowsing.provider.google.gsbReportURL", "");
+user_pref("browser.safebrowsing.provider.mozilla.gsbReportURL", "");
+user_pref("browser.safebrowsing.downloads.remote.url", "");

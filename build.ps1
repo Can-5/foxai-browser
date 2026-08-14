@@ -12,7 +12,7 @@ param(
 )
 $ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
-$Version = "1.5.0"
+$Version = "1.5.1"
 $Runtime = "$Root\firefox-foxai\runtime"
 $Dist = "$Root\release"
 $ExtDir = "$Root\extensions"

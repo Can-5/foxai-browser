@@ -1,5 +1,23 @@
 # Changelog
 
+## v1.5.1 (2026-08-14)
+
+Leak-test fix pass.
+
+### Fixed / added
+- **DNS leak killed**: DNS-over-HTTPS on (`network.trr.mode=2`, `mozilla.cloudflare-dns.com`) — `browserleaks.com/dns` and `dnsleaktest.com` now show Cloudflare instead of the ISP.
+- Verified on browserleaks.com: **WebRTC Leak Test = No Leak** (`RTCPeerConnection` unsupported).
+- Extra leak hardening:
+  - Fingerprinting + cryptomining blocking lists on (in tracking protection).
+  - WebRTC ICE defence-in-depth (`ice.no_host`, `ice.default_address_only`) in case WebRTC is ever re-enabled.
+  - Google/Mozilla Safe Browsing **remote report URLs cleared** — no URL fragments are sent to Google/Mozilla; local blocking lists stay active.
+
+### Note
+- The public IP will always be shown by leak tests (e.g. `78.182.77.59` on browserleaks.com). That is your real internet connection, not a browser leak — hiding it requires a VPN or proxy, not a browser setting.
+
+### Changed
+- Version bumped to 1.5.1 (release zip `FoxAI-Browser-v1.5.1.zip`).
+
 ## v1.5.0 (2026-08-14)
 
 Real-Firefox-fork settings & tab behaviour (LibreWolf / Arkenfox inspired).
