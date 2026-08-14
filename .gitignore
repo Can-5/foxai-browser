@@ -7,6 +7,9 @@ release/
 firefox-foxai/runtime/
 firefox-foxai/profile/
 
+# release zip staged for the website download button
+website/*.zip
+
 # salvage backup (kept out of the repo to avoid bloat)
 _salvage/
 
