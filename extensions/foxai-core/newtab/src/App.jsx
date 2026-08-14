@@ -91,6 +91,9 @@ export default function App() {
   const [searchNewTab, setSearchNewTab] = useState(() => load("fx:searchnewtab", true));
   const [siteCount, setSiteCount] = useState(() => load("fx:sitecount", 8));
   const [compact, setCompact] = useState(() => load("fx:compact", false));
+  const [proxyOn, setProxyOn] = useState(() => load("fx:proxyon", false));
+  const [proxyHost, setProxyHost] = useState(() => load("fx:proxyhost", ""));
+  const [proxyPort, setProxyPort] = useState(() => load("fx:proxyport", 1080));
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [topSites, setTopSites] = useState([]);
   const [ver, setVer] = useState(null);
@@ -165,18 +168,56 @@ export default function App() {
     setCompact(v);
     save("fx:compact", v);
   };
+  const writeProxy = (on, host, port) => {
+    try {
+      save("fx:proxyon", on);
+      save("fx:proxyhost", host);
+      save("fx:proxyport", port);
+      if (typeof browser !== "undefined" && browser.storage && browser.storage.local) {
+        browser.storage.local
+          .set({ "fx:proxyon": on, "fx:proxyhost": host, "fx:proxyport": port })
+          .catch(() => {});
+      }
+    } catch (e) {}
+  };
+  useEffect(() => {
+    if (typeof browser !== "undefined" && browser.storage && browser.storage.local) {
+      browser.storage.local
+        .get(["fx:proxyon", "fx:proxyhost", "fx:proxyport"])
+        .then((r) => {
+          if (r["fx:proxyon"] != null) setProxyOn(!!r["fx:proxyon"]);
+          if (r["fx:proxyhost"] != null) setProxyHost(r["fx:proxyhost"]);
+          if (r["fx:proxyport"] != null) setProxyPort(Number(r["fx:proxyport"]));
+        })
+        .catch(() => {});
+    }
+  }, []);
+  const setProxyOnSave = (v) => {
+    setProxyOn(v);
+    writeProxy(v, proxyHost, proxyPort);
+  };
+  const setProxyHostSave = (v) => {
+    setProxyHost(v);
+    writeProxy(proxyOn, v, proxyPort);
+  };
+  const setProxyPortSave = (v) => {
+    setProxyPort(v);
+    writeProxy(proxyOn, proxyHost, v);
+  };
   const resetSettings = () => {
     try {
-      ["fx:bg", "fx:bgimg", "fx:w", "fx:engine", "fx:clock", "fx:opentabs", "fx:name", "fx:unit", "fx:showdate", "fx:searchnewtab", "fx:sitecount", "fx:compact", "fx:notes", "fx:todos"].forEach((k) =>
+      ["fx:bg", "fx:bgimg", "fx:w", "fx:engine", "fx:clock", "fx:opentabs", "fx:name", "fx:unit", "fx:showdate", "fx:searchnewtab", "fx:sitecount", "fx:compact", "fx:proxyon", "fx:proxyhost", "fx:proxyport", "fx:notes", "fx:todos"].forEach((k) =>
         localStorage.removeItem(k)
       );
     } catch (e) {}
+    writeProxy(false, "", 1080);
     window.location.reload();
   };
   const exportSettings = () => {
     try {
       const data = {
         bg, bgImage, engine, clock24, openTabs, name, unit, showDate, searchNewTab, siteCount, compact, widgets,
+        proxyOn, proxyHost, proxyPort,
       };
       const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
       const a = document.createElement("a");
@@ -204,7 +245,11 @@ export default function App() {
         setSearchNewTab(d.searchNewTab !== false); save("fx:searchnewtab", d.searchNewTab !== false);
         setSiteCount(d.siteCount || 8); save("fx:sitecount", d.siteCount || 8);
         setCompact(!!d.compact); save("fx:compact", !!d.compact);
+        setProxyOn(!!d.proxyOn); save("fx:proxyon", !!d.proxyOn);
+        setProxyHost(d.proxyHost || ""); save("fx:proxyhost", d.proxyHost || "");
+        setProxyPort(d.proxyPort || 1080); save("fx:proxyport", d.proxyPort || 1080);
         setWidgets(d.widgets || widgets); save("fx:w", d.widgets || widgets);
+        writeProxy(!!d.proxyOn, d.proxyHost || "", d.proxyPort || 1080);
       } catch (err) {}
     };
     reader.readAsText(file);
@@ -551,6 +596,46 @@ export default function App() {
                   onChange={(e) => setCompactSave(e.target.checked)}
                 />
               </label>
+            </fieldset>
+
+            <fieldset>
+              <legend>Proxy</legend>
+              <label className="toggle-row">
+                <span>Route traffic through a SOCKS5 proxy</span>
+                <input
+                  type="checkbox"
+                  checked={proxyOn}
+                  onChange={(e) => setProxyOnSave(e.target.checked)}
+                />
+              </label>
+              <label className="toggle-row">
+                <span>Proxy host</span>
+                <input
+                  type="text"
+                  className="select text"
+                  placeholder="e.g. 127.0.0.1"
+                  value={proxyHost}
+                  disabled={!proxyOn}
+                  onChange={(e) => setProxyHostSave(e.target.value)}
+                />
+              </label>
+              <label className="toggle-row">
+                <span>Proxy port</span>
+                <input
+                  type="number"
+                  className="select text"
+                  min="1"
+                  max="65535"
+                  placeholder="1080"
+                  value={proxyPort}
+                  disabled={!proxyOn}
+                  onChange={(e) => setProxyPortSave(e.target.value)}
+                />
+              </label>
+              <p className="muted">
+                All traffic goes through this proxy, so IP leak tests show the proxy address instead of
+                yours. To use a VPN/Tor this way, point it at your local proxy port.
+              </p>
             </fieldset>
 
             <fieldset>

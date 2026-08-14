@@ -1,5 +1,5 @@
 // FoxAI Start - background service.
-// Container-tab context menu + tab screenshot, plus newtab defaults.
+// Container-tab context menu + tab screenshot, plus SOCKS5 proxy routing.
 
 browser.runtime.onInstalled.addListener(() => {
   try {
@@ -46,3 +46,44 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
     }
   }
 });
+
+// --- SOCKS5 / HTTP proxy (optional, off by default) --------------------------
+
+let proxyConfig = null;
+
+const PROXY_KEYS = ["fx:proxyon", "fx:proxyhost", "fx:proxyport", "fx:proxytype"];
+
+async function loadProxy() {
+  try {
+    const st = await browser.storage.local.get({
+      "fx:proxyon": false,
+      "fx:proxyhost": "127.0.0.1",
+      "fx:proxyport": 1080,
+      "fx:proxytype": "socks",
+    });
+    const on = !!st["fx:proxyon"];
+    const host = String(st["fx:proxyhost"] || "").trim();
+    const port = parseInt(st["fx:proxyport"], 10);
+    const type = st["fx:proxytype"] === "http" ? "http" : "socks";
+    proxyConfig =
+      on && host && Number.isFinite(port) && port > 0 && port < 65536
+        ? { type: type, host: host, port: port, proxyDNS: type === "socks" }
+        : null;
+  } catch (e) {
+    proxyConfig = null;
+  }
+}
+
+browser.storage.onChanged.addListener((changes, area) => {
+  if (area !== "local") return;
+  if (PROXY_KEYS.some((k) => changes[k])) loadProxy();
+});
+
+function proxyHandler() {
+  if (proxyConfig) return [proxyConfig, null];
+  return { type: "direct" };
+}
+
+browser.proxy.onRequest.addListener(proxyHandler, { urls: ["<all_urls>"] });
+
+loadProxy();

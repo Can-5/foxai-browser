@@ -1,5 +1,27 @@
 # Changelog
 
+## v1.6.0 (2026-08-14)
+
+Built-in **SOCKS5 proxy** so IP leak tests show the proxy address instead of the real one (this was the only remaining "leak" — see the v1.5.1 note).
+
+### Added (FoxAI Start → Settings → Proxy)
+- **Proxy toggle + host + port** — route all traffic through a SOCKS5 proxy (or an HTTP proxy if you set `fx:proxytype` in storage).
+- **No direct fallback**: when the proxy is unreachable, requests **fail** instead of silently going direct — the real IP can never leak through a dead proxy.
+- Proxy DNS (`proxyDNS: true`) for SOCKS5 — the domain is resolved through the proxy, not locally.
+- Proxy settings are stored in both localStorage (UI) and `browser.storage.local` (background) so they survive restarts, are included in settings export/import, and are reset by "Reset all settings".
+- Verified with a local test proxy: `CONNECT example.com:443` arrives at the proxy; with a dead proxy `example.com` fails to load; with the proxy off it loads normally.
+
+### Under the hood (background.js + manifest)
+- `foxai-core` background now runs **`browser.proxy.onRequest`** (ProxyChannelFilter) reading config from storage with a `storage.onChanged` reactivation hook.
+- Required additions discovered on this Firefox build:
+  - `"proxy"` **and** `"<all_urls>"` permissions — the onRequest filter (`{ urls: ["<all_urls>"] }`) only matches URLs the extension holds host permission for.
+  - `proxy.onRequest.addListener(listener, filter)` **requires** the filter argument on this build.
+  - ProxyInfo uses the `type` field (`socks`/`http`), not Chrome's `proxyType`.
+- **Fixed a bug that broke the background entirely**: a duplicate `let proxyConfig` declaration was a `SyntaxError`, so `background.js` never executed (context-menu + screenshot features were dead too). The background also re-runs `loadProxy()` at startup now.
+
+### Changed
+- Version bumped to 1.6.0 (all extensions + release zip `FoxAI-Browser-v1.6.0.zip`).
+
 ## v1.5.1 (2026-08-14)
 
 Leak-test fix pass.
