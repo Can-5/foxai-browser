@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FoxAI Browser — a private, smart Firefox-based browser with an AI sidebar, gesture navigation and built-in tracker blocking.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'self'; object-src 'none'">
+  <title>FoxAI Browser — Private, Smart, Fox-fast</title>
+  <link rel="icon" href="foxai-mark.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="#top">
+      <img src="foxai-mark.svg" alt="FoxAI" width="28" height="28">
+      <span>FoxAI <b>Browser</b></span>
+    </a>
+    <nav class="links">
+      <a href="#features">Features</a>
+      <a href="#ai">AI</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#download" class="btn small">Download</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <img class="hero-logo" src="foxai-mark.svg" alt="FoxAI Browser" width="96" height="96">
+      <p class="chip" id="verChip">v1.3.0</p>
+      <h1>Private. Smart. <span class="grad">Fox-fast.</span></h1>
+      <p class="lead">
+        A Firefox-based browser that respects you: no telemetry, no tracking,
+        an AI sidebar that only sees what you let it, and a new-tab that is
+        actually yours.
+      </p>
+      <div class="cta">
+        <a class="btn primary" href="#download">Download v1.3.0</a>
+        <a class="btn" href="#features">See what's inside</a>
+      </div>
+    </section>
+
+    <section id="features" class="section">
+      <h2>Everything you need. Nothing that leaks.</h2>
+      <div class="grid">
+        <article class="card">
+          <span class="card-ico">🦊</span>
+          <h3>FoxAI Start</h3>
+          <p>A private new-tab: clock, weather (opt-in), notes, to-do, bookmarks, custom backgrounds and 5 themes — all stored only in your browser.</p>
+        </article>
+        <article class="card">
+          <span class="card-ico">✨</span>
+          <h3>AI Sidebar</h3>
+          <p>Summarize, translate, explain and rewrite any page. ChatGPT, Claude, Gemini or local Ollama — your key never leaves the browser.</p>
+        </article>
+        <article class="card">
+          <span class="card-ico">🎯</span>
+          <h3>Gesture navigation</h3>
+          <p>Right-drag to go back, forward, reload or open a new tab. Mouse-only browsing, the way it should feel.</p>
+        </article>
+        <article class="card">
+          <span class="card-ico">🛡️</span>
+          <h3>uBlock Origin built in</h3>
+          <p>Ad, tracker and fingerprinting blocking is pre-installed and enforced. No setup required.</p>
+        </article>
+        <article class="card">
+          <span class="card-ico">🔎</span>
+          <h3>Private search</h3>
+          <p>DuckDuckGo by default with suggestions off. No keystrokes, no referrer, no predictive network calls.</p>
+        </article>
+        <article class="card">
+          <span class="card-ico">🔒</span>
+          <h3>Hardened by default</h3>
+          <p>Strict CSP on every extension page, first-party isolation, no telemetry, sensors/battery/beacon disabled, punycode shown.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="ai" class="section alt">
+      <h2>The AI that waits for permission</h2>
+      <p class="sub">
+        Nothing runs in the background. Page content is shared only when you
+        click "Allow page access", one action at a time — and you can revoke it instantly.
+      </p>
+      <ul class="ai-list">
+        <li><b>ChatGPT</b>, <b>Claude</b>, <b>Gemini</b> or keyless local <b>Ollama</b></li>
+        <li>Free chat sends no page data</li>
+        <li>Extraction capped and consent-gated</li>
+        <li>API keys stored locally, never in URLs or logs</li>
+      </ul>
+    </section>
+
+    <section id="privacy" class="section">
+      <h2>Privacy you can verify</h2>
+      <div class="cols">
+        <ul class="check">
+          <li>No telemetry, no data collection</li>
+          <li>Referrer disabled, beacon &amp; ping disabled</li>
+          <li>First-party isolation on</li>
+          <li>Prefetch / predictor / DNS prefetch off</li>
+          <li>Autofill &amp; form history off</li>
+          <li>Camera / microphone disabled by default</li>
+        </ul>
+        <ul class="check">
+          <li>Weather is opt-in (no location by default)</li>
+          <li>Content scripts only run inside the browser</li>
+          <li>Strict CSP: no inline script, no iframing</li>
+          <li>Punycode shown for spoofed-looking domains</li>
+          <li>Only the sites you visit, ever contacted</li>
+          <li>Every fix is in the changelog, every line is local</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="download" class="section alt">
+      <h2>Get FoxAI Browser</h2>
+      <p class="sub">
+        A portable, branded Firefox ESR build with everything pre-installed.
+        Unzip, run, done — nothing is installed to your system.
+      </p>
+      <div class="dl">
+        <a class="btn primary big" id="dlBtn" href="FoxAI-Browser-v1.3.0.zip" download>Download v1.3.0</a>
+        <p class="hint">~80 MB · Windows · Firefox ESR 140.13.0 base</p>
+      </div>
+      <ol class="steps">
+        <li>Unzip <code>FoxAI-Browser-v1.3.0.zip</code> anywhere</li>
+        <li>Run <code>launcher.vbs</code> (or <code>firefox.exe</code>)</li>
+        <li>Done — FoxAI Start, AI Sidebar, gestures &amp; uBlock are ready</li>
+      </ol>
+    </section>
+  </main>
+
+  <footer>
+    <img src="foxai-mark.svg" alt="" width="24" height="24">
+    <p>FoxAI Browser <span id="verFooter">v1.3.0</span> · Firefox ESR base · MPL-2.0 (uBlock Origin: GPLv3)</p>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

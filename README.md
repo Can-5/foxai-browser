@@ -14,6 +14,7 @@ Private, privacy-first browser built on Firefox ESR 140, with an AI sidebar, a c
 | uBlock Origin | Pre-installed content blocker (GPLv3, separate license). |
 | `config/` | `policies.json` template (rendered by build), `foxai.cfg`, `user.js`. |
 | `tests/` | WebDriver BiDi (PowerShell) end-to-end tests. |
+| `website/` | Static landing page (no build step). To make the download button work, drop `FoxAI-Browser-vX.Y.Z.zip` next to `index.html`. |
 
 ## Build
 
