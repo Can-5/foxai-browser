@@ -17,8 +17,11 @@
     </a>
     <nav class="links">
       <a href="#features">Features</a>
+      <a href="#tech">What it's built on</a>
+      <a href="#why">Why</a>
       <a href="#ai">AI</a>
       <a href="#privacy">Privacy</a>
+      <a href="#about">About</a>
       <a href="#download" class="btn small">Download</a>
     </nav>
   </header>
@@ -37,6 +40,7 @@
         <a class="btn primary" href="#download">Download v1.3.0</a>
         <a class="btn" href="#features">See what's inside</a>
       </div>
+      <p class="hint">Portable · Windows · Firefox ESR 140.13.0 base · no installer</p>
     </section>
 
     <section id="features" class="section">
@@ -72,6 +76,62 @@
           <h3>Hardened by default</h3>
           <p>Strict CSP on every extension page, first-party isolation, no telemetry, sensors/battery/beacon disabled, punycode shown.</p>
         </article>
+      </div>
+    </section>
+
+    <section id="tech" class="section alt">
+      <h2>What FoxAI is built on</h2>
+      <p class="sub">
+        No dark magic. A real browser engine, standard extension APIs, and a
+        build pipeline that is fully reproducible from source.
+      </p>
+      <div class="tech-grid">
+        <div class="card">
+          <h3>🦊 Firefox ESR 140.13.0</h3>
+          <p>The engine itself — a stable, extended-support release of Firefox, rebranded as "FoxAI Browser" (name, icon and version strings via rcedit). It stays portable: unzip and run.</p>
+        </div>
+        <div class="card">
+          <h3>🧩 Four WebExtensions (MV2)</h3>
+          <p>New-tab, AI sidebar, search &amp; gestures are all standard WebExtensions installed through <code>policies.json</code>, so they can't be disabled or tampered with by sites.</p>
+        </div>
+        <div class="card">
+          <h3>⚛️ React + Vite</h3>
+          <p>The FoxAI Start new-tab is a small React app built with Vite — fast, type-safe, and shipped as plain static assets with a strict CSP.</p>
+        </div>
+        <div class="card">
+          <h3>🛠️ PowerShell build pipeline</h3>
+          <p><code>build.ps1</code> reproduces everything from source: packages XPIs, downloads uBlock, brands the binaries, writes policy files, creates a fresh profile and a release zip.</p>
+        </div>
+        <div class="card">
+          <h3>🧪 WebDriver BiDi test suite</h3>
+          <p>Five end-to-end tests drive a real headless browser over the BiDi protocol and verify the new-tab, persistence, search default, settings and the AI sidebar.</p>
+        </div>
+        <div class="card">
+          <h3>📦 Nothing on your system</h3>
+          <p>No installer, no services, no registry changes, no background updaters. The whole browser lives in one folder you can delete at any time.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="why" class="section">
+      <h2>Why it exists</h2>
+      <p class="sub">
+        The short version: browsers collect too much, show you too little, and
+        add features you never asked for. FoxAI is the opposite.
+      </p>
+      <div class="why-cols">
+        <div class="why">
+          <h3>💥 It began with a deletion</h3>
+          <p>The original project was accidentally wiped. FoxAI was rebuilt from a ~7,000-file salvage backup — and during the rebuild, every default a browser sneaks in (telemetry, autofill, prefetch, referrers) was questioned and, where it leaks, turned off.</p>
+        </div>
+        <div class="why">
+          <h3>🔬 Verifiable, not just "trust us"</h3>
+          <p>Each release ships a changelog that lists the exact leak that was closed and how. You can read it, rebuild it from source, and run the test suite yourself. There is nothing to take on faith.</p>
+        </div>
+        <div class="why">
+          <h3>🏡 For daily use, not for show</h3>
+          <p>Privacy is useless if the browser is painful. FoxAI keeps the features people actually use — notes, to-do, bookmarks, quick search, AI help, mouse gestures — without the ones that exist to harvest you.</p>
+        </div>
       </div>
     </section>
 
@@ -111,7 +171,36 @@
       </div>
     </section>
 
-    <section id="download" class="section alt">
+    <section id="about" class="section alt">
+      <h2>Who made it</h2>
+      <p class="sub">
+        A one-person project. No company, no analytics, no sign-ups — just a
+        developer who wanted a browser with no hidden listeners.
+      </p>
+      <div class="about-box">
+        <img src="foxai-mark.svg" alt="" width="64" height="64">
+        <div>
+          <h3>FoxAI — solo developer project</h3>
+          <p>
+            Designed, built, tested and maintained by one person. Every commit
+            is public, every design decision is documented in the changelog,
+            and the entire source can be rebuilt with a single command. The
+            name says it: <b>Fox</b> — for the Firefox engine it rides on, and
+            <b>AI</b> — for the assistant that sits beside you, only when asked.
+          </p>
+        </div>
+      </div>
+      <h3 class="road-title">The road so far</h3>
+      <ul class="road">
+        <li><span>v1.0.0</span> Rebuilt from scratch from the salvage backup — new-tab, AI, search, gestures, build &amp; tests.</li>
+        <li><span>v1.1.0</span> Gray default theme; AI sender validation; API keys moved out of URLs.</li>
+        <li><span>v1.2.0</span> Full security &amp; privacy audit: strict CSP everywhere, weather opt-in, hardened prefs.</li>
+        <li><span>v1.3.0</span> More settings (engine, clock, new-tab links) and version shown in the UI.</li>
+        <li><span>now</span> This website, built the same way everything else is: local, static, no trackers.</li>
+      </ul>
+    </section>
+
+    <section id="download" class="section">
       <h2>Get FoxAI Browser</h2>
       <p class="sub">
         A portable, branded Firefox ESR build with everything pre-installed.
@@ -119,7 +208,7 @@
       </p>
       <div class="dl">
         <a class="btn primary big" id="dlBtn" href="FoxAI-Browser-v1.3.0.zip" download>Download v1.3.0</a>
-        <p class="hint">~80 MB · Windows · Firefox ESR 140.13.0 base</p>
+        <p class="hint">~200 MB · Windows · Firefox ESR 140.13.0 base</p>
       </div>
       <ol class="steps">
         <li>Unzip <code>FoxAI-Browser-v1.3.0.zip</code> anywhere</li>
