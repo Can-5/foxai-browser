@@ -36,6 +36,12 @@ code { background: var(--surface); border: 1px solid var(--line); padding: 2px 7
 .brand b { color: var(--accent); }
 .links { display: flex; align-items: center; gap: 22px; color: var(--muted); font-size: 14px; }
 .links a:hover { color: var(--text); }
+.lang-btn {
+  border: 1px solid var(--line); border-radius: 999px;
+  background: var(--surface); color: var(--text);
+  padding: 5px 14px; font: inherit; font-size: 13px; cursor: pointer;
+}
+.lang-btn:hover { filter: brightness(1.2); }
 
 .btn {
   display: inline-block; border: 1px solid var(--line); border-radius: 999px;
@@ -120,6 +126,7 @@ footer {
   display: flex; align-items: center; justify-content: center; gap: 10px;
 }
 footer p { margin: 0; }
+footer .made-by { margin-top: 3px; font-size: 12px; opacity: .85; }
 
 @media (max-width: 640px) {
   .links a:not(.btn) { display: none; }
