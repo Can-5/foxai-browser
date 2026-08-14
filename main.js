@@ -1,5 +1,5 @@
 // FoxAI Browser landing page — version, year, language toggle (EN/TR).
-const VERSION = "1.3.0";
+const VERSION = "1.4.0";
 const LANG_KEY = "fxweb:lang";
 
 const DICT = {
@@ -67,6 +67,8 @@ const DICT = {
     priv10: "Punycode shown for spoofed-looking domains",
     priv11: "Only the sites you visit, ever contacted",
     priv12: "Every fix is in the changelog, every line is local",
+    priv13: "WebRTC disabled — no IP leaks",
+    priv14: "HTTPS-only mode on by default",
     about_h: "Who made it",
     about_sub: "A one-person project. No company, no analytics, no sign-ups — just a developer who wanted a browser with no hidden listeners.",
     about_t: "Made by İlkay Can, in Türkiye",
@@ -77,6 +79,7 @@ const DICT = {
     road3: "<span>v1.2.0</span> Full security & privacy audit: strict CSP everywhere, weather opt-in, hardened prefs.",
     road4: "<span>v1.3.0</span> More settings (engine, clock, new-tab links) and version shown in the UI.",
     road5: "<span>now</span> This website, built the same way everything else is: local, static, no trackers.",
+    road6: "<span>v1.4.0</span> Audit pass 2: geolocation is opt-in, WebRTC off, HTTPS-only on, tracking tags removed — plus a big settings upgrade.",
     dl_h: "Get FoxAI Browser",
     dl_sub: "A portable, branded Firefox ESR build with everything pre-installed. Unzip, run, done — nothing is installed to your system.",
     dl_btn: "Download v" + VERSION,
@@ -101,7 +104,7 @@ const DICT = {
     cta_see: "İçindekilere bak",
     hero_hint: "Taşınabilir · Windows · Firefox ESR 140.13.0 taban · kurulum yok",
     feat_h: "İhtiyacın olan her şey. Sızdıran hiçbir şey yok.",
-    feat1_d: "Özel bir yeni sekme: saat, hava durumu (isteğe bağlı), notlar, yapılacaklar, yer işaretleri, özel arka planlar ve 5 tema — hepsi yalnızca tarayıcında saklanır.",
+    feat1_d: "Özel bir yeni sekme: saat, hava durumu (isteğe bağlı), notlar, yapılacaklar, yer işaretleri, özel arka planlar ve 7 tema — hepsi yalnızca tarayıcında saklanır.",
     feat2_t: "AI Kenar Çubuğu",
     feat2_d: "Herhangi bir sayfayı özetle, çevir, açıkla veya yeniden yaz. ChatGPT, Claude, Gemini ya da yerel Ollama — anahtarın asla tarayıcıdan çıkmaz.",
     feat3_t: "Jest (fare) ile gezinme",
@@ -151,6 +154,8 @@ const DICT = {
     priv10: "Aldatıcı görünen alan adları için punycode gösterimi",
     priv11: "Yalnızca ziyaret ettiğin sitelerle bağlantı kurulur",
     priv12: "Her düzeltme değişiklik günlüğünde, her satır yereldir",
+    priv13: "WebRTC kapalı — IP sızıntısı yok",
+    priv14: "Varsayılan olarak HTTPS-only açık",
     about_h: "Kim yaptı",
     about_sub: "Tek kişilik bir proje. Şirket yok, analitik yok, kayıt yok — sadece gizli dinleyicisi olmayan bir tarayıcı isteyen bir geliştirici.",
     about_t: "İlkay Can tarafından, Türkiye'de yapıldı",
@@ -161,6 +166,7 @@ const DICT = {
     road3: "<span>v1.2.0</span> Tam güvenlik ve gizlilik denetimi: her yerde sıkı CSP, isteğe bağlı hava durumu, sıkılaştırılmış ayarlar.",
     road4: "<span>v1.3.0</span> Daha fazla ayar (motor, saat, yeni sekme bağlantıları) ve arayüzde sürüm gösterimi.",
     road5: "<span>şimdi</span> Bu web sitesi, her şeyle aynı şekilde inşa edildi: yerel, statik, izleyicisiz.",
+    road6: "<span>v1.4.0</span> Denetim turu 2: konum isteğe bağlı, WebRTC kapalı, HTTPS-only açık, izleme etiketleri kaldırıldı — ve büyük bir ayar güncellemesi.",
     dl_h: "FoxAI Browser'ı indir",
     dl_sub: "Her şeyi önceden kurulu, taşınabilir, markalı bir Firefox ESR derlemesi. Aç, çalıştır, bitti — sistemine hiçbir şey kurulmaz.",
     dl_btn: "v" + VERSION + " İndir",
