@@ -1,7 +1,7 @@
 ﻿{
   "manifest_version": 2,
   "name": "FoxAI Start",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "FoxAI new tab page and browser settings.",
   "browser_specific_settings": {
     "gecko": {
@@ -19,6 +19,7 @@
   "background": {
     "scripts": ["background.js"]
   },
+  "content_security_policy": "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: moz-extension:; font-src 'self'; connect-src 'self' https://api.open-meteo.com; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
   "permissions": [
     "storage",
     "search",

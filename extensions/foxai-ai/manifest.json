@@ -1,7 +1,7 @@
 ﻿{
   "manifest_version": 2,
   "name": "FoxAI AI",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Privacy-first AI sidebar: summarize, translate, explain, rewrite and chat.",
   "browser_specific_settings": {
     "gecko": {
@@ -22,6 +22,7 @@
   "background": {
     "scripts": ["lib/providers.js", "background.js"]
   },
+  "content_security_policy": "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openai.com https://api.anthropic.com https://generativelanguage.googleapis.com http://localhost:11434; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
   "sidebar_action": {
     "default_title": "FoxAI AI",
     "default_panel": "sidebar/foxai-ai.html",

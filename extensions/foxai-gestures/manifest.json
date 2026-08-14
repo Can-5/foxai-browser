@@ -1,7 +1,7 @@
 ﻿{
   "manifest_version": 2,
   "name": "FoxAI Gestures",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Mouse gestures for FoxAI Browser.",
   "browser_specific_settings": {
     "gecko": {
@@ -13,6 +13,7 @@
   "background": {
     "scripts": ["background.js"]
   },
+  "content_security_policy": "default-src 'none'; script-src 'self'; object-src 'none'; base-uri 'none'",
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],

@@ -1,10 +1,21 @@
 // FoxAI Gestures - background.
-browser.runtime.onMessage.addListener((msg) => {
+const GESTURE_ACTIONS = new Set(["back", "forward", "reload", "newtab", "closetab"]);
+
+browser.runtime.onMessage.addListener((msg, sender) => {
   if (!msg || msg.type !== "foxai:gesture") return;
+  if (!isTrustedSender(sender)) return { ok: false };
   return handleGesture(msg.action);
 });
 
+// Only accept gestures from our own content script (sender.id is the
+// extension id for same-extension content scripts). Other extensions
+// must not be able to navigate or close the user's active tab.
+function isTrustedSender(sender) {
+  return !!(sender && sender.id === browser.runtime.id);
+}
+
 async function handleGesture(action) {
+  if (!GESTURE_ACTIONS.has(action)) return { ok: false };
   const tabs = await browser.tabs.query({ active: true, currentWindow: true });
   const tab = tabs[0];
   if (!tab || tab.id == null) return { ok: false };

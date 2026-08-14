@@ -1,5 +1,32 @@
 # Changelog
 
+## v1.2.0 (2026-08-14)
+
+Full security & privacy hardening pass ("close all leaks").
+
+### Security
+- **Sender validation everywhere**: `foxai-gestures` background now rejects `foxai:gesture` messages from any sender other than its own content script (`sender.id === browser.runtime.id`) and validates the action against a whitelist. Previously any extension could close or navigate the user's active tab.
+- **Strict Content-Security-Policy** added to all four extension manifests (and tightened on the new-tab page): `default-src 'none'`, no `unsafe-eval`, `object-src 'none'`, `base-uri 'none'`, `frame-ancestors 'none'`, `form-action 'none'`. `connect-src` whitelisted to exactly what each extension needs:
+  - core: only `https://api.open-meteo.com`
+  - AI: only the configured provider hosts + `http://localhost:11434`
+- **Search start page**: inline `<script>`/`<style>` moved to external `startpage.js`/`startpage.css` so the page can run under a strict `script-src 'self'` CSP (no inline execution).
+- Honest consent UX: the AI sidebar's "Allow once" button actually granted persistent `<all_urls>` access; relabeled to "Allow page access" so the permission scope is not misrepresented.
+
+### Privacy
+- **Weather widget is now opt-in and off by default**. It previously requested `navigator.geolocation` on every new-tab load and sent the exact coordinates to open-meteo.com. Now it only mounts (and only requests location) when enabled in Settings → Widgets.
+- New privacy prefs applied to both `config/foxai.cfg` and `config/user.js`:
+  - form autofill (addresses + credit cards) and form history disabled
+  - network prefetch / predictor / DNS prefetch disabled
+  - referrer policy set to never send (`defaultPolicy=0`)
+  - `navigator.sendBeacon` and `<a ping>` disabled
+  - device sensors (accelerometer etc.) and battery API disabled
+  - camera/microphone (`getUserMedia`) disabled
+  - first-party isolation enabled (`privacy.firstparty.isolate`)
+  - punycode shown for homoglyph domains (`network.IDN_show_punycode`)
+
+### Changed
+- Version bumped to 1.2.0 (all extensions + release zip `FoxAI-Browser-v1.2.0.zip`).
+
 ## v1.1.0 (2026-08-14)
 
 ### Added

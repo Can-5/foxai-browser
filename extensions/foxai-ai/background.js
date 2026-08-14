@@ -77,7 +77,7 @@ async function getPageContent(msg) {
     granted = false;
   }
   if (!granted) {
-    throw new Error("Page access needed. Click Allow once in the sidebar, then run again.");
+    throw new Error("Page access needed. Click Allow page access in the sidebar, then run again.");
   }
   const results = await browser.tabs.executeScript(tab.id, { file: "content/extract.js" });
   const data = (results && results[0]) || {};

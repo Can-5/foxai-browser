@@ -63,7 +63,7 @@ export default function App() {
   const [notes, setNotes] = useState(() => load("fx:notes", ""));
   const [todos, setTodos] = useState(() => load("fx:todos", []));
   const [todoInput, setTodoInput] = useState("");
-  const [widgets, setWidgets] = useState(() => load("fx:w", { notes: true, todo: true, bookmarks: true }));
+  const [widgets, setWidgets] = useState(() => load("fx:w", { notes: true, todo: true, bookmarks: true, weather: false }));
   const [bg, setBg] = useState(() => load("fx:bg", "gray"));
   const [bgImage, setBgImage] = useState(() => load("fx:bgimg", ""));
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -150,7 +150,7 @@ export default function App() {
           <span>FoxAI Start</span>
         </div>
         <div className="top-right">
-          <Weather />
+          {widgets.weather && <Weather />}
           <Clock />
         </div>
       </header>
@@ -273,6 +273,14 @@ export default function App() {
 
             <fieldset>
               <legend>Widgets</legend>
+              <label className="toggle-row">
+                <span>Weather</span>
+                <input
+                  type="checkbox"
+                  checked={widgets.weather}
+                  onChange={(e) => setWidgetsSave({ ...widgets, weather: e.target.checked })}
+                />
+              </label>
               <label className="toggle-row">
                 <span>Notes</span>
                 <input

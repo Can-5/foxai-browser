@@ -11,3 +11,20 @@ user_pref("privacy.fingerprintingProtection.pbmode", true);
 user_pref("browser.newtabpage.activity-stream.enabled", false);
 user_pref("datareporting.policy.dataSubmissionEnabled", false);
 user_pref("browser.search.suggest.enabled", false);
+
+// ---- privacy hardening ----
+user_pref("extensions.formautofill.addresses.enabled", false);
+user_pref("extensions.formautofill.creditCards.enabled", false);
+user_pref("browser.formfill.enable", false);
+user_pref("network.prefetch-next", false);
+user_pref("network.predictor.enabled", false);
+user_pref("network.dns.disablePrefetch", true);
+user_pref("network.http.referer.defaultPolicy", 0);
+user_pref("network.http.referer.trimmingPolicy", 2);
+user_pref("beacon.enabled", false);
+user_pref("browser.send_pings", false);
+user_pref("device.sensors.enabled", false);
+user_pref("dom.battery.enabled", false);
+user_pref("media.navigator.enabled", false);
+user_pref("privacy.firstparty.isolate", true);
+user_pref("network.IDN_show_punycode", true);
