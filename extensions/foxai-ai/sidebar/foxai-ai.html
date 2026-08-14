@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="foxai-ai.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <span class="dot" id="statusDot"></span>
+      <span>FoxAI AI</span>
+    </div>
+    <span id="statusText" class="status">off</span>
+  </header>
+
+  <section class="panel" id="setup">
+    <label>Provider
+      <select id="provider"></select>
+    </label>
+    <label>Model
+      <select id="model"></select>
+    </label>
+    <label id="apiKeyWrap">API key
+      <input type="password" id="apiKey" placeholder="pasted here, stored locally" autocomplete="off">
+    </label>
+    <button id="enableBtn" class="primary">Enable AI Sidebar</button>
+    <p class="hint">Ollama is local and free — no key needed. Your key is stored only in this browser's extension storage.</p>
+  </section>
+
+  <section class="panel hidden" id="actions">
+    <div class="actions">
+      <button data-mode="summarize">Summarize</button>
+      <button data-mode="translate">Translate</button>
+      <button data-mode="explain">Explain code</button>
+      <button data-mode="rewrite">Rewrite</button>
+    </div>
+    <label class="lang hidden" id="langWrap">Target language
+      <select id="targetLang">
+        <option>English</option>
+        <option>Turkish</option>
+        <option>German</option>
+        <option>French</option>
+        <option>Spanish</option>
+        <option>Japanese</option>
+      </select>
+    </label>
+    <div class="scope hidden" id="scope">
+      <label><input type="radio" name="target" value="page" checked> Whole page</label>
+      <label><input type="radio" name="target" value="selection"> Selected text</label>
+    </div>
+    <button id="runBtn" class="primary hidden">Run</button>
+
+    <div class="ask" id="askWrap">
+      <label>Ask about this page
+        <textarea id="askInput" rows="2" placeholder="e.g. What are the main points?"></textarea>
+      </label>
+      <button id="askBtn" class="primary">Ask</button>
+    </div>
+
+    <div class="chat" id="chatWrap">
+      <div class="chat-title">Free chat <span class="hint">(no page data is sent)</span></div>
+      <div id="chatLog" class="chat-log"></div>
+      <textarea id="chatInput" rows="2" placeholder="Message FoxAI\u2026"></textarea>
+      <button id="chatSend" class="primary">Send</button>
+      <button id="chatClear" class="ghost">Clear chat</button>
+    </div>
+
+    <p class="hint" id="privacyNote"></p>
+  </section>
+
+  <section class="panel hidden" id="consent" role="dialog" aria-modal="true">
+    <h3>Share page content?</h3>
+    <p id="consentText"></p>
+    <p class="hint" id="consentDetail"></p>
+    <button id="consentYes" class="primary">Allow once</button>
+    <button id="consentNo" class="ghost">Cancel</button>
+    <button id="revokeBtn" class="ghost">Revoke all page access</button>
+  </section>
+
+  <section class="panel" id="resultPanel">
+    <div id="result" class="result"></div>
+  </section>
+
+  <script src="foxai-ai.js"></script>
+</body>
+</html>

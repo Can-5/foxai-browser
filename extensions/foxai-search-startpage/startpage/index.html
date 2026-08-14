@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../foxai-mark.svg">
+  <title>FoxAI Start</title>
+  <style>
+    :root {
+      --bg: #0d0a14; --surface: #191524; --line: #2c2740;
+      --text: #f5f3f7; --muted: #9c93ae;
+      --accent: #ff4d6d; --accent2: #8b5cf6;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      font: 15px/1.5 "Inter", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1100px 700px at 20% -10%, #2b1a4a 0%, transparent 55%),
+        radial-gradient(900px 600px at 100% 0%, #4a1430 0%, transparent 55%),
+        linear-gradient(160deg, #0d0a14 0%, #141024 60%, #1a1030 100%);
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .card {
+      width: min(560px, 94vw);
+      background: color-mix(in srgb, var(--surface) 82%, transparent);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 32px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+    }
+    .logo { width: 64px; height: 64px; margin-bottom: 8px; }
+    h1 { margin: 0 0 4px; font-size: 24px; }
+    p.sub { margin: 0 0 22px; color: var(--muted); font-size: 13px; }
+    form { display: flex; gap: 10px; }
+    input {
+      flex: 1; border: 1px solid var(--line); border-radius: 999px;
+      background: var(--bg); color: var(--text);
+      padding: 12px 20px; font: inherit; outline: none;
+    }
+    input:focus { outline: 1px solid var(--accent2); }
+    button {
+      border: none; border-radius: 999px; padding: 12px 24px;
+      font: inherit; font-weight: 600; color: #fff; cursor: pointer;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+    }
+    button:hover { filter: brightness(1.12); }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img class="logo" src="../foxai-mark.svg" alt="FoxAI">
+    <h1>FoxAI Start</h1>
+    <p class="sub">Private search. No tracking. DuckDuckGo backed.</p>
+    <form id="f">
+      <input type="text" id="q" placeholder="Search the web privately…" autofocus autocomplete="off">
+      <button type="submit">Search</button>
+    </form>
+  </div>
+  <script>
+    document.getElementById("f").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var q = document.getElementById("q").value.trim();
+      if (q) window.location.href = "https://duckduckgo.com/?q=" + encodeURIComponent(q) + "&t=foxai";
+    });
+  </script>
+</body>
+</html>

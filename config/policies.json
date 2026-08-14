@@ -1,0 +1,19 @@
+{
+  "policies": {
+    "SearchEngines": {
+      "Default": "DuckDuckGo",
+      "PreventInstalls": false
+    },
+    "DisableAppUpdate": true,
+    "DisableFirefoxStudies": true,
+    "DisableTelemetry": true,
+    "OverrideFirstRunPage": "",
+    "OverridePostUpdatePage": "",
+    "ExtensionSettings": {
+      "foxai-core@foxai.browser": { "installation_mode": "force_installed", "install_url": "%%CORE%%" },
+      "foxai-search-startpage@foxai.local": { "installation_mode": "force_installed", "install_url": "%%SEARCH%%" },
+      "foxai-ai@foxai.browser": { "installation_mode": "force_installed", "install_url": "%%AI%%" },
+      "uBlock0@raymondhill.net": { "installation_mode": "force_installed", "install_url": "%%UBLOCK%%" }
+    }
+  }
+}

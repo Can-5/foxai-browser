@@ -1,0 +1,28 @@
+﻿{
+  "manifest_version": 2,
+  "name": "FoxAI Gestures",
+  "version": "1.1.0",
+  "description": "Mouse gestures for FoxAI Browser.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "foxai-gestures@foxai.local",
+      "strict_min_version": "115.0"
+    }
+  },
+  "permissions": ["tabs", "<all_urls>"],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["content/gestures.js"],
+      "run_at": "document_start",
+      "all_frames": false
+    }
+  ],
+  "icons": {
+    "32": "icons/foxai-32.png",
+    "64": "icons/foxai-64.png"
+  }
+}

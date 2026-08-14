@@ -1,0 +1,37 @@
+﻿{
+  "manifest_version": 2,
+  "name": "FoxAI Start",
+  "version": "1.1.0",
+  "description": "FoxAI new tab page and browser settings.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "foxai-core@foxai.browser",
+      "strict_min_version": "115.0"
+    }
+  },
+  "chrome_url_overrides": {
+    "newtab": "newtab/index.html"
+  },
+  "browser_action": {
+    "default_title": "FoxAI Settings",
+    "default_icon": "icons/foxai-32.png"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "permissions": [
+    "storage",
+    "search",
+    "topSites",
+    "geolocation",
+    "contextualIdentities",
+    "contextMenus",
+    "downloads",
+    "activeTab"
+  ],
+  "icons": {
+    "32": "icons/foxai-32.png",
+    "64": "icons/foxai-64.png",
+    "128": "icons/foxai-128.png"
+  }
+}

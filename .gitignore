@@ -1,0 +1,16 @@
+# node_modules / build artifacts
+node_modules/
+dist-newtab/
+release/
+
+# large binary trees (runtime + profiles are build outputs)
+firefox-foxai/runtime/
+firefox-foxai/profile/
+
+# salvage backup (kept out of the repo to avoid bloat)
+_salvage/
+
+# temp
+*.log
+.DS_Store
+Thumbs.db
