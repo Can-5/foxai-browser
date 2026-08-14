@@ -12,7 +12,7 @@ param(
 )
 $ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
-$Version = "1.6.0"
+$Version = "1.8.0"
 $Runtime = "$Root\firefox-foxai\runtime"
 $Dist = "$Root\release"
 $ExtDir = "$Root\extensions"
@@ -172,5 +172,15 @@ if (-not $SkipProfile) {
 Step "Creating release zip"
 $ZipName = "FoxAI-Browser-v$Version.zip"
 $ZipPath = "$Dist\$ZipName"
-New-Zip -SourceDir "$Root\firefox-foxai" -ZipPath $ZipPath
+$Stage = "$Dist\stage-$Version"
+if (Test-Path $Stage) { Remove-Item $Stage -Recurse -Force }
+New-Item -ItemType Directory -Force -Path $Stage | Out-Null
+Copy-Item "$Root\firefox-foxai" "$Stage\firefox-foxai" -Recurse -Force
+Copy-Item "$Root\FoxAI-Launcher.ps1" "$Stage\FoxAI-Launcher.ps1" -Force
+Copy-Item "$Root\FoxAI Browser.cmd" "$Stage\FoxAI Browser.cmd" -Force
+Copy-Item "$Root\FoxAI Update.cmd" "$Stage\FoxAI Update.cmd" -Force
+[System.IO.File]::WriteAllText("$Stage\version.txt", $Version, (New-Object System.Text.UTF8Encoding($false)))
+New-Zip -SourceDir $Stage -ZipPath $ZipPath
+Remove-Item $Stage -Recurse -Force
+[System.IO.File]::WriteAllText("$Root\version.txt", $Version, (New-Object System.Text.UTF8Encoding($false)))
 Write-Host "==> Done. Release: $ZipPath"

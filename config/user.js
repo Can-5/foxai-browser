@@ -39,6 +39,10 @@ user_pref("browser.uitour.enabled", false);
 user_pref("browser.tabs.crashReporting.sendReport", false);
 
 // ---- Firefox-fork hardening (LibreWolf / Arkenfox style) ----
+user_pref("privacy.resistFingerprinting", true);
+user_pref("privacy.resistFingerprinting.pbmode", true);
+user_pref("privacy.resistFingerprinting.reduceTimerPrecision", true);
+user_pref("privacy.resistFingerprinting.autoDeclineNoUserInputCanvasPrompts", true);
 user_pref("privacy.resistFingerprinting.letterboxing", true);
 user_pref("privacy.trackingprotection.emailtracking.enabled", true);
 user_pref("network.cookie.cookieBehavior", 5);
@@ -86,3 +90,52 @@ user_pref("media.peerconnection.ice.default_address_only", true);
 user_pref("browser.safebrowsing.provider.google.gsbReportURL", "");
 user_pref("browser.safebrowsing.provider.mozilla.gsbReportURL", "");
 user_pref("browser.safebrowsing.downloads.remote.url", "");
+user_pref("browser.safebrowsing.provider.google4.gsbReportURL", "");
+user_pref("browser.safebrowsing.provider.google4.dataSharingURL", "");
+
+// ---- Kill all remote/phone-home connections ----
+user_pref("app.update.enabled", false);
+user_pref("app.update.auto", false);
+user_pref("app.update.autoInstallEnabled", false);
+user_pref("app.update.service.enabled", false);
+user_pref("extensions.update.enabled", false);
+user_pref("extensions.update.autoUpdateDefault", false);
+user_pref("extensions.webservice.discoverURL", "");
+user_pref("app.normandy.enabled", false);
+user_pref("app.shield.optoutstudies.enabled", false);
+user_pref("browser.region.network.url", "");
+user_pref("browser.region.update.enabled", false);
+user_pref("network.captive-portal-service.enabled", false);
+user_pref("network.connectivity-service.enabled", false);
+user_pref("browser.messaging-system.whatsNewPanel.enabled", false);
+user_pref("browser.aboutwelcome.enabled", false);
+user_pref("browser.tabs.firefox-view", false);
+user_pref("extensions.screenshots.disabled", true);
+user_pref("extensions.htmlaboutaddons.recommendations.enabled", false);
+user_pref("browser.urlbar.suggest.quicksuggest.sponsored", false);
+user_pref("browser.urlbar.suggest.quicksuggest.nonsponsored", false);
+user_pref("browser.urlbar.suggest.searches", false);
+user_pref("devtools.debugger.remote-enabled", false);
+
+// ---- Remaining fingerprint/leak vectors ----
+user_pref("dom.vibrator.enabled", false);
+user_pref("dom.gamepad.enabled", false);
+user_pref("media.video_stats.enabled", false);
+user_pref("privacy.partition.always_partition_third_party_non_cookie_storage", true);
+user_pref("privacy.partition.serviceWorkers", true);
+user_pref("security.ssl.enable_0rtt_data", false);
+user_pref("security.cert_pinning.enforcement_level", 2);
+
+// ---- Performance (fewer wasted connections, more cache, lighter writes) ----
+user_pref("network.http.speculative-parallel-limit", 0);
+user_pref("browser.places.speculativeConnectEnabled", false);
+user_pref("network.http.max-connections", 1200);
+user_pref("network.http.max-persistent-connections-per-server", 9);
+user_pref("browser.cache.disk.capacity", 524288);
+user_pref("browser.cache.disk.smart_size.enabled", false);
+user_pref("browser.sessionstore.interval", 180000);
+user_pref("browser.sessionstore.max_tabs_undo", 8);
+user_pref("browser.sessionhistory.max_entries", 30);
+user_pref("places.history.enabled", false);
+user_pref("browser.shell.checkDefaultBrowser", false);
+user_pref("browser.disableResetPrompt", true);

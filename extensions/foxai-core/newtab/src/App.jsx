@@ -416,6 +416,15 @@ export default function App() {
       </main>
 
       <button
+        className="fixed bottom-4 right-4 hub"
+        onClick={() => window.open("https://can-5.github.io/foxai-browser/#hub", "_blank")}
+        title="FoxAI Hub"
+        aria-label="FoxAI Hub"
+      >
+        🧩
+      </button>
+
+      <button
         className="fixed bottom-4 right-4 gear"
         onClick={() => setSettingsOpen(true)}
         title="Settings"

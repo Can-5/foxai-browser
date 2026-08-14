@@ -313,6 +313,25 @@ body {
   border-color: var(--accent);
 }
 
+.hub {
+  position: fixed;
+  bottom: 1rem;
+  right: 3.75rem;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface) 85%, transparent);
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+.hub:hover {
+  border-color: var(--accent2);
+}
+
 .modal-open {
   position: fixed;
   inset: 0;

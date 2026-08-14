@@ -1,5 +1,51 @@
 # Changelog
 
+## v1.8.0 (2026-08-14)
+
+**Full leak & hardening audit + speed + FoxAI Hub.** A big pass: every remaining leak vector and phone-home connection closed, the network is faster, and the browser now links to a FoxAI Hub.
+
+### Hardening (config/user.js + config/foxai.cfg)
+- **Resist Fingerprinting fully on** (`privacy.resistFingerprinting=true`, incl. PBM, reduced timer precision, canvas prompt auto-decline) — timezone spoofed to UTC, canvas/screen fuzzed, on top of letterboxing.
+- **Every phone-home connection killed**: app update off, extension auto-update off, Normandy/Shield studies off, region lookup URL cleared, captive-portal detection off, connectivity service off, What's New / about:welcome / Firefox View off, Firefox screenshots disabled, add-on recommendations off, Firefox Suggest (quicksuggest) off, remote debugging off.
+- **Remaining fingerprint vectors closed**: vibrator, gamepad, video stats; third-party non-cookie storage + service workers partitioned; TLS 0-RTT off; certificate-pinning enforcement level 2.
+- uBlock/Safe Browsing remote reporting already off (kept).
+
+### Performance
+- Speculative connect + DNS prefetch already off; added `network.http.speculative-parallel-limit=0`, places speculative connect off.
+- More parallel connections (`max-connections=1200`, `max-persistent-connections-per-server=9`).
+- Disk cache raised to 512 MB (smart size off).
+- Lighter writes: sessionstore every 3 min, session history capped, history disabled (already cleared on shutdown).
+- Faster start: no default-browser check, no reset prompt, no welcome page.
+
+### FoxAI Hub
+- The new-tab now has a **🧩 Hub button** (next to the settings gear) that opens the FoxAI Hub on the website.
+- The website gained a `#hub` section: latest release, source, changelog, feedback/issues, a "verify it yourself" leak-test kit (browserleaks / ipleak / dnsleaktest), and quick-start steps. Bilingual EN/TR, same no-tracker static site.
+
+### Tests
+- New **`tests/test-06-hardening.ps1`**: big live audit — egress IP consistency across 4 reflectors (ipify / Cloudflare trace / icanhazip / ifconfig.me), HTTPS-only upgrade of an `http://` navigation, empty referrer, and a full fingerprint-vector report (WebRTC, Network Info, battery, MediaRecorder, WebGL, plugins, timezone=UTC); plus a **static audit of 70+ critical prefs** across BOTH `config/user.js` and `config/foxai.cfg`.
+- Full suite is now **6/6** (test-01…06).
+
+### Changed
+- Version bumped to 1.8.0 (all extensions + release zip `FoxAI-Browser-v1.8.0.zip`).
+
+## v1.7.0 (2026-08-14)
+
+**Launcher + auto-updater** — the release zip now contains a double-click launcher next to `firefox-foxai\`.
+
+### Added
+- `FoxAI Browser.cmd` — double-click to start the browser (no console window). Path-relative, so the folder can be moved anywhere.
+- `FoxAI Update.cmd` — checks GitHub for a newer release, downloads it, installs it, then relaunches the browser. **The profile is preserved across updates** (settings, notes, logins).
+- `FoxAI-Launcher.ps1` — engine behind both, with `-Launch`, `-Private`, `-Check`, `-Update`, `-Version` switches.
+- `version.txt` — written into the zip root by the build so the launcher knows the local version (falls back to `0.0.0`).
+
+### Under the hood
+- The launcher keeps the sandbox workaround env vars from `launch.ps1` (this Firefox build can crash on startup in some environments otherwise) and detects an already-running instance by the exact exe path (doesn't kill other Firefox installations).
+- Update safety: downloads to a temp folder, validates `firefox-foxai\runtime\firefox.exe` exists in the archive before swapping, then restores the user profile from a backup.
+- Old dev artifacts `launcher.vbs` (hardcoded path, killed firefox) removed; `launch.ps1` still works for headless/dev use.
+
+### Changed
+- Version bumped to 1.7.0 (all extensions + release zip `FoxAI-Browser-v1.7.0.zip`).
+
 ## v1.6.0 (2026-08-14)
 
 Built-in **SOCKS5 proxy** so IP leak tests show the proxy address instead of the real one (this was the only remaining "leak" — see the v1.5.1 note).

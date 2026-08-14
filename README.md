@@ -24,7 +24,7 @@ Requirements: Windows, Node.js, PowerShell 5.1+.
 .\build.ps1
 ```
 
-This: builds the new-tab React app, packages all extensions into `.xpi` files (forward-slash entries), downloads uBlock Origin, installs everything into the runtime `distribution`, renders `policies.json` (no BOM), brands `firefox.exe`, creates a fresh profile, and produces `release\FoxAI-Browser-v1.6.0.zip`.
+This: builds the new-tab React app, packages all extensions into `.xpi` files (forward-slash entries), downloads uBlock Origin, installs everything into the runtime `distribution`, renders `policies.json` (no BOM), brands `firefox.exe`, creates a fresh profile, and produces `release\FoxAI-Browser-v1.8.0.zip` (with the launcher `FoxAI-Launcher.ps1`, `FoxAI Browser.cmd`, `FoxAI Update.cmd` and `version.txt` at the zip root).
 
 ## Test
 

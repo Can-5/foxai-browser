@@ -20,7 +20,8 @@ $tests = @(
   "test-02-persistence.ps1",
   "test-03-search-engine.ps1",
   "test-04-settings.ps1",
-  "test-05-ai-sidebar.ps1"
+  "test-05-ai-sidebar.ps1",
+  "test-06-hardening.ps1"
 )
 $passed = 0
 foreach ($t in $tests) {
