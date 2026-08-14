@@ -206,7 +206,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const chip = document.getElementById("verChip");
   if (chip) chip.textContent = "v" + VERSION;
   const dl = document.getElementById("dlBtn");
-  if (dl) dl.href = "FoxAI-Browser-v" + VERSION + ".zip";
+  if (dl) {
+    dl.href = "https://github.com/Can-5/foxai-browser/releases/download/v" + VERSION + "/FoxAI-Browser-v" + VERSION + ".zip";
+    dl.setAttribute("download", "FoxAI-Browser-v" + VERSION + ".zip");
+  }
   const year = document.querySelector("footer .year");
   if (year) year.textContent = String(new Date().getFullYear());
 });
