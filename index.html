@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FoxAI Browser — a private, smart Firefox-based browser with an AI sidebar, gesture navigation and built-in tracker blocking.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'self'; object-src 'none'">
+  <title>FoxAI Browser — Private, Smart, Fox-fast</title>
+  <link rel="icon" href="foxai-mark.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="#top">
+      <img src="foxai-mark.svg" alt="FoxAI" width="28" height="28">
+      <span>FoxAI <b>Browser</b></span>
+    </a>
+    <nav class="links">
+      <a href="#features" data-i18n="nav_features">Features</a>
+      <a href="#tech" data-i18n="nav_tech">What it's built on</a>
+      <a href="#why" data-i18n="nav_why">Why</a>
+      <a href="#ai" data-i18n="nav_ai">AI</a>
+      <a href="#privacy" data-i18n="nav_privacy">Privacy</a>
+      <a href="#about" data-i18n="nav_about">About</a>
+      <button class="lang-btn" id="langBtn" type="button" title="Switch language">TR</button>
+      <a href="#download" class="btn small" data-i18n="nav_download">Download</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <img class="hero-logo" src="foxai-mark.svg" alt="FoxAI Browser" width="96" height="96">
+      <p class="chip" id="verChip">v1.3.0</p>
+      <h1 data-i18n-html="hero_h1">Private. Smart. <span class="grad">Fox-fast.</span></h1>
+      <p class="lead" data-i18n="hero_lead">
+        A Firefox-based browser that respects you: no telemetry, no tracking,
+        an AI sidebar that only sees what you let it, and a new-tab that is
+        actually yours.
+      </p>
+      <div class="cta">
+        <a class="btn primary" href="#download" data-i18n="cta_dl">Download v1.3.0</a>
+        <a class="btn" href="#features" data-i18n="cta_see">See what's inside</a>
+      </div>
+      <p class="hint" data-i18n="hero_hint">Portable · Windows · Firefox ESR 140.13.0 base · no installer</p>
+    </section>
+
+    <section id="features" class="section">
+      <h2 data-i18n="feat_h">Everything you need. Nothing that leaks.</h2>
+      <div class="grid">
+        <article class="card">
+          <span class="card-ico">🦊</span>
+          <h3>FoxAI Start</h3>
+          <p data-i18n="feat1_d">A private new-tab: clock, weather (opt-in), notes, to-do, bookmarks, custom backgrounds and 5 themes — all stored only in your browser.</p>
+        </article>
+        <article class="card">
+          <span class="card-ico">✨</span>
+          <h3 data-i18n="feat2_t">AI Sidebar</h3>
+          <p data-i18n="feat2_d">Summarize, translate, explain and rewrite any page. ChatGPT, Claude, Gemini or local Ollama — your key never leaves the browser.</p>
+        </article>
+        <article class="card">
+          <span class="card-ico">🎯</span>
+          <h3 data-i18n="feat3_t">Gesture navigation</h3>
+          <p data-i18n="feat3_d">Right-drag to go back, forward, reload or open a new tab. Mouse-only browsing, the way it should feel.</p>
+        </article>
+        <article class="card">
+          <span class="card-ico">🛡️</span>
+          <h3 data-i18n="feat4_t">uBlock Origin built in</h3>
+          <p data-i18n="feat4_d">Ad, tracker and fingerprinting blocking is pre-installed and enforced. No setup required.</p>
+        </article>
+        <article class="card">
+          <span class="card-ico">🔎</span>
+          <h3 data-i18n="feat5_t">Private search</h3>
+          <p data-i18n="feat5_d">DuckDuckGo by default with suggestions off. No keystrokes, no referrer, no predictive network calls.</p>
+        </article>
+        <article class="card">
+          <span class="card-ico">🔒</span>
+          <h3 data-i18n="feat6_t">Hardened by default</h3>
+          <p data-i18n="feat6_d">Strict CSP on every extension page, first-party isolation, no telemetry, sensors/battery/beacon disabled, punycode shown.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="tech" class="section alt">
+      <h2 data-i18n="tech_h">What FoxAI is built on</h2>
+      <p class="sub" data-i18n="tech_sub">
+        No dark magic. A real browser engine, standard extension APIs, and a
+        build pipeline that is fully reproducible from source.
+      </p>
+      <div class="tech-grid">
+        <div class="card">
+          <h3>🦊 Firefox ESR 140.13.0</h3>
+          <p data-i18n="tech1_d">The engine itself — a stable, extended-support release of Firefox, rebranded as "FoxAI Browser" (name, icon and version strings via rcedit). It stays portable: unzip and run.</p>
+        </div>
+        <div class="card">
+          <h3 data-i18n="tech2_t">🧩 Four WebExtensions (MV2)</h3>
+          <p data-i18n="tech2_d">New-tab, AI sidebar, search &amp; gestures are all standard WebExtensions installed through <code>policies.json</code>, so they can't be disabled or tampered with by sites.</p>
+        </div>
+        <div class="card">
+          <h3>⚛️ React + Vite</h3>
+          <p data-i18n="tech3_d">The FoxAI Start new-tab is a small React app built with Vite — fast, and shipped as plain static assets with a strict CSP.</p>
+        </div>
+        <div class="card">
+          <h3 data-i18n="tech4_t">🛠️ PowerShell build pipeline</h3>
+          <p data-i18n="tech4_d"><code>build.ps1</code> reproduces everything from source: packages XPIs, downloads uBlock, brands the binaries, writes policy files, creates a fresh profile and a release zip.</p>
+        </div>
+        <div class="card">
+          <h3 data-i18n="tech5_t">🧪 WebDriver BiDi test suite</h3>
+          <p data-i18n="tech5_d">Five end-to-end tests drive a real headless browser over the BiDi protocol and verify the new-tab, persistence, search default, settings and the AI sidebar.</p>
+        </div>
+        <div class="card">
+          <h3 data-i18n="tech6_t">📦 Nothing on your system</h3>
+          <p data-i18n="tech6_d">No installer, no services, no registry changes, no background updaters. The whole browser lives in one folder you can delete at any time.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="why" class="section">
+      <h2 data-i18n="why_h">Why it exists</h2>
+      <p class="sub" data-i18n="why_sub">
+        The short version: browsers collect too much, show you too little, and
+        add features you never asked for. FoxAI is the opposite.
+      </p>
+      <div class="why-cols">
+        <div class="why">
+          <h3 data-i18n="why1_t">💥 It began with a deletion</h3>
+          <p data-i18n="why1_d">The original project was accidentally wiped. FoxAI was rebuilt from a ~7,000-file salvage backup — and during the rebuild, every default a browser sneaks in (telemetry, autofill, prefetch, referrers) was questioned and, where it leaks, turned off.</p>
+        </div>
+        <div class="why">
+          <h3 data-i18n="why2_t">🔬 Verifiable, not just "trust us"</h3>
+          <p data-i18n="why2_d">Each release ships a changelog that lists the exact leak that was closed and how. You can read it, rebuild it from source, and run the test suite yourself. There is nothing to take on faith.</p>
+        </div>
+        <div class="why">
+          <h3 data-i18n="why3_t">🏡 For daily use, not for show</h3>
+          <p data-i18n="why3_d">Privacy is useless if the browser is painful. FoxAI keeps the features people actually use — notes, to-do, bookmarks, quick search, AI help, mouse gestures — without the ones that exist to harvest you.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="ai" class="section alt">
+      <h2 data-i18n="ai_h">The AI that waits for permission</h2>
+      <p class="sub" data-i18n="ai_sub">
+        Nothing runs in the background. Page content is shared only when you
+        click "Allow page access", one action at a time — and you can revoke it instantly.
+      </p>
+      <ul class="ai-list">
+        <li data-i18n-html="ai1"><b>ChatGPT</b>, <b>Claude</b>, <b>Gemini</b> or keyless local <b>Ollama</b></li>
+        <li data-i18n="ai2">Free chat sends no page data</li>
+        <li data-i18n="ai3">Extraction capped and consent-gated</li>
+        <li data-i18n="ai4">API keys stored locally, never in URLs or logs</li>
+      </ul>
+    </section>
+
+    <section id="privacy" class="section">
+      <h2 data-i18n="priv_h">Privacy you can verify</h2>
+      <div class="cols">
+        <ul class="check">
+          <li data-i18n="priv1">No telemetry, no data collection</li>
+          <li data-i18n="priv2">Referrer disabled, beacon &amp; ping disabled</li>
+          <li data-i18n="priv3">First-party isolation on</li>
+          <li data-i18n="priv4">Prefetch / predictor / DNS prefetch off</li>
+          <li data-i18n="priv5">Autofill &amp; form history off</li>
+          <li data-i18n="priv6">Camera / microphone disabled by default</li>
+        </ul>
+        <ul class="check">
+          <li data-i18n="priv7">Weather is opt-in (no location by default)</li>
+          <li data-i18n="priv8">Content scripts only run inside the browser</li>
+          <li data-i18n="priv9">Strict CSP: no inline script, no iframing</li>
+          <li data-i18n="priv10">Punycode shown for spoofed-looking domains</li>
+          <li data-i18n="priv11">Only the sites you visit, ever contacted</li>
+          <li data-i18n="priv12">Every fix is in the changelog, every line is local</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="about" class="section alt">
+      <h2 data-i18n="about_h">Who made it</h2>
+      <p class="sub" data-i18n="about_sub">
+        A one-person project. No company, no analytics, no sign-ups — just a
+        developer who wanted a browser with no hidden listeners.
+      </p>
+      <div class="about-box">
+        <img src="foxai-mark.svg" alt="" width="64" height="64">
+        <div>
+          <h3 data-i18n="about_t">Made by İlkay Can, in Türkiye</h3>
+          <p data-i18n="about_d">
+            Designed, built, tested and maintained by <b>İlkay Can</b> — a solo
+            developer based in <b>Türkiye</b>. Every commit is public, every
+            design decision is documented in the changelog, and the entire
+            source can be rebuilt with a single command. The name says it:
+            <b>Fox</b> — for the Firefox engine it rides on, and <b>AI</b> —
+            for the assistant that sits beside you, only when asked.
+          </p>
+        </div>
+      </div>
+      <h3 class="road-title" data-i18n="road_t">The road so far</h3>
+      <ul class="road">
+        <li data-i18n-html="road1"><span>v1.0.0</span> Rebuilt from scratch from the salvage backup — new-tab, AI, search, gestures, build &amp; tests.</li>
+        <li data-i18n-html="road2"><span>v1.1.0</span> Gray default theme; AI sender validation; API keys moved out of URLs.</li>
+        <li data-i18n-html="road3"><span>v1.2.0</span> Full security &amp; privacy audit: strict CSP everywhere, weather opt-in, hardened prefs.</li>
+        <li data-i18n-html="road4"><span>v1.3.0</span> More settings (engine, clock, new-tab links) and version shown in the UI.</li>
+        <li data-i18n-html="road5"><span>now</span> This website, built the same way everything else is: local, static, no trackers.</li>
+      </ul>
+    </section>
+
+    <section id="download" class="section">
+      <h2 data-i18n="dl_h">Get FoxAI Browser</h2>
+      <p class="sub" data-i18n="dl_sub">
+        A portable, branded Firefox ESR build with everything pre-installed.
+        Unzip, run, done — nothing is installed to your system.
+      </p>
+      <div class="dl">
+        <a class="btn primary big" id="dlBtn" href="FoxAI-Browser-v1.3.0.zip" download data-i18n="dl_btn">Download v1.3.0</a>
+        <p class="hint" data-i18n="dl_hint">~200 MB · Windows · Firefox ESR 140.13.0 base</p>
+      </div>
+      <ol class="steps">
+        <li data-i18n="step1">Unzip <code>FoxAI-Browser-v1.3.0.zip</code> anywhere</li>
+        <li data-i18n="step2">Run <code>launcher.vbs</code> (or <code>firefox.exe</code>)</li>
+        <li data-i18n="step3">Done — FoxAI Start, AI Sidebar, gestures &amp; uBlock are ready</li>
+      </ol>
+    </section>
+  </main>
+
+  <footer>
+    <img src="foxai-mark.svg" alt="" width="24" height="24">
+    <div>
+      <p data-i18n="footer_t">FoxAI Browser <span id="verFooter">v1.3.0</span> · Firefox ESR base · MPL-2.0 (uBlock Origin: GPLv3)</p>
+      <p class="made-by" data-i18n="footer_made">Made by İlkay Can, in Türkiye · © <span class="year"></span></p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
