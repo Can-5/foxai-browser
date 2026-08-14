@@ -1,5 +1,28 @@
 # Changelog
 
+## v1.5.0 (2026-08-14)
+
+Real-Firefox-fork settings & tab behaviour (LibreWolf / Arkenfox inspired).
+
+### Added (config/foxai.cfg + config/user.js)
+- **Fork hardening**:
+  - Letterboxing on, e-mail tracking protection on.
+  - Cookie behaviour `5` (reject trackers + partition third-party state).
+  - Clear-on-shutdown for history/cache/form data/sessions — but **cookies and site settings are kept**, so logins and the FoxAI Start notes persist.
+  - WebGL disabled, DRM/EME disabled, page thumbnails capturing disabled.
+  - SSL cache disabled (`browser.cache.disk_cache_ssl`), downloads always ask where to save (`useDownloadDir=false`).
+  - Telemetry fully off (`toolkit.telemetry.*`, healthreport, ping-centre, activity-stream telemetry), crash reporter URL cleared.
+  - Session-store privacy level 2 (no form/session data in crash restore).
+- **Tab behaviour (fork style)**:
+  - New tabs open next to the current one (`insertAfterCurrent`).
+  - Diverted (target=_blank) pages load in the background.
+  - Closing the last tab doesn't close the window; no "open tab" warning.
+  - Tabs unload on low memory, tabs remain detachable.
+  - Session restore loads tabs on demand, no auto crash-restore.
+
+### Changed
+- Version bumped to 1.5.0 (all extensions + release zip `FoxAI-Browser-v1.5.0.zip`).
+
 ## v1.4.0 (2026-08-14)
 
 Privacy & security audit pass 2, plus a large settings expansion.

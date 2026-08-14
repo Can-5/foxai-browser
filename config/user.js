@@ -37,3 +37,39 @@ user_pref("extensions.pocket.enabled", false);
 user_pref("signon.rememberSignons", false);
 user_pref("browser.uitour.enabled", false);
 user_pref("browser.tabs.crashReporting.sendReport", false);
+
+// ---- Firefox-fork hardening (LibreWolf / Arkenfox style) ----
+user_pref("privacy.resistFingerprinting.letterboxing", true);
+user_pref("privacy.trackingprotection.emailtracking.enabled", true);
+user_pref("network.cookie.cookieBehavior", 5);
+user_pref("privacy.sanitize.sanitizeOnShutdown", true);
+user_pref("privacy.clearOnShutdown.cache", true);
+user_pref("privacy.clearOnShutdown.cookies", false);
+user_pref("privacy.clearOnShutdown.downloads", false);
+user_pref("privacy.clearOnShutdown.formdata", true);
+user_pref("privacy.clearOnShutdown.history", true);
+user_pref("privacy.clearOnShutdown.offlineApps", false);
+user_pref("privacy.clearOnShutdown.sessions", true);
+user_pref("privacy.clearOnShutdown.siteSettings", false);
+user_pref("webgl.disabled", true);
+user_pref("media.eme.enabled", false);
+user_pref("browser.pagethumbnails.capturing_disabled", true);
+user_pref("browser.cache.disk_cache_ssl", false);
+user_pref("browser.download.useDownloadDir", false);
+user_pref("toolkit.telemetry.enabled", false);
+user_pref("toolkit.telemetry.unified", false);
+user_pref("datareporting.healthreport.uploadEnabled", false);
+user_pref("browser.newtabpage.activity-stream.feeds.telemetry", false);
+user_pref("browser.ping-centre.telemetry", false);
+user_pref("breakpad.reportURL", "");
+user_pref("browser.sessionstore.privacy_level", 2);
+
+// ---- Tab behaviour (fork style) ----
+user_pref("browser.tabs.insertAfterCurrent", true);
+user_pref("browser.tabs.loadDivertedInBackground", true);
+user_pref("browser.tabs.closeWindowWithLastTab", false);
+user_pref("browser.tabs.warnOnOpen", false);
+user_pref("browser.tabs.unloadOnLowMemory", true);
+user_pref("browser.tabs.allowTabDetach", true);
+user_pref("browser.sessionstore.restore_on_demand", true);
+user_pref("browser.sessionstore.resume_from_crash", false);
