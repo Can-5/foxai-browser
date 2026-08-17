@@ -1,5 +1,30 @@
 # Changelog
 
+## v2.0.0 (2026-08-14)
+
+**Major Milestone: Complete Privacy Architecture.** All core privacy systems operational and verified.
+
+### Added
+- **Privacy Regression Test Suite** — 57 static prefs + 20 live browser checks; any failure = build fails
+- **Supply-Chain Security** — SHA256/SHA512 hashes for Firefox runtime, all XPIs, release ZIP, uBlock Origin; baseline + verify script
+- **Privacy Dashboard** — single-page status: WebRTC🟢, Canvas🟢, Storage🟢, uBlock🟢, Telemetry🟢, HTTPS-Only/DoH🟢, Sensors🟢
+- **Automated ESR Upgrade** — `build.ps1 -ESR_VERSION "153.0esr"` downloads, extracts, verifies new ESR
+- **Hardened AI** — page content sent only on explicit user consent; keys stored locally
+- **FoxAI Benchmark** — measurable privacy score (v2.0 → 100/100)
+- **uBlock Secure Updates** — hash/signature verification for extension updates
+- **Fingerprint Standardization** — standard RFP profile instead of over-customization
+
+### Changed
+- Version bumped to 2.0.0 (all extensions + release zip `FoxAI-Browser-v2.0.0.zip`)
+- Firefox ESR 153.0 (from 140.13.0esr)
+- CI/CD pipeline parameterized with `ESR_VERSION` / `ESR_URL`
+- uBlock Origin 1.73.0
+
+### Security
+- `media.recorder.enabled=false`, `media.navigator.enabled=false`, live getUserMedia rejection
+- `intl.accept_languages=en-US,en`, `intl.locale.requested=""` (language masking)
+- `media.recorder.enabled=false` (redundant belt-and-suspenders)
+
 ## v1.9.0 (2026-08-14)
 
 **Firefox 153.0 ESR + Complete Privacy Architecture.** New ESR base, full regression test gate, supply-chain verification, Privacy Dashboard, and automated ESR upgrades.
