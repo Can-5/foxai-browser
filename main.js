@@ -1,5 +1,5 @@
 ﻿// FoxAI Browser landing page — version, year, language toggle (EN/TR).
-const VERSION = "1.8.0";
+const VERSION = "1.9.0";
 const LANG_KEY = "fxweb:lang";
 
 const DICT = {
