@@ -1,8 +1,29 @@
 # Changelog
 
-## v1.8.0 (2026-08-14)
+## v1.9.0 (2026-08-14)
 
-**Full leak & hardening audit + speed + FoxAI Hub.** A big pass: every remaining leak vector and phone-home connection closed, the network is faster, and the browser now links to a FoxAI Hub.
+**Firefox 153.0 ESR + Complete Privacy Architecture.** New ESR base, full regression test gate, supply-chain verification, Privacy Dashboard, and automated ESR upgrades.
+
+### Added
+- **Firefox 153.0 ESR** — latest extended support release as base
+- **Privacy Regression Test Suite** (`tests/test-privacy-regression.ps1`) — 57 static prefs + 20 live browser checks run on every build; any failure = build fails
+- **Supply-Chain Security** (`scripts/verify-supply-chain.ps1`) — SHA256/SHA512 hashes for Firefox runtime, all XPIs, release ZIP, uBlock Origin; baseline generated once, verified every build
+- **Privacy Dashboard** (FoxAI Start → ⚙ → Privacy Dashboard) — single-page status: WebRTC🟢, Canvas🟢, Storage🟢, uBlock🟢, Telemetry🟢, HTTPS-Only/DoH🟢, Sensors🟢
+- **Automated ESR Upgrade** — `build.ps1 -ESR_VERSION "153.0esr"` downloads, extracts, and verifies new ESR; CI pipeline parameterized
+- **MediaRecorder / getUserMedia Hardened** — `media.recorder.enabled=false`, `media.navigator.enabled=false`, live getUserMedia rejection test
+
+### Changed
+- **Version bumped to 1.9.0** (all extensions + release zip `FoxAI-Browser-v1.9.0.zip`)
+- **Firefox ESR upgraded** from 140.13.0esr → 153.0esr
+- **CI/CD Pipeline** (`.github/workflows/ci.yml`) parameterized with `ESR_VERSION` / `ESR_URL`; auto-build, test, release on tag push
+- **uBlock Origin** updated to latest (1.73.0)
+
+### Security
+- `media.recorder.enabled=false` (MediaRecorder API disabled)
+- `intl.accept_languages=en-US,en` + `intl.locale.requested=""` (language masking)
+- `media.recorder.enabled=false` (redundant belt-and-suspenders)
+
+## v1.8.0 (2026-08-14)
 
 ### Hardening (config/user.js + config/foxai.cfg)
 - **Resist Fingerprinting fully on** (`privacy.resistFingerprinting=true`, incl. PBM, reduced timer precision, canvas prompt auto-decline) — timezone spoofed to UTC, canvas/screen fuzzed, on top of letterboxing.

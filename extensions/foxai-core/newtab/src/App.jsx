@@ -78,7 +78,10 @@ export default function App() {
   const [todos, setTodos] = useState(() => load("fx:todos", []));
   const [todoInput, setTodoInput] = useState("");
   const [widgets, setWidgets] = useState(() =>
-    load("fx:w", { notes: true, todo: true, bookmarks: true, weather: false, clock: true })
+    load("fx:w", { 
+      notes: true, todo: true, bookmarks: true, weather: false, clock: true,
+      sidebarModules: ["ai", "bookmarks", "history", "downloads", "containers"]
+    })
   );
   const [bg, setBg] = useState(() => load("fx:bg", "gray"));
   const [bgImage, setBgImage] = useState(() => load("fx:bgimg", ""));
@@ -645,6 +648,48 @@ export default function App() {
                 All traffic goes through this proxy, so IP leak tests show the proxy address instead of
                 yours. To use a VPN/Tor this way, point it at your local proxy port.
               </p>
+            </fieldset>
+
+            <fieldset>
+              <legend>Privacy Dashboard</legend>
+              <div className="privacy-dashboard">
+                <div className="privacy-item">
+                  <span className="privacy-label">WebRTC</span>
+                  <span className="privacy-status green">🟢 Korunuyor</span>
+                </div>
+                <div className="privacy-item">
+                  <span className="privacy-label">Canvas / Fingerprint</span>
+                  <span className="privacy-status green">🟢 RFP Aktif</span>
+                </div>
+                <div className="privacy-item">
+                  <span className="privacy-label">Storage Partitioning</span>
+                  <span className="privacy-status green">🟢 FPI + Partitioning</span>
+                </div>
+                <div className="privacy-item">
+                  <span className="privacy-label">Tracker Blocking</span>
+                  <span className="privacy-status green">🟢 uBlock Origin</span>
+                </div>
+                <div className="privacy-item">
+                  <span className="privacy-label">Telemetry</span>
+                  <span className="privacy-status green">🟢 Tamamen Kapalı</span>
+                </div>
+                <div className="privacy-item">
+                  <span className="privacy-label">HTTPS-Only + DoH</span>
+                  <span className="privacy-status green">🟢 Aktif (Cloudflare)</span>
+                </div>
+                <div className="privacy-item">
+                  <span className="privacy-label">WebGL / WebRTC ICE</span>
+                  <span className="privacy-status green">🟢 Kapalı / No Host</span>
+                </div>
+                <div className="privacy-item">
+                  <span className="privacy-label">Sensors / Battery</span>
+                  <span className="privacy-status green">🟢 Kapalı</span>
+                </div>
+                <div className="privacy-item">
+                  <span className="privacy-label">Updates / Telemetry</span>
+                  <span className="privacy-status green">🟢 Tamamen Kapalı</span>
+                </div>
+              </div>
             </fieldset>
 
             <fieldset>

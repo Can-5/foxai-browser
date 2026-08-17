@@ -479,3 +479,41 @@ body {
 .theme-light .card {
   box-shadow: 0 12px 32px rgba(30, 35, 70, 0.12);
 }
+
+.privacy-dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 10px;
+  margin-top: 6px;
+}
+.privacy-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  background: color-mix(in srgb, var(--surface) 90%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.privacy-item:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--accent) 20%, transparent);
+}
+.privacy-label {
+  font-size: 13px;
+  color: var(--text);
+  font-weight: 500;
+}
+.privacy-status {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.privacy-status.green {
+  background: color-mix(in srgb, #22c55e 20%, transparent);
+  color: #22c55e;
+  border: 1px solid color-mix(in srgb, #22c55e 40%, transparent);
+}

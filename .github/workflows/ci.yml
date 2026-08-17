@@ -1,0 +1,132 @@
+name: CI/CD - FoxAI Browser
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+env:
+  NODE_VERSION: '20'
+  ESR_VERSION: '153.0esr'
+  ESR_URL: 'https://ftp.mozilla.org/pub/firefox/releases/153.0esr/win64/en-US/Firefox%20Setup%20153.0esr.exe'
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: extensions/foxai-core/package-lock.json
+
+      - name: Setup PowerShell
+        uses: actions/setup-powershell@v1
+        with:
+          version: 'latest'
+
+      - name: Download Firefox ESR installer
+        shell: pwsh
+        run: |
+          $url = "${{ env.FIREFOX_URL }}"
+          $out = "FirefoxSetup.exe"
+          Write-Host "Downloading Firefox ESR ${{ env.FIREFOX_VERSION }}..."
+          Invoke-WebRequest -Uri $url -OutFile $out -ProgressAction SilentlyContinue
+          Write-Host "Downloaded $([math]::Round((Get-Item $out).Length/1MB,1)) MB"
+
+      - name: Extract Firefox runtime (7zip)
+        shell: pwsh
+        run: |
+          7z x FirefoxSetup.exe -ofirefox-foxai/runtime -y
+          # 7z extracts core/ -> move to runtime/
+          if (Test-Path "firefox-foxai/runtime/core") {
+            Move-Item -Path "firefox-foxai/runtime/core/*" -Destination "firefox-foxai/runtime/" -Force
+            Remove-Item "firefox-foxai/runtime/core" -Recurse -Force
+          }
+          Write-Host "Firefox runtime extracted to firefox-foxai/runtime/"
+          Get-ChildItem firefox-foxai/runtime/firefox.exe -ErrorAction SilentlyContinue | ForEach-Object { Write-Host "firefox.exe found: $($_.FullName)" }
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: extensions/foxai-core/package-lock.json
+
+      - name: Setup PowerShell
+        uses: actions/setup-powershell@v1
+        with:
+          version: 'latest'
+
+      - name: Install dependencies (foxai-core)
+        working-directory: ./extensions/foxai-core
+        run: npm ci
+
+      - name: Run build.ps1
+        shell: pwsh
+        working-directory: ${{ github.workspace }}
+        run: |
+          $ErrorActionPreference = "Stop"
+          .\build.ps1 -ESR_VERSION "${{ env.ESR_VERSION }}" -ESR_URL "${{ env.ESR_URL }}"
+
+      - name: Verify artifacts
+        shell: pwsh
+        run: |
+          $zip = Get-Item release\FoxAI-Browser-v*.zip
+          Write-Host "Found: $($zip.Name) ($([math]::Round($zip.Length/1MB,1)) MB)"
+          $xpi = Get-ChildItem release\*.xpi
+          Write-Host "XPIs: $($xpi.Count) - $($xpi.Name -join ', ')"
+
+      - name: Run test suite
+        shell: pwsh
+        working-directory: ${{ github.workspace }}
+        run: |
+          .\tests\run-all.ps1
+
+      - name: Upload release artifacts
+        if: github.event_name == 'release' && github.event.action == 'published'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ${{ github.workspace }}/release/FoxAI-Browser-v${{ github.event.release.tag_name }}.zip
+          asset_name: FoxAI-Browser-v${{ github.event.release.tag_name }}.zip
+          asset_content_type: application/zip
+
+  # Dil dosyalarını kontrol et (i18n)
+  i18n-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check i18n keys consistency
+        run: |
+          echo "Checking i18n keys..."
+          node -e "
+            const fs = require('fs');
+            const content = fs.readFileSync('website/main.js', 'utf8');
+            const match = content.match(/const DICT = ({[\s\S]*?});/);
+            if (!match) { console.error('DICT not found'); process.exit(1); }
+            const dict = JSON.parse(match[1]);
+            const enKeys = Object.keys(dict.en).sort();
+            const trKeys = Object.keys(dict.tr).sort();
+            const missing = enKeys.filter(k => !trKeys.includes(k));
+            const extra = trKeys.filter(k => !enKeys.includes(k));
+            if (missing.length) { console.error('TR missing keys:', missing); process.exit(1); }
+            if (extra.length) { console.warn('TR extra keys:', extra); }
+            console.log('i18n keys OK:', enKeys.length, 'keys');
+          "

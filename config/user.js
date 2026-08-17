@@ -34,7 +34,9 @@ user_pref("dom.security.https_only_mode", true);
 user_pref("network.dns.echconfig.enabled", true);
 user_pref("network.http.echconfig.enabled", true);
 user_pref("extensions.pocket.enabled", false);
-user_pref("signon.rememberSignons", false);
+user_pref("media.recorder.enabled", false);
+user_pref("intl.accept_languages", "en-US,en");
+user_pref("intl.locale.requested", "");
 user_pref("browser.uitour.enabled", false);
 user_pref("browser.tabs.crashReporting.sendReport", false);
 

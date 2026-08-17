@@ -8,11 +8,13 @@
 # 7. Zips the browser into release\
 
 param(
-  [switch]$SkipProfile
+  [switch]$SkipProfile,
+  [string]$ESR_VERSION = "153.0esr",
+  [string]$ESR_URL = "https://ftp.mozilla.org/pub/firefox/releases/153.0esr/win64/en-US/Firefox%20Setup%20153.0esr.exe"
 )
 $ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
-$Version = "1.8.0"
+$Version = "1.9.0"
 $Runtime = "$Root\firefox-foxai\runtime"
 $Dist = "$Root\release"
 $ExtDir = "$Root\extensions"
@@ -21,6 +23,26 @@ $Rcedit = "$Root\_salvage\rcedit-x64.exe"
 $Assets = "$Root\assets"
 
 function Step($msg) { Write-Host "==> $msg" -ForegroundColor Cyan }
+
+# ---------------------------------------------------------------- 0. Ensure Firefox ESR runtime
+function Ensure-FirefoxRuntime {
+  if (-not (Test-Path "$Runtime\firefox.exe")) {
+    Step "Downloading Firefox ESR $ESR_VERSION"
+    $installer = "$Root\FirefoxSetup.exe"
+    Invoke-WebRequest -Uri $ESR_URL -OutFile $installer -ProgressAction SilentlyContinue
+    Step "Extracting Firefox runtime"
+    7z x $installer -o"$Runtime" -y > $null
+    if (Test-Path "$Runtime\core") {
+      Move-Item -Path "$Runtime\core\*" -Destination "$Runtime\" -Force
+      Remove-Item "$Runtime\core" -Recurse -Force
+    }
+    Remove-Item $installer -Force -ErrorAction SilentlyContinue
+    Write-Host "  Firefox ESR ready at $Runtime"
+  } else {
+    Write-Host "  Firefox ESR already present at $Runtime"
+  }
+}
+Ensure-FirefoxRuntime
 
 # ---------------------------------------------------------------- 1. newtab
 Step "Building foxai-core newtab (Vite)"
