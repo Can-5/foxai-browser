@@ -9,6 +9,7 @@
 
 param(
   [switch]$SkipProfile,
+  [switch]$Reproducible,
   [string]$ESR_VERSION = "153.0esr",
   [string]$ESR_URL = "https://ftp.mozilla.org/pub/firefox/releases/153.0esr/win64/en-US/Firefox%20Setup%20153.0esr.exe"
 )
@@ -21,6 +22,15 @@ $ExtDir = "$Root\extensions"
 $Config = "$Root\config"
 $Rcedit = "$Root\_salvage\rcedit-x64.exe"
 $Assets = "$Root\assets"
+
+# Reproducible build: fixed timestamp (SOURCE_DATE_EPOCH or fixed)
+if ($Reproducible) {
+  $BuildTimestamp = [DateTime]::ParseExact("2026-08-14 00:00:00Z", "yyyy-MM-dd HH:mm:ssZ", $null)
+  $env:SOURCE_DATE_EPOCH = [int][double]::Parse((Get-Date $BuildTimestamp -UFormat %s))
+  Write-Host "Reproducible mode: SOURCE_DATE_EPOCH=$($env:SOURCE_DATE_EPOCH)"
+} else {
+  $BuildTimestamp = Get-Date
+}
 
 function Step($msg) { Write-Host "==> $msg" -ForegroundColor Cyan }
 
@@ -50,6 +60,10 @@ if (-not (Get-Command node -ErrorAction SilentlyContinue)) { throw "node not fou
 Push-Location "$ExtDir\foxai-core"
 Copy-Item "newtab\index.html.src" "newtab\index.html" -Force
 Remove-Item "newtab\assets" -Recurse -Force -ErrorAction SilentlyContinue
+if ($Reproducible) {
+  $env:NODE_ENV = "production"
+  $env:SOURCE_DATE_EPOCH = $env:SOURCE_DATE_EPOCH
+}
 npm run build
 if ($LASTEXITCODE -ne 0) { throw "vite build failed" }
 Pop-Location
@@ -67,9 +81,13 @@ function New-Zip {
   $zip = New-Object System.IO.Compression.ZipArchive($fs, [System.IO.Compression.ZipArchiveMode]::Create)
   try {
     $base = (Resolve-Path $SourceDir).Path
-    foreach ($f in (Get-ChildItem $base -Recurse -File)) {
+    $files = Get-ChildItem $base -Recurse -File | Sort-Object { $_.FullName.Substring($base.Length + 1).Replace('\', '/') }
+    foreach ($f in $files) {
       $rel = $f.FullName.Substring($base.Length + 1).Replace('\', '/')
       $entry = $zip.CreateEntry($rel, [System.IO.Compression.CompressionLevel]::Optimal)
+      if ($Reproducible) {
+        $entry.LastWriteTime = $BuildTimestamp
+      }
       $in = [System.IO.File]::OpenRead($f.FullName)
       $out = $entry.Open()
       try { $in.CopyTo($out) } finally { $out.Dispose(); $in.Dispose() }
@@ -119,16 +137,24 @@ New-Xpi -Name "foxai-gestures.xpi" -OutDir $Dist -Items @(
 Step "Extensions packaged to $Dist"
 
 # ---------------------------------------------------------------- 3. uBlock
-Step "Downloading uBlock Origin (latest release)"
-try {
-  $rel = Invoke-RestMethod -Uri "https://api.github.com/repos/gorhill/uBlock/releases/latest" -Headers @{ "User-Agent" = "foxai-build" }
-  $asset = $rel.assets | Where-Object { $_.name -match "ublock.*firefox.*\.xpi$" -or $_.name -match "^uBlock0_.*\.xpi$" } | Select-Object -First 1
-  if (-not $asset) { $asset = $rel.assets | Where-Object { $_.name -match "\.xpi$" } | Select-Object -First 1 }
-  if (-not $asset) { throw "no xpi asset found" }
-  Invoke-WebRequest -Uri $asset.browser_download_url -OutFile "$Dist\ublock0.xpi"
-  Write-Host "  downloaded $($asset.name)"
-} catch {
-  Write-Host "  WARN: uBlock download failed - $($_.Exception.Message)" -ForegroundColor Yellow
+Step "Downloading uBlock Origin"
+if ($Reproducible) {
+  $UBLOCK_VERSION = "1.73.0"
+  $UBLOCK_URL = "https://github.com/gorhill/uBlock/releases/download/$UBLOCK_VERSION/uBlock0_$UBLOCK_VERSION.firefox.signed.xpi"
+  Write-Host "  Using pinned uBlock version: $UBLOCK_VERSION"
+  Invoke-WebRequest -Uri $UBLOCK_URL -OutFile "$Dist\ublock0.xpi"
+  Write-Host "  downloaded uBlock0_$UBLOCK_VERSION.firefox.signed.xpi"
+} else {
+  try {
+    $rel = Invoke-RestMethod -Uri "https://api.github.com/repos/gorhill/uBlock/releases/latest" -Headers @{ "User-Agent" = "foxai-build" }
+    $asset = $rel.assets | Where-Object { $_.name -match "ublock.*firefox.*\.xpi$" -or $_.name -match "^uBlock0_.*\.xpi$" } | Select-Object -First 1
+    if (-not $asset) { $asset = $rel.assets | Where-Object { $_.name -match "\.xpi$" } | Select-Object -First 1 }
+    if (-not $asset) { throw "no xpi asset found" }
+    Invoke-WebRequest -Uri $asset.browser_download_url -OutFile "$Dist\ublock0.xpi"
+    Write-Host "  downloaded $($asset.name)"
+  } catch {
+    Write-Host "  WARN: uBlock download failed - $($_.Exception.Message)" -ForegroundColor Yellow
+  }
 }
 
 # ---------------------------------------------------------------- 4. install
@@ -153,31 +179,35 @@ $pol = $pol.Replace("%%UBLOCK%%", (Get-FileUrl "$DistroExt\uBlock0@raymondhill.n
 
 # ---------------------------------------------------------------- 5. branding
 Step "Branding executables (rcedit)"
-$Ico = "$Assets\foxai.ico"
-if (-not (Test-Path $Ico)) {
-  $png = [IO.File]::ReadAllBytes("$Assets\foxai-128.png")
-  $ms = New-Object IO.MemoryStream
-  $bw = New-Object IO.BinaryWriter($ms)
-  $bw.Write([uint16]0); $bw.Write([uint16]1); $bw.Write([uint16]1)
-  $bw.Write([byte]128); $bw.Write([byte]128)
-  $bw.Write([byte]0); $bw.Write([byte]0)
-  $bw.Write([uint16]1); $bw.Write([uint16]32)
-  $bw.Write([uint32]$png.Length); $bw.Write([uint32]22)
-  $bw.Write($png)
-  $bw.Flush()
-  [IO.File]::WriteAllBytes($Ico, $ms.ToArray())
-}
-$exes = @("firefox.exe", "private_browsing.exe")
-foreach ($exe in $exes) {
-  $p = "$Runtime\$exe"
-  if (Test-Path $p) {
-    & $Rcedit $p --set-icon $Ico --set-version-string "ProductName" "FoxAI Browser" --set-version-string "FileDescription" "FoxAI Browser" --set-file-version "$Version.0.0" --set-product-version "$Version.0.0" 2>&1 | Out-Null
-    Write-Host "  branded $exe"
+if (-not $Reproducible) {
+  $Ico = "$Assets\foxai.ico"
+  if (-not (Test-Path $Ico)) {
+    $png = [IO.File]::ReadAllBytes("$Assets\foxai-128.png")
+    $ms = New-Object IO.MemoryStream
+    $bw = New-Object IO.BinaryWriter($ms)
+    $bw.Write([uint16]0); $bw.Write([uint16]1); $bw.Write([uint16]1)
+    $bw.Write([byte]128); $bw.Write([byte]128)
+    $bw.Write([byte]0); $bw.Write([byte]0)
+    $bw.Write([uint16]1); $bw.Write([uint16]32)
+    $bw.Write([uint32]$png.Length); $bw.Write([uint32]22)
+    $bw.Write($png)
+    $bw.Flush()
+    [IO.File]::WriteAllBytes($Ico, $ms.ToArray())
   }
+  $exes = @("firefox.exe", "private_browsing.exe")
+  foreach ($exe in $exes) {
+    $p = "$Runtime\$exe"
+    if (Test-Path $p) {
+      & $Rcedit $p --set-icon $Ico --set-version-string "ProductName" "FoxAI Browser" --set-version-string "FileDescription" "FoxAI Browser" --set-file-version "$Version.0.0" --set-product-version "$Version.0.0" 2>&1 | Out-Null
+      Write-Host "  branded $exe"
+    }
+  }
+} else {
+  Write-Host "  Skipping rcedit branding (reproducible mode)"
 }
 
 # ---------------------------------------------------------------- 6. profile
-if (-not $SkipProfile) {
+if (-not $SkipProfile -and -not $Reproducible) {
   Step "Creating fresh FoxAI profile"
   $Profile = "$Root\firefox-foxai\profile\foxai"
   if (Test-Path $Profile) { Remove-Item $Profile -Recurse -Force }
@@ -188,6 +218,8 @@ if (-not $SkipProfile) {
   if (-not $p.HasExited) { Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue }
   Start-Sleep -Seconds 2
   Write-Host "  profile ready: $Profile"
+} elseif ($Reproducible) {
+  Write-Host "  Skipping profile creation (reproducible mode)"
 }
 
 # ---------------------------------------------------------------- 7. zip
