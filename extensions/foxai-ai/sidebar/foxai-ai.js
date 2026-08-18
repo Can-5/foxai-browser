@@ -25,6 +25,8 @@ let providers = [];
 let chat = []; // [{ role, content }]
 
 const KEYLESS = new Set(["ollama"]);
+let ollamaModels = [];
+let ollamaAvailable = false;
 
 function saveCfg() {
   browser.storage.local.set({ cfg });
@@ -51,6 +53,51 @@ async function loadProviders() {
 
 function currentProvider() {
   return providers.find((p) => p.id === els.provider.value);
+}
+
+async function checkOllama() {
+  try {
+    const res = await fetch("http://localhost:11434/api/tags", { method: "GET", timeout: 2000 });
+    if (res.ok) {
+      const data = await res.json();
+      ollamaModels = (data.models || []).map((m) => m.name);
+      ollamaAvailable = true;
+    } else {
+      ollamaAvailable = false;
+      ollamaModels = [];
+    }
+  } catch (e) {
+    ollamaAvailable = false;
+    ollamaModels = [];
+  }
+  updateOllamaUI();
+}
+
+function updateOllamaUI() {
+  const p = currentProvider();
+  if (p && p.id === "ollama") {
+    els.model.innerHTML = "";
+    if (ollamaAvailable && ollamaModels.length > 0) {
+      for (const m of ollamaModels) {
+        const opt = document.createElement("option");
+        opt.value = m;
+        opt.textContent = m + " (local)";
+        els.model.appendChild(opt);
+      }
+      els.model.value = cfg.model && ollamaModels.includes(cfg.model) ? cfg.model : ollamaModels[0];
+    } else {
+      const opt = document.createElement("option");
+      opt.value = "";
+      opt.textContent = "Ollama not running — start: ollama serve";
+      els.model.appendChild(opt);
+    }
+    els.model.disabled = !ollamaAvailable;
+  }
+}
+
+async function checkAndRefreshOllama() {
+  await checkOllama();
+  fillModels();
 }
 
 function fillModels() {
@@ -236,11 +283,11 @@ document.querySelectorAll("[data-mode]").forEach((b) => {
   });
 });
 
-els.provider.addEventListener("change", () => {
+els.provider.addEventListener("change", async () => {
   cfg.provider = els.provider.value;
   cfg.model = "";
   saveCfg();
-  fillModels();
+  await checkAndRefreshOllama();
 });
 els.model.addEventListener("change", () => {
   cfg.model = els.model.value;
@@ -316,6 +363,7 @@ els.chatClear.addEventListener("click", () => {
   await loadCfg();
   await loadProviders();
   if (cfg.apiKey) els.apiKey.value = cfg.apiKey;
+  await checkAndRefreshOllama();
   await setEnabled(cfg.enabled);
   renderChat();
 })();

@@ -517,3 +517,49 @@ body {
   color: #22c55e;
   border: 1px solid color-mix(in srgb, #22c55e 40%, transparent);
 }
+
+.network-monitor {
+  margin-top: 6px;
+}
+.network-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.stat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  background: color-mix(in srgb, var(--surface) 90%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.stat-label {
+  font-size: 13px;
+  color: var(--text);
+  font-weight: 500;
+}
+.stat-value {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.stat-value.ok {
+  background: color-mix(in srgb, #22c55e 20%, transparent);
+  color: #22c55e;
+  border: 1px solid color-mix(in srgb, #22c55e 40%, transparent);
+}
+.stat-value.blocked {
+  background: color-mix(in srgb, #ef4444 20%, transparent);
+  color: #ef4444;
+  border: 1px solid color-mix(in srgb, #ef4444 40%, transparent);
+}
+.muted.small {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 8px;
+}

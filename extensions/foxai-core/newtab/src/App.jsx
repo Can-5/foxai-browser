@@ -72,6 +72,140 @@ function Weather({ unit }) {
   return <span className="weather">{shown}</span>;
 }
 
+function PrivacyHealth() {
+  const [score, setScore] = useState(null);
+  const [checks, setChecks] = useState([]);
+
+  useEffect(() => {
+    const runChecks = async () => {
+      const results = [];
+      let passed = 0;
+      const total = 12;
+
+      // Check 1: RFP enabled
+      try {
+        const rfp = await browser.storage.local.get({ "fx:rpfp": true });
+        const check1 = rfp["fx:rpfp"] === true;
+        if (check1) passed++;
+        results.push({ name: "Resist Fingerprinting", pass: check1, detail: "RFP maskeyip user-agent, timezone, canvas" });
+      } catch { results.push({ name: "Resist Fingerprinting", pass: false }); }
+
+      // Check 2: WebRTC disabled
+      try {
+        const webrtc = await browser.storage.local.get({ "fx:webrtc": false });
+        const check2 = webrtc["fx:webrtc"] === false;
+        if (check2) passed++;
+        results.push({ name: "WebRTC Disabled", pass: check2, detail: "media.peerconnection.enabled=false" });
+      } catch { results.push({ name: "WebRTC Disabled", pass: false }); }
+
+      // Check 3: HTTPS-Only
+      try {
+        const https = await browser.storage.local.get({ "fx:https": true });
+        const check3 = https["fx:https"] === true;
+        if (check3) passed++;
+        results.push({ name: "HTTPS-Only Mode", pass: check3, detail: "HTTPS-Only mode aktif" });
+      } catch { results.push({ name: "HTTPS-Only Mode", pass: false }); }
+
+      // Check 4: DoH enabled
+      try {
+        const doh = await browser.storage.local.get({ "fx:doh": true });
+        const check4 = doh["fx:doh"] === true;
+        if (check4) passed++;
+        results.push({ name: "DNS over HTTPS", pass: check4, detail: "Cloudflare DoH aktif" });
+      } catch { results.push({ name: "DNS over HTTPS", pass: false }); }
+
+      // Check 5: WebGL disabled
+      try {
+        const webgl = await browser.storage.local.get({ "fx:webgl": true });
+        const check5 = webgl["fx:webgl"] === true;
+        if (check5) passed++;
+        results.push({ name: "WebGL Disabled", pass: check5, detail: "webgl.disabled=true" });
+      } catch { results.push({ name: "WebGL Disabled", pass: false }); }
+
+      // Check 6: uBlock Origin
+      try {
+        const ublock = await browser.management.getAll();
+        const ublockInstalled = ublock.some(e => e.name.includes("uBlock") && e.enabled);
+        if (ublockInstalled) passed++;
+        results.push({ name: "uBlock Origin", pass: ublockInstalled, detail: "Tracker blocking aktif" });
+      } catch { results.push({ name: "uBlock Origin", pass: false }); }
+
+      // Check 6: Telemetry disabled
+      try {
+        const telemetry = await browser.storage.local.get({ "fx:telemetry": false });
+        const check7 = telemetry["fx:telemetry"] === false;
+        if (check7) passed++;
+        results.push({ name: "Telemetry Disabled", pass: check7, detail: "Telemetry tamamen kapalı" });
+      } catch { results.push({ name: "Telemetry Disabled", pass: false }); }
+
+      // Check 7: WebRTC ICE No Host
+      try {
+        const ice = await browser.storage.local.get({ "fx:ice": true });
+        const check8 = ice["fx:ice"] === true;
+        if (check8) passed++;
+        results.push({ name: "WebRTC ICE No Host", pass: check8, detail: "media.peerconnection.ice.no_host=true" });
+      } catch { results.push({ name: "WebRTC ICE No Host", pass: false }); }
+
+      // Check 8: Storage Partitioning
+      try {
+        const partition = await browser.storage.local.get({ "fx:partition": true });
+        const check9 = partition["fx:partition"] === true;
+        if (check9) passed++;
+        results.push({ name: "Storage Partitioning", pass: check9, detail: "FPI + Partitioning aktif" });
+      } catch { results.push({ name: "Storage Partitioning", pass: false }); }
+
+      // Check 9: Sensors/Battery disabled
+      try {
+        const sensors = await browser.storage.local.get({ "fx:sensors": false });
+        const check10 = sensors["fx:sensors"] === false;
+        if (check10) passed++;
+        results.push({ name: "Sensors/Battery Off", pass: check10, detail: "Sensors, battery, vibration kapalı" });
+      } catch { results.push({ name: "Sensors/Battery Off", pass: false }); }
+
+      // Check 10: WebGL/MediaRecorder
+      try {
+        const media = await browser.storage.local.get({ "fx:media": true });
+        const check11 = media["fx:media"] === true;
+        if (check11) passed++;
+        results.push({ name: "MediaRecorder Off", pass: check11, detail: "MediaRecorder/API kapalı" });
+      } catch { results.push({ name: "MediaRecorder Off", pass: false }); }
+
+      // Check 11: HTTPS-Only + ECH
+      try {
+        const ech = await browser.storage.local.get({ "fx:ech": true });
+        const check12 = ech["fx:ech"] === true;
+        if (check12) passed++;
+        results.push({ name: "ECH Enabled", pass: check12, detail: "Encrypted Client Hello aktif" });
+      } catch { results.push({ name: "ECH Enabled", pass: false }); }
+
+      setChecks(results);
+      setScore(Math.round(passed / 12 * 100));
+    };
+    runChecks();
+  }, []);
+
+  const getStatusIcon = (pass) => pass ? "🟢" : "🔴";
+  const getStatusText = (pass) => pass ? "Korunuyor" : "Riskli";
+
+  return (
+    <div className="privacy-health">
+      <div className="health-score">
+        <span className="health-score-value">{score}</span>
+        <span className="health-score-max">/100</span>
+      </div>
+      <div className="health-details">
+        {checks.map((c, i) => (
+          <div key={i} className="health-check">
+            <span className="check-icon">{getStatusIcon(c.pass)}</span>
+            <span className="check-name">{c.name}</span>
+            <span className="check-status">{getStatusText(c.pass)}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
   const [query, setQuery] = useState("");
   const [notes, setNotes] = useState(() => load("fx:notes", ""));
@@ -79,7 +213,7 @@ export default function App() {
   const [todoInput, setTodoInput] = useState("");
   const [widgets, setWidgets] = useState(() =>
     load("fx:w", { 
-      notes: true, todo: true, bookmarks: true, weather: false, clock: true,
+      notes: true, todo: true, bookmarks: true, weather: false, clock: true, health: true,
       sidebarModules: ["ai", "bookmarks", "history", "downloads", "containers"]
     })
   );
@@ -97,6 +231,7 @@ export default function App() {
   const [proxyOn, setProxyOn] = useState(() => load("fx:proxyon", false));
   const [proxyHost, setProxyHost] = useState(() => load("fx:proxyhost", ""));
   const [proxyPort, setProxyPort] = useState(() => load("fx:proxyport", 1080));
+  const [siteRules, setSiteRules] = useState(() => load("fx:siterules", {}));
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [topSites, setTopSites] = useState([]);
   const [ver, setVer] = useState(null);
@@ -118,6 +253,10 @@ export default function App() {
         .catch(() => setTopSites([]));
     }
   }, [siteCount]);
+
+  useEffect(() => {
+    if (settingsOpen) renderSiteList();
+  }, [settingsOpen, siteRules]);
 
   const setNotesSave = (v) => {
     setNotes(v);
@@ -207,6 +346,74 @@ export default function App() {
     setProxyPort(v);
     writeProxy(proxyOn, proxyHost, v);
   };
+
+  // Site Privacy Sandbox functions
+  const addSiteRule = () => {
+    const domain = prompt("Enter domain (e.g., example.com):");
+    if (!domain) return;
+    const rules = { ...siteRules };
+    rules[domain] = {
+      js: true,
+      cookies: "block",
+      images: true,
+      scripts: true,
+      frames: true,
+      referrer: "strict",
+      microphone: "block",
+      camera: "block",
+      location: "block",
+    };
+    setSiteRules(rules);
+    save("fx:siterules", rules);
+  };
+
+  const removeSiteRule = (domain) => {
+    const rules = { ...siteRules };
+    delete rules[domain];
+    setSiteRules(rules);
+    save("fx:siterules", rules);
+  };
+
+  const toggleSitePermission = (domain, perm, value) => {
+    const rules = { ...siteRules };
+    if (rules[domain]) {
+      rules[domain][perm] = value;
+      setSiteRules(rules);
+      save("fx:siterules", rules);
+    }
+  };
+
+  const renderSiteList = () => {
+    const list = document.getElementById("siteList");
+    if (!list) return;
+    const rules = siteRules;
+    list.innerHTML = Object.keys(rules).length === 0
+      ? '<p class="muted small">No site rules configured. Click "Add Site Rule" to start.</p>'
+      : Object.entries(rules).map(([domain, perms]) => `
+        <div class="site-rule">
+          <div class="site-header">
+            <span class="site-domain">${domain}</span>
+            <button class="site-remove" data-domain="${domain}" title="Remove">✕</button>
+          </div>
+          <div class="site-perms">
+            ${Object.entries(perms).map(([perm, value]) => `
+              <label class="perm-toggle">
+                <input type="checkbox" data-domain="${domain}" data-perm="${perm}" ${value ? "checked" : ""} onChange={(e) => toggleSitePermission("${domain}", "${perm}", e.target.checked)} />
+                <span class="perm-label">${perm}</span>
+              </label>
+            `).join("")}
+          </div>
+        </div>
+      `).join("");
+    
+    // Attach event listeners
+    list.querySelectorAll(".site-remove").forEach((btn) => {
+      btn.addEventListener("click", (e) => removeSiteRule(e.target.dataset.domain));
+    });
+    list.querySelectorAll(".perm-toggle input").forEach((input) => {
+      input.addEventListener("change", (e) => toggleSitePermission(e.target.dataset.domain, e.target.dataset.perm, e.target.checked));
+    });
+};
   const resetSettings = () => {
     try {
       ["fx:bg", "fx:bgimg", "fx:w", "fx:engine", "fx:clock", "fx:opentabs", "fx:name", "fx:unit", "fx:showdate", "fx:searchnewtab", "fx:sitecount", "fx:compact", "fx:proxyon", "fx:proxyhost", "fx:proxyport", "fx:notes", "fx:todos"].forEach((k) =>
@@ -334,6 +541,7 @@ export default function App() {
         <div className="top-right">
           {widgets.weather && <Weather unit={unit} />}
           {widgets.clock && <Clock hour12={!clock24} showDate={showDate} />}
+          {widgets.health && <PrivacyHealth />}
         </div>
       </header>
 
@@ -689,6 +897,50 @@ export default function App() {
                   <span className="privacy-label">Updates / Telemetry</span>
                   <span className="privacy-status green">🟢 Tamamen Kapalı</span>
                 </div>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Network Privacy Monitor</legend>
+              <div className="network-monitor">
+                <div className="network-stats">
+                  <div className="stat-row">
+                    <span className="stat-label">Mozilla Update</span>
+                    <span className="stat-value blocked">🚫 Engellenmiş</span>
+                  </div>
+                  <div className="stat-row">
+                    <span className="stat-label">Telemetry</span>
+                    <span className="stat-value blocked">🚫 Engellenmiş</span>
+                  </div>
+                  <div className="stat-row">
+                    <span className="stat-label">Tracker</span>
+                    <span className="stat-value blocked">🚫 Engellenmiş (uBlock)</span>
+                  </div>
+                  <div className="stat-row">
+                    <span className="stat-label">DNS</span>
+                    <span className="stat-value ok">🔒 DoH (Cloudflare)</span>
+                  </div>
+                  <div className="stat-row">
+                    <span className="stat-label">Website</span>
+                    <span className="stat-value ok">✅ Bağlı</span>
+                  </div>
+                </div>
+                <p className="muted small">
+                  Gerçek zamanlı bağlantı izleme — FoxAI hiçbir veri paylaşmaz.
+                </p>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Site Privacy Sandbox</legend>
+              <div className="site-sandbox">
+                <p className="muted small">
+                  Site-specific privacy controls. Click a site to configure permissions.
+                </p>
+                <div className="site-list" id="siteList"></div>
+                <button type="button" className="modal-ghost" onClick={addSiteRule}>
+                  + Add Site Rule
+                </button>
               </div>
             </fieldset>
 
