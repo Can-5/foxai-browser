@@ -97,6 +97,31 @@ jobs:
         run: |
           .\tests\run-all.ps1
 
+      - name: Run privacy regression test
+        shell: pwsh
+        working-directory: ${{ github.workspace }}
+        run: |
+          $Root = "${{ github.workspace }}"
+          $Runtime = "$Root\firefox-foxai\runtime\firefox.exe"
+          $Profile = "$Root\firefox-foxai\profile\foxai"
+          $env:MOZ_DISABLE_CONTENT_SANDBOX = "1"
+          $env:MOZ_DISABLE_GMP_SANDBOX = "1"
+          $env:MOZ_DISABLE_RDD_SANDBOX = "1"
+          $env:MOZ_DISABLE_SOCKET_PROCESS = "1"
+          Get-Process firefox -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+          Start-Sleep 2
+          $p = Start-Process -FilePath $Runtime -ArgumentList "-profile `"$Profile`" -no-remote -headless --remote-debugging-port=9223 about:blank" -PassThru
+          Start-Sleep 15
+          & "$Root\tests\test-privacy-regression.ps1" -Port 9223
+          Get-Process firefox -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+
+      - name: Run supply-chain verification
+        shell: pwsh
+        working-directory: ${{ github.workspace }}
+        run: |
+          .\scripts\verify-supply-chain.ps1 -Generate
+          .\scripts\verify-supply-chain.ps1 -Verify
+
       - name: Upload release artifacts
         if: github.event_name == 'release' && github.event.action == 'published'
         uses: actions/upload-release-asset@v1
