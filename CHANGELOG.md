@@ -1,5 +1,17 @@
 # Changelog
 
+## v2.1.1 (2026-08-14)
+
+**Maintenance release** — uBlock Origin 1.73.0 pinned, Firefox ESR 153.0 base, minor fixes.
+
+### Fixed
+- uBlock Origin pinned to 1.73.0 (reproducible build compatibility)
+- Firefox ESR 153.0 base maintained
+- Minor build script improvements
+
+### Changed
+- Version bumped to 2.1.1 (all extensions + release zip `FoxAI-Browser-v2.1.1.zip`)
+
 ## v2.0.0 (2026-08-14)
 
 **Major Milestone: Complete Privacy Architecture.** All core privacy systems operational and verified.

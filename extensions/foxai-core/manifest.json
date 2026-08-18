@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "FoxAI Start",
-  "version": "2.0.0",
+  "version": "2.1.1",
   "description": "FoxAI new tab page and browser settings.",
   "browser_specific_settings": {
     "gecko": {
