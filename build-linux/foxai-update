@@ -1,0 +1,219 @@
+#!/bin/bash
+# foxai-update - Check for and install FoxAI Browser updates on Linux
+
+set -euo pipefail
+
+# Configuration
+REPO="Can-5/foxai-browser"
+VERSION_FILE="version.txt"
+REPO_API="https://api.github.com/repos/${REPO}/releases/latest"
+
+# Resolve script directory
+SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
+ROOT_DIR="$(dirname "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")")"
+VERSION_FILE_PATH="${ROOT_DIR}/${VERSION_FILE}"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+log() { echo -e "${BLUE}==>${NC} $1"; }
+success() { echo -e "${GREEN}✓${NC} $1"; }
+warn() { echo -e "${YELLOW}!${NC} $1"; }
+error() { echo -e "${RED}✗${NC} $1" >&2; }
+
+# Get local version
+get_local_version() {
+    if [[ -f "${VERSION_FILE_PATH}" ]]; then
+        cat "${VERSION_FILE_PATH}" | tr -d '\n\r'
+    else
+        echo "0.0.0"
+    fi
+}
+
+# Get latest release info from GitHub
+get_latest_release() {
+    local response
+    response=$(curl -s -H "User-Agent: foxai-launcher" -H "Accept: application/vnd.github.v3+json" "${REPO_API}") || {
+        echo "Failed to fetch release info from GitHub" >&2
+        return 1
+    }
+    
+    local tag_name
+    tag_name=$(echo "${response}" | grep -o '"tag_name"[[:space:]]*:[[:space:]]*"[^"]*"' | head -1 | cut -d'"' -f4)
+    
+    local asset_url
+    asset_url=$(echo "${response}" | grep -o '"browser_download_url"[[:space:]]*:[[:space:]]*"[^"]*linux[^"]*\.tar\.gz"' | head -1 | cut -d'"' -f4)
+    
+    local asset_name
+    asset_name=$(echo "${response}" | grep -o '"name"[[:space:]]*:[[:space:]]*"[^"]*linux[^"]*\.tar\.gz"' | head -1 | cut -d'"' -f4)
+    
+    if [[ -z "${tag_name}" || -z "${asset_url}" ]]; then
+        echo "Failed to parse release info" >&2
+        return 1
+    fi
+    
+    # Remove 'v' prefix if present
+    local version="${tag_name#v}"
+    
+    echo "${version}|${asset_url}|${asset_name}"
+}
+
+# Compare versions (returns 1 if v1 > v2, 0 if equal, -1 if v1 < v2)
+version_compare() {
+    local v1="$1" v2="$2"
+    if [[ "${v1}" == "${v2}" ]]; then
+        echo 0
+        return
+    fi
+    
+    local IFS=.
+    local v1_parts=(${v1//./ }) v2_parts=(${v2//./ })
+    local max_len=$((${#v1_parts[@]} > ${#v2_parts[@]} ? ${#v1_parts[@]} : ${#v2_parts[@]}))
+    
+    for ((i=0; i<max_len; i++)); do
+        local p1=${v1_parts[i]:-0}
+        local p2=${v2_parts[i]:-0}
+        # Remove non-numeric suffixes
+        p1=${p1%%[^0-9]*}
+        p2=${p2%%[^0-9]*}
+        if (( p1 > p2 )); then echo 1; return
+        elif (( p1 < p2 )); then echo -1; return
+        fi
+    done
+    echo 0
+}
+
+# Main update function
+update() {
+    log "Checking for updates..."
+    
+    local local_version
+    local_version=$(get_local_version)
+    echo "Current version: ${local_version}"
+    
+    local release_info
+    release_info=$(get_latest_release) || {
+        error "Failed to get latest release info"
+        return 1
+    }
+    
+    IFS='|' read -r latest_version asset_url asset_name <<< "${release_info}"
+    echo "Latest version:  ${latest_version}"
+    
+    local cmp
+    cmp=$(version_compare "${latest_version}" "${local_version}")
+    
+    if [[ ${cmp} -le 0 ]]; then
+        success "FoxAI Browser is up to date (v${local_version})"
+        return 0
+    fi
+    
+    warn "Update available: v${latest_version}"
+    
+    # Check if Firefox is running
+    if pgrep -f "firefox.*foxai" > /dev/null; then
+        read -p "FoxAI Browser is running. Close it and continue? [y/N] " -n 1 -r
+        echo
+        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+            warn "Update cancelled"
+            return 1
+        fi
+        pkill -f "firefox.*foxai" || true
+        sleep 2
+    fi
+    
+    # Download update
+    log "Downloading v${latest_version}..."
+    local tmp_dir
+    tmp_dir=$(mktemp -d -t foxai-update-XXXXXX)
+    trap 'rm -rf "${tmp_dir}"' EXIT
+    
+    local zip_path="${tmp_dir}/FoxAI-Browser-v${latest_version}-linux-x86_64.tar.gz"
+    
+    log "Downloading ${asset_name}..."
+    if ! wget -q --show-progress -O "${tmp_dir}/${asset_name}" "${asset_url}"; then
+        error "Download failed"
+        return 1
+    fi
+    
+    # Verify download
+    log "Verifying download..."
+    if [[ ! -f "${tmp_dir}/${asset_name}" ]] || [[ ! -s "${tmp_dir}/${asset_name}" ]]; then
+        error "Downloaded file is empty or missing"
+        return 1
+    fi
+    
+    # Extract and replace
+    log "Installing update..."
+    local root_dir
+    root_dir=$(dirname "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")")
+    
+    # Stop any running Firefox
+    pkill -f "firefox.*foxai" 2>/dev/null || true
+    sleep 2
+    
+    # Backup current installation
+    local backup_dir="$(dirname "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")").backup.$(date +%s)"
+    cp -r "$(dirname "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")")/firefox-foxai" "${backup_dir}" 2>/dev/null || true
+    
+    # Extract new version
+    tar -xzf "${tmp_dir}/FoxAI-Browser-v${latest_version}-linux-x86_64.tar.gz" -C "$(dirname "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")")"
+    
+    # Update version file
+    echo "${latest_version}" > "$(dirname "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")")/version.txt"
+    
+    success "Updated to v${latest_version}"
+    log "You can now start FoxAI Browser with ./foxai-browser"
+    
+    # Cleanup old backup after successful update
+    rm -rf "${backup_dir}" 2>/dev/null || true
+}
+
+# Check-only mode
+check_only() {
+    local local_version
+    local_version=$(get_local_version)
+    echo "Current version: ${local_version}"
+    
+    local release_info
+    release_info=$(get_latest_release) || {
+        error "Failed to get latest release info"
+        return 1
+    }
+    
+    IFS='|' read -r latest_version asset_url asset_name <<< "${release_info}"
+    echo "Latest version:  ${latest_version}"
+    
+    local cmp
+    cmp=$(version_compare "${latest_version}" "$(get_local_version)")
+    
+    if [[ ${cmp} -gt 0 ]]; then
+        warn "Update available: v${latest_version}"
+        return 1
+    else
+        success "FoxAI Browser is up to date"
+        return 0
+    fi
+}
+
+# Show version
+show_version() {
+    get_local_version
+}
+
+# Main
+case "${1:-}" in
+    --check|-c)
+        check_only
+        ;;
+    --version|-v)
+        show_version
+        ;;
+    *)
+        update
+        ;;
+esac

@@ -1,5 +1,42 @@
 # Changelog
 
+## v3.0.0 (2026-08-24)
+
+**🚀 FoxAI One — Mega Release.** 9 güncelleme tek pakette: mükemmel parmak izi, isteğe bağlı Tor ağı ve 7 ek iyileştirme.
+
+### v2.7.0 — Perfect Fingerprint (100%)
+- **Deterministic RFP**: Canvas randomization kapalı → klasik beyaz canvas, her oturumda birebir aynı
+- Letterboxing kapatıldı, pencere metrikleri sabitlendi (1600×900 cap)
+- Timezone UTC'ye kilitlendi
+- Benchmark hedefi: **100/100** (instance'lar arası %100 benzerlik)
+
+### v2.8.0 — Tor Mode (Opt-in)
+- **`FoxAI Tor.cmd`** ile tarayıcı tüm trafiği Tor üzerinden geçirir
+- SOCKS5 proxy `127.0.0.1:9050`, **DNS sızıntısı imkânsız** (`socks_remote_dns`)
+- Tor daemon yoksa otomatik başlatır; yoksa `scripts/install-tor.ps1` ile tek komutla kurulur
+- Normal mod ↔ Tor modu geçişi: launcher profil user.js'ini otomatik değiştirir
+
+### v2.9.0 — Containers Pro
+- Container sekmeleri tam aktif (+UI), uzun basma menüsü
+
+### v2.10.0 — Media Lockdown
+- Autoplay tamamen kapalı, kamera/mikrofon/konum/bildirim izinleri default **deny**
+
+### v2.11.0 — Download Safety
+- Yeni dosya tiplerinde indirme öncesi sor, PDF inline açma kapalı
+
+### v2.12.0 — Search Privacy
+- URL bar motor önerileri boş, private sekmede arama önerisi kapalı
+
+### v2.13.0 — Gestures v2
+- `gestures.json`: 9 hareket + trail rengi/hassasiyet ayarları
+
+### v2.14.0 — Startup Guard
+- Boş sayfa start, çökme sonrası oturum geri yükleme yok, kapalı sekmeler 1 gün sonra silinir
+
+### v3.0.0 — FoxAI One
+- Tüm bileşenler v3.0.0'a yükseltildi; kararlı sürüm ilanı
+
 ## v2.6.0 (2026-08-24)
 
 **🛡️ Security Fortress** — İleri seviye güvenlik sertleştirmesi.

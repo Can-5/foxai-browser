@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "description": "FoxAI Gestures v2 - sensitivity and action presets",
+  "settings": {
+    "sensitivity": "medium",
+    "trailColor": "#5b9dff",
+    "trailWidth": 3,
+    "trailOpacity": 0.85,
+    "rockerGestures": true,
+    "disableOnInputs": true
+  },
+  "gestures": {
+    "left": "back",
+    "right": "forward",
+    "up": "newtab",
+    "down": "closetab",
+    "updown": "reload",
+    "rightleft": "reopenClosedTab",
+    "downright": "closeOtherTabs",
+    "leftup": "previousTab",
+    "leftright": "nextTab"
+  }
+}

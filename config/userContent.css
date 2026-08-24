@@ -1,0 +1,12 @@
+﻿
+/* ============================================================
+   FoxAI v2.4.0 - Dark Content Pages
+   ============================================================ */
+@namespace url("http://www.w3.org/1999/xhtml");
+
+@-moz-document url(about:blank), url(about:newtab) {
+  html, body {
+    background: #16161a !important;
+    color: #e4e4e8 !important;
+  }
+}

@@ -1,0 +1,149 @@
+/* FoxAI Browser - Complete Dark Theme for LibreWolf 154 / Firefox 153+ */
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+/* ===== TAB BAR ===== */
+#TabsToolbar {
+  background: #1a1a1c !important;
+  border-bottom: 1px solid #3d3d42 !important;
+}
+
+/* All tabs */
+.tabbrowser-tab {
+  background: #1a1a1c !important;
+}
+
+.tabbrowser-tab .tab-background {
+  background: #1a1a1c !important;
+  border: 1px solid #3d3d42 !important;
+  border-bottom: none !important;
+  border-radius: 4px 4px 0 0 !important;
+}
+
+/* Active tab */
+.tabbrowser-tab[selected="true"] {
+  background: #151517 !important;
+}
+
+.tabbrowser-tab[selected="true"] .tab-background {
+  background: #151517 !important;
+  border: 1px solid #4a90d9 !important;
+  border-bottom: none !important;
+  border-radius: 4px 4px 0 0 !important;
+  box-shadow: inset 0 2px 0 #4a90d9 !important;
+}
+
+.tabbrowser-tab[selected="true"] .tab-label {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+/* Inactive tab text */
+.tabbrowser-tab:not([selected="true"]) .tab-label {
+  color: #a0a0a0 !important;
+}
+
+/* Hover inactive */
+.tabbrowser-tab:not([selected="true"]):hover .tab-background {
+  background: #232326 !important;
+}
+
+/* Close button */
+.tabbrowser-tab .tab-close-button {
+  fill: #a0a0a0 !important;
+  opacity: 0.7 !important;
+}
+
+.tabbrowser-tab:hover .tab-close-button {
+  fill: #ff5555 !important;
+  opacity: 1 !important;
+}
+
+/* New tab button */
+#tabs-newtab-button {
+  fill: #a0a0a0 !important;
+}
+
+#tabs-newtab-button:hover {
+  fill: #ffffff !important;
+  background: #3d3d42 !important;
+  border-radius: 4px !important;
+}
+
+/* Loading indicator */
+.tabbrowser-tab[busy] .tab-throbber {
+  fill: #4a90d9 !important;
+}
+
+/* ===== TOOLBARS ===== */
+#nav-bar,
+#PersonalToolbar {
+  background: #1a1a1c !important;
+  border-bottom: 1px solid #3d3d42 !important;
+}
+
+/* ===== URL BAR ===== */
+#urlbar,
+#searchbar {
+  background: #151517 !important;
+  border: 1px solid #3d3d42 !important;
+  border-radius: 4px !important;
+  color: #ffffff !important;
+}
+
+#urlbar:focus-within,
+#searchbar:focus-within {
+  border-color: #4a90d9 !important;
+  box-shadow: 0 0 0 1px #4a90d9 !important;
+}
+
+/* ===== CONTEXT MENUS ===== */
+menupopup {
+  background: #1a1a1c !important;
+  border: 1px solid #3d3d42 !important;
+}
+
+menuitem:hover, menu:hover {
+  background: #3d3d42 !important;
+}
+
+/* ===== SIDEBAR ===== */
+#sidebar-box {
+  background: #151517 !important;
+  border-right: 1px solid #3d3d42 !important;
+}
+
+/* ===== SCROLLBARS ===== */
+scrollbar {
+  background: #151517 !important;
+}
+
+scrollbar thumb {
+  background: #4a4a50 !important;
+  border-radius: 4px !important;
+}
+
+scrollbar thumb:hover {
+  background: #5a5a60 !important;
+}
+
+/* ===== WINDOW ===== */
+:root {
+  --tab-min-height: 32px !important;
+  --lwt-accent-color: #4a90d9 !important;
+  --lwt-text-color: #ffffff !important;
+  --lwt-toolbar-field-background-color: #151517 !important;
+  --lwt-toolbar-field-border-color: #3d3d42 !important;
+  --lwt-toolbar-field-focus-border-color: #4a90d9 !important;
+  --lwt-tab-text-color: #a0a0a0 !important;
+  --lwt-selected-tab-text-color: #ffffff !important;
+  --lwt-tab-background-color: #1a1a1c !important;
+  --lwt-selected-tab-background-color: #151517 !important;
+  --lwt-toolbar-background-color: #1a1a1c !important;
+  --lwt-toolbar-border-color: #3d3d42 !important;
+}
+
+/* Remove tab separators */
+.tabbrowser-tab::before,
+.tabbrowser-tab::after {
+  display: none !important;
+}

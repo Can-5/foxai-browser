@@ -1,6 +1,6 @@
-# test-fingerprint-benchmark.ps1 — Fingerprint similarity benchmark
-# Measures how similar FoxAI instances are (higher similarity = better privacy)
-# Compares multiple browser instances and calculates similarity scores.
+﻿# test-fingerprint-benchmark.ps1 - FoxAI v3.0.0
+# Similarity: instance'lar arasi ozdeslik (canvas haric - tasarim geregi rastgele)
+# Canvas Entropy: canvas izi instance'lar arasi FARKLI olmali (cross-session tracking engeli)
 
 param([string]$Port = "9223", [int]$Instances = 3)
 $ErrorActionPreference = "Stop"
@@ -10,6 +10,7 @@ $Root = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 
 function Get-Fingerprint($port) {
   $s = Connect-Bidi $port
+  Navigate $s.Ws $s.Ctx "https://example.com/" 2500
   $fp = Eval-Str $s.Ws 1 $s.Ctx @'
 (async () => {
   const out = {};
@@ -53,30 +54,27 @@ function Compare-Fingerprints($fp1, $fp2) {
   $matches = 0
   $total = 0
   foreach ($prop in $fp1.PSObject.Properties) {
+    if ($prop.Name -eq "canvasHash") { continue }  # v3.0.0: tasarim geregi rastgele
     $total++
     $v1 = $prop.Value
     $v2 = $fp2.$($prop.Name)
-    if ($v1 -eq $v2) { $matches++ }
+    if ("$v1" -eq "$v2") { $matches++ }
   }
   if ($total -eq 0) { return 0.0 }
   $culture = [System.Globalization.CultureInfo]::InvariantCulture
   return [double]::Parse([math]::Round($matches / $total * 100, 1).ToString($culture), $culture)
 }
 
-Write-Host "=== Fingerprint Similarity Benchmark ==="
+Write-Host "=== Fingerprint Benchmark v3.0.0 ==="
 Write-Host "Starting $Instances headless instances..."
 
 $ports = @()
 $procs = @()
-$profiles = @()
 for ($i = 0; $i -lt $Instances; $i++) {
   $p = 9223 + $i
   $ports += $p
-  $Root = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
   $Runtime = "$Root\firefox-foxai\runtime\firefox.exe"
-  # Create unique profile for each instance
   $Profile = "$Root\firefox-foxai\profile\foxai-bench-$i"
-  $profiles += $Profile
   if (-not (Test-Path $Profile)) {
     New-Item -ItemType Directory -Force -Path $Profile | Out-Null
     Copy-Item "$Root\config\user.js" "$Profile\user.js" -Force
@@ -103,34 +101,39 @@ for ($idx = 0; $idx -lt $ports.Count; $idx++) {
   }
 }
 
-# Cleanup
 foreach ($proc in $procs) {
   if (-not $proc.HasExited) { Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue }
 }
-Get-Process firefox -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+Get-Process firefox -ErrorAction SilentlyContinue | Where-Object {$_.Path -like "*firefox-foxai*"} | Stop-Process -Force -ErrorAction SilentlyContinue
 
 if ($fingerprints.Count -lt 2) {
   Write-Host "Need at least 2 instances for comparison" -ForegroundColor Red
   exit 1
 }
 
+# ---- Canvas Entropy (linkability korumasi) ----
+$hashes = @($fingerprints | ForEach-Object { $_.canvasHash })
+$unique = ($hashes | Sort-Object -Unique).Count
+if ($unique -eq $hashes.Count) {
+  Write-Host ""
+  Write-Host "CANVAS ENTROPY: PASS ($unique/$($hashes.Count) unique - cross-session tracking blocked)" -ForegroundColor Green
+} else {
+  Write-Host ""
+  Write-Host "CANVAS ENTROPY: FAIL ($unique/$($hashes.Count) unique)" -ForegroundColor Red
+}
+
 Write-Host ""
-Write-Host "=== Pairwise Similarity Matrix ==="
+Write-Host "=== Pairwise Similarity Matrix (canvas haric) ==="
 $n = $fingerprints.Count
 
-# Build similarity matrix - compute all pairs directly
 $matrix = New-Object 'object[,]' $n, $n
 for ($i = 0; $i -lt $n; $i++) {
   for ($j = 0; $j -lt $n; $j++) {
-    if ($i -eq $j) { 
-      $matrix[$i,$j] = 100.0 
-    } else {
-      $matrix[$i,$j] = [double](Compare-Fingerprints $fingerprints[$i] $fingerprints[$j])
-    }
+    if ($i -eq $j) { $matrix[$i,$j] = 100.0 }
+    else { $matrix[$i,$j] = [double](Compare-Fingerprints $fingerprints[$i] $fingerprints[$j]) }
   }
 }
 
-# Print matrix (use invariant culture for decimal separator)
 $culture = [System.Globalization.CultureInfo]::InvariantCulture
 Write-Host "       " -NoNewline
 for ($j = 0; $j -lt $n; $j++) { Write-Host "  Inst$j" -NoNewline }
@@ -144,7 +147,6 @@ for ($i = 0; $i -lt $n; $i++) {
   Write-Host ""
 }
 
-# Average similarity (off-diagonal)
 $sum = 0.0; $count = 0
 for ($i = 0; $i -lt $n; $i++) {
   for ($j = $i + 1; $j -lt $n; $j++) {
@@ -156,12 +158,11 @@ if ($count -gt 0) {
   $avg = [math]::Round($sum / $count, 1)
   Write-Host ""
   Write-Host "=== Average Similarity: $($avg.ToString('N1', $culture))% ==="
-  if ($avg -ge 95) { Write-Host "EXCELLENT: Fingerprints nearly identical (ideal for privacy)" -ForegroundColor Green }
-  elseif ($avg -ge 85) { Write-Host "GOOD: High similarity (good privacy)" -ForegroundColor Yellow }
-  else { Write-Host "POOR: Low similarity (users distinguishable)" -ForegroundColor Red }
+  if ($avg -ge 99.9) { Write-Host "PERFECT: Fingerprints identical across instances (100/100)" -ForegroundColor Green }
+  elseif ($avg -ge 95) { Write-Host "EXCELLENT: Fingerprints nearly identical" -ForegroundColor Green }
+  else { Write-Host "POOR: Low similarity" -ForegroundColor Red }
 }
 
-# Also output individual fingerprint differences
 Write-Host ""
 Write-Host "=== Key Fingerprint Values (Instance 0) ==="
 $fp0 = $fingerprints[0]

@@ -17,3 +17,12 @@ _salvage/
 *.log
 .DS_Store
 Thumbs.db
+
+librewolf/
+FirefoxSetup*.exe
+*.msi
+temp-omni*
+firefox-foxai/tor/
+release/stage-*
+librewolf-portable.zip
+*.zip

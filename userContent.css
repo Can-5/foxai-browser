@@ -1,0 +1,30 @@
+/* FoxAI Browser - Dark New Tab / About Pages */
+@namespace url("http://www.w3.org/1999/xhtml");
+
+@-moz-document url(about:blank), url(about:newtab), url(about:home) {
+  html, body {
+    background: #1a1a1c !important;
+    color: #ffffff !important;
+  }
+  
+  /* Remove any white backgrounds */
+  * {
+    background-color: transparent !important;
+  }
+  
+  html {
+    background: #1a1a1c !important;
+  }
+  
+  body {
+    background: #1a1a1c !important;
+  }
+}
+
+/* Also apply to about:about and other internal pages */
+@-moz-document url-prefix(about:) {
+  html, body {
+    background: #1a1a1c !important;
+    color: #ffffff !important;
+  }
+}

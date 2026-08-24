@@ -1,4 +1,4 @@
-﻿// FoxAI Browser - locked defaults (firefox.cfg equivalent loaded from defaults\pref\foxai.cfg)
+// FoxAI Browser - locked defaults (firefox.cfg equivalent loaded from defaults\pref\foxai.cfg)
 pref("xpinstall.signatures.required", false);
 pref("extensions.installDistroAddons", true);
 pref("extensions.autoDisableScopes", 0);
@@ -248,35 +248,3 @@ pref("browser.safebrowsing.provider.google4.dataSharingURL", "");
 pref("browser.safebrowsing.malware.enabled", false);
 pref("browser.safebrowsing.phishing.enabled", false);
 pref("browser.safebrowsing.downloads.enabled", false);
-
-// ============================================================
-// v2.2.0 â€” Privacy Shield v2
-// ============================================================
-pref("privacy.query_stripping.enabled", true);
-pref("privacy.globalprivacycontrol.enabled", true);
-pref("cookiebanners.service.mode", 1);
-pref("canvas.capturestream.enabled", false);
-pref("media.webspeech.synth.enabled", false);
-pref("privacy.antitracking.isolateContentScriptResources", true);
-
-// ============================================================
-// v2.6.0 â€” Security Fortress
-// ============================================================
-pref("security.tls.version.enable-deprecated", false);
-pref("security.ssl.require_safe_negotiation", true);
-pref("security.pki.crlite_mode", 2);
-pref("fission.autostart", true);
-pref("pdfjs.enableScripting", false);
-pref("security.enterprise_roots.enabled", false);
-
-
-// ============================================================
-// v2.7.0 - Perfect Fingerprint 100%
-pref("privacy.window.maxInnerWidth", 1600);
-pref("privacy.window.maxInnerHeight", 900);
-pref("privacy.resistFingerprinting.timezone", "UTC");
-
-
-// v2.7.0 FIX: canvas randomization kapali
-pref("privacy.resistFingerprinting.randomization.canvas.use", false);
-pref("privacy.resistFingerprinting.randomization.daily", false);

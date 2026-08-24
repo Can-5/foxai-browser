@@ -1,4 +1,4 @@
-﻿// FoxAI Browser - profile overrides (copied to profile\foxai\user.js by build.ps1)
+// FoxAI Browser - profile overrides (copied to profile\foxai\user.js by build.ps1)
 user_pref("xpinstall.signatures.required", false);
 user_pref("extensions.installDistroAddons", true);
 user_pref("extensions.autoDisableScopes", 0);
@@ -45,7 +45,7 @@ user_pref("privacy.resistFingerprinting", true);
 user_pref("privacy.resistFingerprinting.pbmode", true);
 user_pref("privacy.resistFingerprinting.reduceTimerPrecision", true);
 user_pref("privacy.resistFingerprinting.autoDeclineNoUserInputCanvasPrompts", true);
-user_pref("privacy.resistFingerprinting.letterboxing", false);
+user_pref("privacy.resistFingerprinting.letterboxing", true);
 user_pref("privacy.trackingprotection.emailtracking.enabled", true);
 user_pref("network.cookie.cookieBehavior", 5);
 user_pref("privacy.sanitize.sanitizeOnShutdown", true);
@@ -245,7 +245,7 @@ user_pref("privacy.resistFingerprinting", true);
 user_pref("privacy.resistFingerprinting.pbmode", true);
 user_pref("privacy.resistFingerprinting.reduceTimerPrecision", true);
 user_pref("privacy.resistFingerprinting.autoDeclineNoUserInputCanvasPrompts", true);
-user_pref("privacy.resistFingerprinting.letterboxing", false);
+user_pref("privacy.resistFingerprinting.letterboxing", true);
 user_pref("privacy.resistFingerprinting.randomDataNoise.enabled", true);
 
 # RFP: force consistent hardware concurrency (clamp to 2)
@@ -362,204 +362,3 @@ user_pref("browser.safebrowsing.downloads.enabled", false);
  #   W i n d o w   t i t l e  
  u s e r _ p r e f ( " b r o w s e r . t i t l e b a r . s h o w " ,   t r u e ) ;  
  
-// ============================================================
-// v2.2.0 â€” Privacy Shield v2
-// ============================================================
-
-# Query stripping (Brave list)
-user_pref("privacy.query_stripping.strip_list", "__hsfp __hssc __hstc __s _bhlid _branch_match_id _gl _hsenc _openstat fbclid gclid mc_eid msclkid ttclid twclid yclid");
-user_pref("privacy.query_stripping.enabled", true);
-user_pref("privacy.query_stripping.enabled.pbmode", true);
-
-# Global Privacy Control (GPC)
-user_pref("privacy.globalprivacycontrol.enabled", true);
-user_pref("privacy.globalprivacycontrol.pbmode.enabled", true);
-user_pref("privacy.globalprivacycontrol.functionality.enabled", true);
-
-# Cookie banner auto-reject
-user_pref("cookiebanners.service.mode", 1);
-user_pref("cookiebanners.service.mode.privateBrowsing", 1);
-
-# Anti-fingerprint: canvas/WebGL/AudioContext
-user_pref("canvas.capturestream.enabled", false);
-user_pref("canvas.focusprompt.enabled", false);
-user_pref("gfx.webrender.software", false);
-user_pref("dom.webaudio.enabled", true);
-user_pref("media.webspeech.synth.enabled", false);
-
-# Tracker isolation
-user_pref("privacy.antitracking.isolateContentScriptResources", true);
-user_pref("privacy.trackingprotection.allow_list.baseline.enabled", true);
-user_pref("privacy.trackingprotection.allow_list.convenience.enabled", true);
-
-# Referrer + hyperlink auditing
-user_pref("network.http.referer.XOriginTrimmingPolicy", 2);
-user_pref("network.http.referer.hideReferrerControlledTransition", true);
-user_pref("browser.send_to_device_locales", "");
-
-# Local Network Access protection
-user_pref("network.lna.enabled", true);
-
-// ============================================================
-// v2.3.0 â€” Performance Turbo
-// ============================================================
-
-# Startup boost
-user_pref("browser.startup.preXulSkeletonUI", true);
-user_pref("browser.startup.homepage_override.mstone", "ignore");
-user_pref("toolkit.telemetry.reportingpolicy.firstRun", false);
-user_pref("browser.shell.skipDefaultBrowserCheckOnFirstRun", true);
-user_pref("browser.sessionstore.resume_session_once", false);
-
-# Content process tuning (daha az RAM, hÄ±zlÄ± sekme)
-user_pref("dom.ipc.processCount", 8);
-user_pref("dom.ipc.keepProcessAliveInBackground", 5);
-user_pref("dom.ipc.processCount.webLargeAllocation", 4);
-
-# JS engine turbo
-user_pref("javascript.options.mem.gc_incremental_slice_ms", 10);
-user_pref("javascript.options.mem.high_water_mark", 128);
-user_pref("javascript.options.parallel_parsing", true);
-user_pref("javascript.options.streams", true);
-user_pref("javascript.options.offthread_compilation", true);
-user_pref("javascript.options.speculation", true);
-user_pref("javascript.options.warp_builder", true);
-
-# Network turbo
-user_pref("network.buffer.cache.size", 262144);
-user_pref("network.buffer.cache.count", 24);
-user_pref("network.http.max-urgent-start-excessive-connections-per-host", 5);
-user_pref("network.http.pacing.requests.min-parallelism", 10);
-user_pref("network.dnsCacheEntries", 2000);
-user_pref("network.dnsCacheExpiration", 3600);
-user_pref("network.ssl_tokens_cache_capacity", 20480);
-
-# Render turbo
-user_pref("gfx.content.skia-font-cache-size", 32);
-user_pref("layout.css.backdrop-filter.enabled", true);
-user_pref("image.cache.size", 10485760);
-user_pref("media.memory_caches_combined_limit_kb", 1048576);
-user_pref("media.memory_cache_max_size", 16384);
-
-# Memory management
-user_pref("browser.low_commit_space_threshold_mb", 256);
-user_pref("browser.tabs.unloadOnLowMemory", true);
-user_pref("browser.low_commit_space_threshold_pct", 75);
-
-// ============================================================
-// v2.4.0 â€” Dark UI Complete
-// ============================================================
-user_pref("browser.theme.content-theme", 2);
-user_pref("browser.theme.toolbar-theme", 2);
-user_pref("layout.css.prefers-color-scheme.content-override", 2);
-user_pref("ui.systemUsesDarkTheme", 1);
-user_pref("extensions.activeThemeID", "firefox-compact-dark@mozilla.org");
-user_pref("browser.uidensity", 1);
-user_pref("browser.compactmode.show", true);
-user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
-user_pref("sidebar.verticalTabs", true);
-
-// ============================================================
-// v2.6.0 â€” Security Fortress
-// ============================================================
-
-# TLS/SSL sertleÅŸtirme
-user_pref("security.tls.version.enable-deprecated", false);
-user_pref("security.ssl.require_safe_negotiation", true);
-user_pref("security.ssl.treat_unsafe_negotiation_as_broken", true);
-user_pref("security.pki.crlite_mode", 2);
-user_pref("security.remote_settings.crlite_filters.enabled", true);
-user_pref("security.OCSP.enabled", 1);
-user_pref("security.OCSP.require", true);
-
-# Site isolation
-user_pref("fission.autostart", true);
-user_pref("security.sandbox.gpu.level", 1);
-user_pref("dom.ipc.processCount.isolatedWebCoalesced", 1);
-
-# Sertifikalar
-user_pref("security.enterprise_roots.enabled", false);
-user_pref("security.certerrors.mitm.auto_enable_enterprise_roots", false);
-user_pref("security.cert_pinning.enforcement_level", 2);
-
-# PDF + download guvenligi
-user_pref("pdfjs.enableScripting", false);
-user_pref("pdfjs.enableXfa", false);
-user_pref("browser.helperApps.deleteTempFileOnExit", true);
-user_pref("browser.download.alwaysOpenPanel", false);
-
-# HTTP auth korumasi
-user_pref("network.auth.subresource-http-auth-allow", 1);
-user_pref("network.auth.prompt-auth-with-ring-on-ui", false);
-
-# Punycode + spoofing korumasi
-user_pref("network.IDN_show_punycode", true);
-user_pref("browser.urlbar.trimURLs", false);
-user_pref("security.dialog_enable_delay", 1000);
-
-# Remote debugging kapali
-user_pref("devtools.debugger.remote-enabled", false);
-user_pref("devtools.chrome.enabled", false);
-user_pref("extensions.webextensions.background-delayed-startup", false);
-
-
-// ============================================================
-// v2.7.0 - Perfect Fingerprint 100%
-// Deterministik RFP: tum instance'lar birebir ayni iz birakir.
-# Canvas randomization kapali -> klasik RFP (bembeyaz canvas, her yerde ayni)
-
-# Pencere metrikleri sabit
-user_pref("privacy.window.maxInnerWidth", 1600);
-user_pref("privacy.window.maxInnerHeight", 900);
-user_pref("privacy.resistFingerprinting.letterboxing", false);
-
-# Zaman dili UTC kilitli
-user_pref("privacy.resistFingerprinting.timezone", "UTC");
-user_pref("intl.locale.requested", "en-US");
-
-// ============================================================
-// v2.8.0 - Containers Pro
-user_pref("privacy.userContext.enabled", true);
-user_pref("privacy.userContext.ui.enabled", true);
-user_pref("privacy.userContext.longPressBehavior", 2);
-user_pref("privacy.userContext.newTabContainerOnLeftClick.selectContainer", false);
-
-// ============================================================
-// v2.10.0 - Media Lockdown
-user_pref("media.autoplay.default", 5);
-user_pref("media.block-autoplay-until-in-foreground", true);
-user_pref("permissions.default.camera", 2);
-user_pref("permissions.default.microphone", 2);
-user_pref("permissions.default.geo", 2);
-user_pref("permissions.default.desktop-notification", 2);
-user_pref("media.gmp-provider.enabled", false);
-user_pref("media.gmp-gmpopenh264.enabled", false);
-
-// ============================================================
-// v2.11.0 - Download Safety
-user_pref("browser.download.always_ask_before_handling_new_types", true);
-user_pref("browser.download.improvements_to_download_panel", true);
-user_pref("browser.download.open_pdf_attachments_inline", false);
-user_pref("browser.helperApps.neverAsk.saveToDisk", "");
-
-// ============================================================
-// v2.12.0 - Search Privacy
-user_pref("browser.urlbar.suggest.engines", []);
-user_pref("browser.search.suggest.enabled.private", false);
-user_pref("browser.search.separatePrivateDefault.ui.enabled", true);
-user_pref("keyword.enabled", true);
-
-// ============================================================
-// v2.14.0 - Startup Guard
-user_pref("browser.startup.page", 0);
-user_pref("browser.warnOnQuit", false);
-user_pref("toolkit.startup.max_resumed_crashes", 0);
-user_pref("browser.sessionstore.cleanup.forget_closed_after_days", 1);
-
-
-# v2.7.0 FIX: gercek canvas randomization anahtarlari (xul.dll dogrulandi)
-user_pref("privacy.resistFingerprinting.randomization.canvas.use", false);
-user_pref("privacy.resistFingerprinting.randomization.daily", false);
-
-# v3.0.0 FIX: baseline FPP canvas rastgelelestirmesini kapat
-user_pref("privacy.baselineFingerprintingProtection.overrides", "-CanvasRandomization");

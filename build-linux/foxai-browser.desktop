@@ -1,0 +1,24 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=FoxAI Browser
+GenericName=Privacy Web Browser
+Comment=Privacy-focused Firefox-based browser with built-in AI, zero telemetry
+Exec=foxai-browser %u
+Icon=foxai-browser
+Terminal=false
+Type=Application
+Categories=Network;WebBrowser;
+MimeType=text/html;text/xml;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;
+StartupNotify=true
+StartupWMClass=FoxAI Browser
+Keywords=privacy;browser;ai;firefox;tor;vpn;proxy;
+Actions=new-window;private-window;
+
+[Desktop Action new-window]
+Name=New Window
+Exec=foxai-browser
+
+[Desktop Action private-window]
+Name=New Private Window
+Exec=foxai-browser --private

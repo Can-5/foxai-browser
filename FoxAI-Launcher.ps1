@@ -14,6 +14,7 @@
 param(
   [switch]$Launch,
   [switch]$Private,
+  [switch]$Tor,
   [switch]$Check,
   [switch]$Update,
   [switch]$Version
@@ -65,6 +66,30 @@ function Invoke-LaunchBrowser {
     Write-Host "Firefox runtime not found: $Exe"
     exit 1
   }
+
+  # ---- v2.8.0 Tor Mode: profil user.js secimi ----
+  if ($Tor) {
+    $TorExe = Join-Path $Root "firefox-foxai\tor\tor\tor.exe"
+    if (Test-Path $TorExe) {
+      $torRunning = Test-NetConnection -ComputerName 127.0.0.1 -Port 9050 -InformationLevel Quiet -WarningAction SilentlyContinue
+      if (-not $torRunning) {
+        Write-Host "Starting Tor daemon (127.0.0.1:9050)..."
+        Start-Process -FilePath $TorExe -ArgumentList "--SocksPort 9050" -WindowStyle Hidden
+        Start-Sleep 8
+      } else {
+        Write-Host "Tor already running on port 9050."
+      }
+    } else {
+      Write-Host "NOTE: tor.exe yok - scripts\install-tor.ps1 ile kurabilirsin."
+      Write-Host "      (Ya da Tor Browser/acik Tor servisi 9050'de dinliyor olmali.)"
+    }
+    $TorTpl = Join-Path $Root "config\user-tor.js"
+    if (Test-Path $TorTpl) {
+      Copy-Item $TorTpl (Join-Path $ProfileDir "user.js") -Force
+      Write-Host "TOR MODE ON: traffic -> socks5://127.0.0.1:9050"
+    }
+  }
+
   $running = @(Get-Process firefox -ErrorAction SilentlyContinue | Where-Object { $_.Path -eq $Exe })
   if ($running.Count -gt 0) {
     Write-Host "FoxAI Browser is already running."

@@ -1,0 +1,93 @@
+#!/bin/bash
+# foxai-browser - Launch FoxAI Browser on Linux
+# Resolves paths relative to this script for portability
+
+set -euo pipefail
+
+# Resolve script directory (handles symlinks)
+SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
+ROOT_DIR="$(dirname "$SCRIPT_DIR")"
+
+# Paths
+FIREFOX_BIN="${ROOT_DIR}/firefox-foxai/runtime/firefox"
+PROFILE_DIR="${ROOT_DIR}/firefox-foxai/profile/foxai"
+
+# Check if Firefox binary exists
+if [[ ! -x "${FIREFOX_BIN}" ]]; then
+    echo "Error: Firefox binary not found at ${FIREFOX_BIN}" >&2
+    echo "Please run the build script first or extract the full package." >&2
+    exit 1
+fi
+
+# Check if profile exists
+if [[ ! -d "${PROFILE_DIR}" ]]; then
+    echo "Profile not found, creating fresh profile..."
+    mkdir -p "$(dirname "${PROFILE_DIR}")"
+    # Copy default profile template if exists
+    if [[ -d "${ROOT_DIR}/firefox-foxai/profile/foxai.template" ]]; then
+        cp -r "${ROOT_DIR}/firefox-foxai/profile/foxai.template" "${PROFILE_DIR}"
+    else
+        mkdir -p "${PROFILE_DIR}"
+    fi
+fi
+
+# Environment variables for FoxAI
+export MOZ_DISABLE_CONTENT_SANDBOX=1
+export MOZ_DISABLE_GMP_SANDBOX=1
+export MOZ_DISABLE_RDD_SANDBOX=1
+export MOZ_DISABLE_SOCKET_PROCESS=1
+
+# Additional privacy hardening env vars
+export MOZ_DISABLE_NONLOCAL_CONNECTIONS=1
+export MOZ_DISABLE_NETWORK_PREDICTION=1
+export MOZ_DISABLE_PREFETCH=1
+export MOZ_DISABLE_SPECULATIVE_CONNECT=1
+
+# Parse arguments
+LAUNCH_MODE="normal"
+PRIVATE_MODE=false
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --private|-p)
+            PRIVATE_MODE=true
+            shift
+            ;;
+        --profile)
+            PROFILE_DIR="$2"
+            shift 2
+            ;;
+        --help|-h)
+            echo "FoxAI Browser Launcher"
+            echo "Usage: $0 [options]"
+            echo "  --private, -p     Start in private browsing mode"
+            echo "  --profile DIR     Use custom profile directory"
+            echo "  --help, -h        Show this help"
+            exit 0
+            ;;
+        *)
+            echo "Unknown option: $1" >&2
+            exit 1
+            ;;
+    esac
+done
+
+# Check if Firefox is already running with our profile
+if pgrep -f "${FIREFOX_BIN}.*-profile ${PROFILE_DIR}" > /dev/null; then
+    echo "FoxAI Browser is already running with this profile."
+    echo "Use --private for a private window, or close existing instance first."
+    exit 0
+fi
+
+# Build Firefox arguments
+FIREFOX_ARGS=("-profile" "${PROFILE_DIR}" "-no-remote")
+
+if [[ "${PRIVATE_MODE}" == "true" ]]; then
+    FIREFOX_ARGS+=("-private-window")
+else
+    FIREFOX_ARGS+=("about:blank")
+fi
+
+# Launch Firefox
+echo "Starting FoxAI Browser..."
+exec "${FIREFOX_BIN}" "${FIREFOX_ARGS[@]}" &
