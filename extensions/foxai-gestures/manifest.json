@@ -1,7 +1,7 @@
-{
+﻿{
   "manifest_version": 2,
   "name": "FoxAI Gestures",
-  "version": "2.1.1",
+  "version": "2.6.0",
   "description": "Mouse gestures for FoxAI Browser.",
   "browser_specific_settings": {
     "gecko": {
@@ -27,3 +27,4 @@
     "64": "icons/foxai-64.png"
   }
 }
+

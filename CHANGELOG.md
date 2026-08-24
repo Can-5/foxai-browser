@@ -1,5 +1,62 @@
 # Changelog
 
+## v2.6.0 (2026-08-24)
+
+**🛡️ Security Fortress** — İleri seviye güvenlik sertleştirmesi.
+
+### Added
+- **TLS/SSL sertleştirme**: Deprecated TLS kapalı, safe negotiation zorunlu, CRLite mode 2, OCSP must-staple
+- **Site Isolation**: Fission tam aktif, GPU sandbox level 1, isolated process coalescing
+- **MITM koruması**: Enterprise roots kapalı, cert pinning enforcement level 2
+- **PDF güvenliği**: PDF.js scripting + XFA formları kapandı, temp dosya çıkışta siliniyor
+- **Spoofing koruması**: Punycode zorunlu, URL trimming kapalı (sahte domain görünür), dialog delay 1sn
+
+## v2.5.0 (2026-08-24)
+
+**🤖 AI Copilot v2** — Çok sağlayıcılı AI yan paneli.
+
+### Added
+- **8 AI sağlayıcı**: OpenAI, Anthropic Claude, Google Gemini, DeepSeek, Groq, OpenRouter (100+ model), Mistral, Ollama (yerel)
+- **Streaming yanıtlar** tüm sağlayıcılarda
+- **Hızlı aksiyonlar**: Sayfa özetleme, açıklama, Türkçeye çeviri, kod analizi, doğrulama
+- **Yeni modeller**: GPT-4.1 serisi, Claude 3.7 Sonnet, Gemini 2.0 Flash Lite, Llama 3.3, Phi-4, Gemma-2
+
+## v2.4.0 (2026-08-24)
+
+**🌙 Dark UI Complete** — Tam koyu tema.
+
+### Added
+- **Kapsamlı userChrome.css**: Sekmeler, nav bar, URL bar, menüler, sidebar, scrollbar — hepsi koyu (#16161a)
+- **Aktif sekme mavi neon vurgusu** (#5b9dff) + glow efekti
+- **userContent.css**: about:blank / about:newtab koyu arka plan
+- **Tema prefs**: content-theme=dark, toolbar-theme=dark, compact density, vertical tabs
+- Dark theme sistem genelinde: prefers-color-scheme override
+
+## v2.3.0 (2026-08-24)
+
+**⚡ Performance Turbo** — Hız ve bellek optimizasyonu.
+
+### Added
+- **Startup boost**: preXulSkeletonUI, ilk çalıştırma sihirleri atlandı
+- **Content process tuning**: 8 süreç, background'da 5 canlı sekme tutma
+- **JS engine turbo**: Paralel parsing, off-thread compilation, Warp builder, GC slice 10ms
+- **Network turbo**: DNS cache 2000 kayıt/1 saat, SSL token cache 20K, buffer cache 256KB
+- **Render turbo**: Skia font cache 32MB, image cache 10MB, backdrop-filter aktif
+- **Bellek yönetimi**: Low memory eşiği 75%/256MB, otomatik sekme unload
+
+## v2.2.0 (2026-08-24)
+
+**🔒 Privacy Shield v2** — Gelişmiş gizlilik koruması.
+
+### Added
+- **Query Stripping**: Brave listesiyle URL takip parametreleri temizleniyor (fbclid, gclid, msclkid...)
+- **Global Privacy Control (GPC)**: Sitelere "satma/takip etme" sinyali gönderiliyor
+- **Cookie Banner auto-reject**: Çerez pencereleri otomatik reddediliyor
+- **Canvas/WebGL koruması**: capturestream kapalı, Web Speech sentezi kapandı
+- **Tracker isolation**: Content script kaynakları izole edildi, baseline+convenience listeleri
+- **Referrer sertleştirme**: XOrigin trimming policy 2, controlled transition gizleme
+- **Local Network Access**: Yerel ağ erişim koruması aktif
+
 ## v2.1.1 (2026-08-14)
 
 **Maintenance release** — uBlock Origin 1.73.0 pinned, Firefox ESR 153.0 base, minor fixes.

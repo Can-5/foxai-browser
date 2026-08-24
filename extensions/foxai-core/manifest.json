@@ -1,7 +1,7 @@
-{
+﻿{
   "manifest_version": 2,
   "name": "FoxAI Start",
-  "version": "2.1.1",
+  "version": "2.6.0",
   "description": "FoxAI new tab page and browser settings.",
   "browser_specific_settings": {
     "gecko": {
@@ -40,3 +40,4 @@
     "128": "icons/foxai-128.png"
   }
 }
+

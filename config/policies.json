@@ -9,6 +9,10 @@
     "DisableTelemetry": true,
     "OverrideFirstRunPage": "",
     "OverridePostUpdatePage": "",
+    "DisableFeedbackCommands": true,
+    "DisableFirefoxAccounts": true,
+    "DisablePocket": true,
+    "DisableSystemAddonUpdate": true,
     "ExtensionSettings": {
       "foxai-core@foxai.browser": { "installation_mode": "force_installed", "install_url": "%%CORE%%" },
       "foxai-search-startpage@foxai.local": { "installation_mode": "force_installed", "install_url": "%%SEARCH%%" },

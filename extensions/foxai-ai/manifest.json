@@ -1,7 +1,7 @@
-{
+﻿{
   "manifest_version": 2,
   "name": "FoxAI AI",
-  "version": "2.1.1",
+  "version": "2.6.0",
   "description": "Privacy-first AI sidebar: summarize, translate, explain, rewrite and chat.",
   "browser_specific_settings": {
     "gecko": {
@@ -33,3 +33,4 @@
     "64": "icons/ai-64.png"
   }
 }
+

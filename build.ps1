@@ -1,4 +1,4 @@
-﻿# build.ps1 - FoxAI Browser build script.
+# build.ps1 - FoxAI Browser build script.
 # 1. Builds foxai-core newtab (Vite)
 # 2. Packages extensions into .xpi files
 # 3. Downloads uBlock Origin
@@ -15,7 +15,7 @@ param(
 )
 $ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
-$Version = "2.1.1"
+$Version = "2.6.0"
 $Runtime = "$Root\firefox-foxai\runtime"
 $Dist = "$Root\release"
 $ExtDir = "$Root\extensions"
@@ -238,3 +238,4 @@ New-Zip -SourceDir $Stage -ZipPath $ZipPath
 Remove-Item $Stage -Recurse -Force
 [System.IO.File]::WriteAllText("$Root\version.txt", $Version, (New-Object System.Text.UTF8Encoding($false)))
 Write-Host "==> Done. Release: $ZipPath"
+
