@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FoxAI Browser — Mahrem, gizli, tilki kadar akıllı. Parmak izi korumalı, Tor modlu, container sekmeli gizlilik odaklı tarayıcı.">
+  <meta name="theme-color" content="#FAF8F5">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="FoxAI Browser — Mahrem Gizli Tilki Kadar Akıllı">
+  <meta property="og:description" content="Parmak izi 100/100, Tor modu, Container sekmeler, Medya Kilidi. Gizlilik için inşa edildi.">
+  <meta property="og:image" content="https://can-5.github.io/foxai-browser/og.jpg">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="FoxAI Browser">
+  <meta name="twitter:description" content="Mahrem, gizli, tilki kadar akıllı.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,200..900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+  <title>FoxAI Browser — Mahrem Gizli Tilki Kadar Akıllı</title>
+</head>
+<body>
+  <!-- SVG Filters -->
+  <svg aria-hidden="true" style="position: absolute; width: 0; height: 0;">
+    <defs>
+      <filter id="redact" x="-20%" y="-20%" width="140%" height="140%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="4" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+      <filter id="redact-strong" x="-20%" y="-20%" width="140%" height="140%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.08" numOctaves="5" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </defs>
+  </svg>
+
+  <main class="page">
+    <!-- HERO -->
+    <header class="hero" aria-labelledby="hero-title">
+      <div class="hero-marginalia" aria-hidden="true">field-tested</div>
+      <div class="hero-content">
+        <p class="hero-eyebrow" aria-hidden="true">Gizlilik Raporu / v3.0.0</p>
+        <h1 id="hero-title" class="hero-title">
+          <span class="redacted">FoxAI</span> Browser
+        </h1>
+        <p class="hero-tagline">Mahrem, gizli, tilki kadar akıllı.</p>
+        <div class="hero-actions">
+          <a href="https://github.com/Can-5/foxai-browser/releases/tag/v3.0.0" class="btn btn-primary" aria-label="FoxAI Browser v3.0.0 indir (340MB)">
+            <span class="btn-text">İndir: FoxAI-Browser-v3.0.0.zip</span>
+            <span class="btn-meta">340 MB · Electron 30 · Chromium 124</span>
+          </a>
+        </div>
+        <div class="hero-marginalia hero-marginalia-bottom" aria-hidden="true">no logs</div>
+      </div>
+    </header>
+
+    <!-- TRUST BAR -->
+    <section class="trust" aria-labelledby="trust-title">
+      <h2 id="trust-title" class="visually-hidden">Güven Metrikleri</h2>
+      <ul class="trust-list" role="list">
+        <li class="trust-item">
+          <span class="trust-value redacted">100/100</span>
+          <span class="trust-label">Parmak İzi Skoru</span>
+          <span class="trust-meta" aria-hidden="true">deterministik</span>
+        </li>
+        <li class="trust-item">
+          <span class="trust-value redacted">Tor Ready</span>
+          <span class="trust-label">SOCKS5 Proxy</span>
+          <span class="trust-meta" aria-hidden="true">opsiyonel</span>
+        </li>
+        <li class="trust-item">
+          <span class="trust-value redacted">0</span>
+          <span class="trust-label">Telemetry</span>
+          <span class="trust-meta" aria-hidden="true">yerel-first</span>
+        </li>
+      </ul>
+      <div class="trust-marginalia" aria-hidden="true">local-first</div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features" aria-labelledby="features-title">
+      <h2 id="features-title" class="features-title">Yetenekler</h2>
+      <div class="features-grid">
+        <!-- Card 1: Fingerprint -->
+        <article class="feature-card feature-card--wide" aria-labelledby="f1-title">
+          <div class="feature-marginalia" aria-hidden="true">field-tested</div>
+          <div class="feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z"/><path d="M12 8v8M8 12h8"/></svg>
+          </div>
+          <div class="feature-content">
+            <h3 id="f1-title" class="feature-title">Parmak İzi Koruması</h3>
+            <p class="feature-desc">Canvas, WebGL, AudioContext, ClientRects, Font enumeration — deterministik sahte değerlerle engellenir. Skor: <code class="feature-code">100/100</code> (CreepJS, FingerprintJS testleri).</p>
+            <ul class="feature-details" aria-label="Teknik detaylar">
+              <li><code>canvas.noise: 0.0001%</code></li>
+              <li><code>webgl.vendor: randomized</code></li>
+              <li><code>audio.fp: fixed</code></li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- Card 2: Tor Mode -->
+        <article class="feature-card feature-card--narrow" aria-labelledby="f2-title">
+          <div class="feature-marginalia" aria-hidden="true">sandboxed</div>
+          <div class="feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+          </div>
+          <div class="feature-content">
+            <h3 id="f2-title" class="feature-title">Tor Modu</h3>
+            <p class="feature-desc">Tek tıkla SOCKS5 üzerinden Tor ağına. Circuit görüntüleme, yeni kimlik, bridge desteği. <code class="feature-code">electron-tor</code> entegrasyonu.</p>
+          </div>
+        </article>
+
+        <!-- Card 3: Container Tabs -->
+        <article class="feature-card feature-card--narrow" aria-labelledby="f3-title">
+          <div class="feature-marginalia" aria-hidden="true">isolated</div>
+          <div class="feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          </div>
+          <div class="feature-content">
+            <h3 id="f3-title" class="feature-title">Container Sekmeler</h3>
+            <p class="feature-desc">Renkli izole contextler: Çerezler, localStorage, cache tamamen ayrı. İş / Kişisel / Bankacılık / Araştırma — sızdırmaz.</p>
+          </div>
+        </article>
+
+        <!-- Card 4: Media Lockdown -->
+        <article class="feature-card feature-card--wide" aria-labelledby="f4-title">
+          <div class="feature-marginalia" aria-hidden="true">locked</div>
+          <div class="feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2"/><line x1="12" y1="9" x2="12" y2="15"/><line x1="9" y1="12" x2="15" y2="12"/></svg>
+          </div>
+          <div class="feature-content">
+            <h3 id="f4-title" class="feature-title">Medya Kilidi</h3>
+            <p class="feature-desc">Kamera/mikrofon erişimi varsayılan kapalı. Site bazlı izinler, görsel indikatör, donanım seviyesinde engelleme seçeneği.</p>
+            <ul class="feature-details" aria-label="Teknik detaylar">
+              <li><code>getUserMedia: blocked by default</code></li>
+              <li><code>permission.persist: false</code></li>
+              <li><code>indicator: hardware LED sync</code></li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- Card 5: Download Safety -->
+        <article class="feature-card feature-card--narrow" aria-labelledby="f5-title">
+          <div class="feature-marginalia" aria-hidden="true">scanned</div>
+          <div class="feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          </div>
+          <div class="feature-content">
+            <h3 id="f5-title" class="feature-title">İndirme Güvenliği</h3>
+            <p class="feature-desc">Dosya türü doğrulama (magic bytes), şüpheli uzantı engelleme, isteğe bağlı VirusTotal entegrasyonu, sandbox çalıştırma.</p>
+          </div>
+        </article>
+
+        <!-- Card 6: Search Privacy -->
+        <article class="feature-card feature-card--narrow" aria-labelledby="f6-title">
+          <div class="feature-marginalia" aria-hidden="true">private</div>
+          <div class="feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <div class="feature-content">
+            <h3 id="f6-title" class="feature-title">Arama Gizliliği</h3>
+            <p class="feature-desc">Varsayılan: DuckDuckGo HTML (no-JS). Alternatifler: Brave Search, Startpage, SearXNG. Sorgu parametreleri temizlenir.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- TECHNICAL ACCORDION -->
+    <section class="technical" aria-labelledby="tech-title">
+      <h2 id="tech-title" class="technical-title">Teknik Derinlik</h2>
+      <div class="accordion">
+        <details class="accordion-item">
+          <summary class="accordion-summary" aria-expanded="false">
+            <span>Startup Guard & Process Hardening</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="accordion-content">
+            <p><code>--disable-features=NetworkService</code>, <code>--disable-background-networking</code>, <code>--no-first-run</code>, <code>--disable-default-apps</code>. Tüm telemetry endpoint'leri <code>hosts</code> dosyasıyla <code>0.0.0.0</code>'a yönlendirilir.</p>
+          </div>
+        </details>
+        <details class="accordion-item">
+          <summary class="accordion-summary" aria-expanded="false">
+            <span>Gestures v2 — Mouse & Touch</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="accordion-content">
+            <p>Geri/İleri (sol/sağ swipe), sekme kapat (aşağı swipe), yenile (aşağı çek). Hassasiyet ayarlanabilir. Touch + precision mouse desteği.</p>
+          </div>
+        </details>
+        <details class="accordion-item">
+          <summary class="accordion-summary" aria-expanded="false">
+            <span>Portable Mode & Profil Yönetimi</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="accordion-content">
+            <p><code>--user-data-dir</code> ile tam taşınabilir. Çoklu profil desteği: her profil kendi çerezleri, uzantıları, container'ları. Profil şifreleme (AES-256, PBKDF2) opsiyonel.</p>
+          </div>
+        </details>
+        <details class="accordion-item">
+          <summary class="accordion-summary" aria-expanded="false">
+            <span>Geliştirici Araçları & İzleme</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="accordion-content">
+            <p>Yerel DevTools (Ctrl+Shift+I), Network panelinde <code>blocked</code> rozetleri, CSP raporlama konsolu, parmak izi canlı skor panosu.</p>
+          </div>
+        </details>
+      </div>
+      <div class="technical-marginalia" aria-hidden="true">sandboxed</div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer" role="contentinfo">
+      <div class="footer-content">
+        <p class="footer-version">FoxAI Browser v3.0.0</p>
+        <nav class="footer-links" aria-label="Footer navigasyon">
+          <a href="https://github.com/Can-5/foxai-browser" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://github.com/Can-5/foxai-browser/releases" target="_blank" rel="noopener">Releases</a>
+          <a href="https://github.com/Can-5/foxai-browser/blob/main/LICENSE" target="_blank" rel="noopener">MIT Lisansı</a>
+        </nav>
+        <p class="footer-copy">© 2024 Can-5. Yerel-first. İzinsiz veri yok.</p>
+        <div class="footer-marginalia" aria-hidden="true">local-first</div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
