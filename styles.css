@@ -144,12 +144,14 @@ code{background:var(--surface);border:1px solid var(--line);padding:2px 7px;bord
 .showcase-card{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:color-mix(in srgb,var(--surface) 70%,transparent)}
 .showcase-card .ph{height:160px;background:linear-gradient(135deg,#231a3a,#2a1430 55%,#1a1030);border-bottom:1px solid var(--line);display:grid;place-items:center;color:var(--muted);font-size:13px;position:relative}
 .showcase-card .ph::before{content:attr(data-label);border:1px dashed var(--line);padding:6px 12px;border-radius:999px;background:color-mix(in srgb,var(--bg) 60%,transparent)}
+.showcase-card img{width:100%;height:auto;display:block;border-bottom:1px solid var(--line);aspect-ratio:16/10;object-fit:cover}
 .showcase-card p{margin:0;padding:14px;color:var(--muted);font-size:14px}
 
 /* gallery */
 .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:28px}
 .shot{margin:0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:color-mix(in srgb,var(--surface) 78%,transparent)}
 .shot-ph{height:140px;display:grid;place-items:center;background:linear-gradient(180deg,#1e1740,#1a1030);color:var(--muted);font-size:13px;border-bottom:1px solid var(--line)}
+.shot img{width:100%;height:auto;display:block;border-bottom:1px solid var(--line);aspect-ratio:16/10;object-fit:cover}
 .shot figcaption{padding:10px 12px;font-size:13px;color:var(--muted);text-align:center}
 
 /* tech */

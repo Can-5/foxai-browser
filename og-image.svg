@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0D0A14"/><stop offset="1" stop-color="#1A1030"/></linearGradient>
+<linearGradient id="fox" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF8A3D"/><stop offset="1" stop-color="#FF4D6D"/></linearGradient></defs>
+<rect width="1200" height="630" rx="0" fill="url(#bg)"/>
+<rect x="36" y="36" width="1128" height="558" rx="28" fill="#16121F" stroke="#2C2740" stroke-width="2"/>
+<rect x="72" y="110" width="168" height="168" rx="42" fill="#191524" stroke="#2E2848" stroke-width="2"/>
+<path d="M96 166 L128 84 L172 126 Z" fill="url(#fox)"/><path d="M216 126 L248 84 L216 166 Z" fill="url(#fox)"/>
+<ellipse cx="156" cy="176" rx="72" ry="56" fill="url(#fox)"/><ellipse cx="156" cy="200" rx="48" ry="24" fill="white"/>
+<text x="276" y="168" font-family="Inter,Segoe UI,sans-serif" font-size="52" font-weight="800" fill="white">FoxAI Browser</text>
+<text x="276" y="210" font-family="Inter,sans-serif" font-size="19" fill="#9C93AE">Private. Smart. Fox-fast.</text>
+</svg>
