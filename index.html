@@ -3,285 +3,295 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="FoxAI Browser — a private, smart Firefox-based browser with an AI sidebar, gesture navigation and built-in tracker blocking.">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'self'; object-src 'none'">
-  <meta name="msvalidate.01" content="9E764B6F218BF04EE9DCA1F1A8525726" />
-  <meta name="google-site-verification" content="1yNVdMtapkU7WT3MOK7DElxIa_vwHogoW1tFe-w1LsA" />
+  <meta name="description" content="FoxAI Browser — a private, smart Firefox-based browser with AI sidebar, gesture navigation and built-in privacy. Portable, open source, no telemetry.">
+  <meta name="theme-color" content="#0d0a14">
+  <meta name="color-scheme" content="dark">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; base-uri 'none'; form-action 'self'; object-src 'none'">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="FoxAI Browser — Private, Smart, Fox-fast">
+  <meta property="og:description" content="A Firefox-based browser that respects you: no telemetry, AI sidebar on demand, gesture navigation. Portable, open source.">
+  <meta property="og:image" content="foxai-mark.svg">
+  <meta property="og:url" content="https://can-5.github.io/foxai-browser/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="FoxAI Browser — Private, Smart, Fox-fast">
+  <meta name="twitter:description" content="Portable Firefox-based browser with AI sidebar and built-in privacy. Open source.">
+  <meta name="msvalidate.01" content="9E764B6F218BF04EE9DCA1F1A8525726">
+  <meta name="google-site-verification" content="1yNVdMtapkU7WT3MOK7DElxIa_vwHogoW1tFe-w1LsA">
   <title>FoxAI Browser — Private, Smart, Fox-fast</title>
-  <link rel="icon" href="foxai-mark.svg">
+  <link rel="icon" href="foxai-mark.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="foxai-mark.svg">
   <link rel="stylesheet" href="styles.css">
+  <script>/* base-path helper for GH Pages /foxai-browser/ vs Cloudflare / */(function(){var b=document.createElement('base');var p=location.pathname;if(p.indexOf('/foxai-browser/')===0){b.href='/foxai-browser/';document.head.prepend(b);} })();</script>
 </head>
 <body>
-  <header class="nav">
-    <a class="brand" href="#top">
-      <img src="foxai-mark.svg" alt="FoxAI" width="28" height="28">
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="nav" role="banner">
+    <a class="brand" href="#top" aria-label="FoxAI Browser home">
+      <img src="foxai-mark.svg" alt="FoxAI" width="28" height="28" decoding="async">
       <span>FoxAI <b>Browser</b></span>
     </a>
-    <nav class="links">
+    <nav class="links" aria-label="Primary">
       <a href="#features" data-i18n="nav_features">Features</a>
-      <a href="#tech" data-i18n="nav_tech">What it's built on</a>
-      <a href="#why" data-i18n="nav_why">Why</a>
-      <a href="#ai" data-i18n="nav_ai">AI</a>
+      <a href="#showcase" data-i18n="nav_showcase">Showcase</a>
+      <a href="#tech" data-i18n="nav_tech">Technology</a>
       <a href="#privacy" data-i18n="nav_privacy">Privacy</a>
-      <a href="#hub" data-i18n="nav_hub">Hub</a>
-      <a href="#about" data-i18n="nav_about">About</a>
-      <button class="lang-btn" id="langBtn" type="button" title="Switch language">TR</button>
-      <a href="#download" class="btn small" data-i18n="nav_download">Download</a>
+      <a href="#download" data-i18n="nav_download">Download</a>
+      <a href="#faq" data-i18n="nav_faq">FAQ</a>
+      <button class="lang-btn" id="langBtn" type="button" aria-label="Switch language">TR</button>
+      <a href="#download" class="btn small primary" data-i18n="nav_cta">Get FoxAI</a>
+      <button class="hamburger" id="hamburger" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
     </nav>
   </header>
+  <div class="mobile-menu" id="mobileMenu" hidden>
+    <a href="#features" data-i18n="nav_features">Features</a>
+    <a href="#showcase" data-i18n="nav_showcase">Showcase</a>
+    <a href="#tech" data-i18n="nav_tech">Technology</a>
+    <a href="#privacy" data-i18n="nav_privacy">Privacy</a>
+    <a href="#download" data-i18n="nav_download">Download</a>
+    <a href="#faq" data-i18n="nav_faq">FAQ</a>
+    <a href="https://github.com/Can-5/foxai-browser" rel="noopener">GitHub</a>
+  </div>
 
-  <main id="top">
-    <section class="hero">
-      <img class="hero-logo" src="foxai-mark.svg" alt="FoxAI Browser" width="96" height="96">
-      <p class="chip" id="verChip">v2.1.0</p>
+  <main id="main">
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <img class="hero-logo" src="foxai-mark.svg" alt="FoxAI Browser" width="112" height="112" decoding="async">
+      <p class="chip" id="verChip">v3.0.0 · FoxAI One</p>
       <h1 data-i18n-html="hero_h1">Private. Smart. <span class="grad">Fox-fast.</span></h1>
-      <p class="lead" data-i18n="hero_lead">
-        A Firefox-based browser that respects you: no telemetry, no tracking,
-        an AI sidebar that only sees what you let it, and a new-tab that is
-        actually yours.
-      </p>
+      <p class="lead" data-i18n="hero_lead">A Firefox-based browser that respects you: no telemetry, no tracking, an AI sidebar that only sees what you allow, and a new-tab that is actually yours. Portable, open source, yours to verify.</p>
       <div class="cta">
-        <a class="btn primary" href="#download" data-i18n="cta_dl">Download v2.1.0</a>
-        <a class="btn" href="#features" data-i18n="cta_see">See what's inside</a>
+        <a class="btn primary big" id="heroDl" href="#download" data-i18n="cta_dl">Download FoxAI Browser</a>
+        <a class="btn big ghost" href="https://github.com/Can-5/foxai-browser" rel="noopener" data-i18n="cta_gh">View on GitHub</a>
       </div>
-      <p class="hint" data-i18n="hero_hint">Portable · Windows · Firefox ESR 140.13.0 base · no installer</p>
+      <p class="hint" data-i18n="hero_hint">Portable · Windows · Firefox ESR base · no installer · ~324 MB</p>
+
+      <!-- Browser mockup (CSS, not fake screenshot) -->
+      <div class="mock-wrap" aria-hidden="true">
+        <div class="mock">
+          <div class="mock-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="mock-url">foxai://start · Private New Tab</span></div>
+          <div class="mock-body">
+            <div class="mock-sidebar"><span class="sb"></span><span class="sb"></span><span class="sb"></span><span class="sb active"></span></div>
+            <div class="mock-main">
+              <div class="mock-card"></div>
+              <div class="mock-grid"><span></span><span></span><span></span><span></span></div>
+            </div>
+            <div class="mock-ai"><div class="ai-head">✦ FoxAI</div><div class="ai-bubble"></div><div class="ai-bubble short"></div></div>
+          </div>
+        </div>
+        <p class="mock-caption" data-i18n="mock_caption">FoxAI Start + AI Sidebar — visual preview (CSS mockup, not a screenshot)</p>
+      </div>
     </section>
 
+    <!-- WHAT IS -->
+    <section id="what" class="section">
+      <h2 data-i18n="what_h">What is FoxAI Browser?</h2>
+      <p class="sub" data-i18n="what_sub">FoxAI is a branded, portable build of Firefox ESR — hardened defaults, four built-in WebExtensions, and a PowerShell pipeline that reproduces every release from source. No installer, no background services, one folder you can delete.</p>
+      <div class="why-cols">
+        <div class="why"><h3>🦊 Fox</h3><p data-i18n="what1">The proven Firefox engine, rebranded and locked down: telemetry off, referrer off, first-party isolation on.</p></div>
+        <div class="why"><h3>✦ AI</h3><p data-i18n="what2">An assistant that waits for permission — ChatGPT, Claude, Gemini or local Ollama. No page data leaves until you click Allow.</p></div>
+        <div class="why"><h3>🛡️ Yours</h3><p data-i18n="what3">Your new-tab, your notes, your bookmarks — stored only in the browser. Nothing phones home.</p></div>
+      </div>
+    </section>
+
+    <!-- WHY -->
+    <section id="why" class="section alt">
+      <h2 data-i18n="why_h">Why it exists</h2>
+      <p class="sub" data-i18n="why_sub">Browsers collect too much, show you too little, and add features you never asked for. FoxAI is the opposite.</p>
+      <div class="why-cols">
+        <div class="why"><h3 data-i18n="why1_t">💥 It began with a deletion</h3><p data-i18n="why1_d">The original project was wiped. FoxAI was rebuilt from a ~7,000-file salvage backup — and every sneaky default (telemetry, prefetch, referrer) was questioned and, where it leaks, turned off.</p></div>
+        <div class="why"><h3 data-i18n="why2_t">🔬 Verifiable, not “trust us”</h3><p data-i18n="why2_d">Each release lists the exact leak that was closed and how. Read the changelog, rebuild from source, run the tests. Nothing on faith.</p></div>
+        <div class="why"><h3 data-i18n="why3_t">🏡 For daily use</h3><p data-i18n="why3_d">Privacy is useless if the browser is painful. Notes, to-do, bookmarks, quick search, AI help, mouse gestures — without the harvest.</p></div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
     <section id="features" class="section">
       <h2 data-i18n="feat_h">Everything you need. Nothing that leaks.</h2>
       <div class="grid">
-        <article class="card">
-          <span class="card-ico">🦊</span>
-          <h3>FoxAI Start</h3>
-          <p data-i18n="feat1_d">A private new-tab: clock, weather (opt-in), notes, to-do, bookmarks, custom backgrounds and 7 themes — all stored only in your browser.</p>
-        </article>
-        <article class="card">
-          <span class="card-ico">✨</span>
-          <h3 data-i18n="feat2_t">AI Sidebar</h3>
-          <p data-i18n="feat2_d">Summarize, translate, explain and rewrite any page. ChatGPT, Claude, Gemini or local Ollama — your key never leaves the browser.</p>
-        </article>
-        <article class="card">
-          <span class="card-ico">🎯</span>
-          <h3 data-i18n="feat3_t">Gesture navigation</h3>
-          <p data-i18n="feat3_d">Right-drag to go back, forward, reload or open a new tab. Mouse-only browsing, the way it should feel.</p>
-        </article>
-        <article class="card">
-          <span class="card-ico">🛡️</span>
-          <h3 data-i18n="feat4_t">uBlock Origin built in</h3>
-          <p data-i18n="feat4_d">Ad, tracker and fingerprinting blocking is pre-installed and enforced. No setup required.</p>
-        </article>
-        <article class="card">
-          <span class="card-ico">🔎</span>
-          <h3 data-i18n="feat5_t">Private search</h3>
-          <p data-i18n="feat5_d">DuckDuckGo by default with suggestions off. No keystrokes, no referrer, no predictive network calls.</p>
-        </article>
-        <article class="card">
-          <span class="card-ico">🔒</span>
-          <h3 data-i18n="feat6_t">Hardened by default</h3>
-          <p data-i18n="feat6_d">Strict CSP on every extension page, first-party isolation, no telemetry, sensors/battery/beacon disabled, punycode shown.</p>
-        </article>
+        <article class="card"><span class="card-ico">🦊</span><h3>FoxAI Start</h3><p data-i18n="feat1_d">Private new-tab: clock, weather (opt-in), notes, to-do, bookmarks, custom backgrounds and 7 themes — only in your browser.</p></article>
+        <article class="card"><span class="card-ico">✨</span><h3 data-i18n="feat2_t">AI Sidebar</h3><p data-i18n="feat2_d">Summarize, translate, explain, rewrite any page. ChatGPT · Claude · Gemini · local Ollama — key never leaves the browser.</p></article>
+        <article class="card"><span class="card-ico">🎯</span><h3 data-i18n="feat3_t">Gesture navigation v2</h3><p data-i18n="feat3_d">Right-drag to go back, forward, reload or new tab. Configurable presets via gestures.json.</p></article>
+        <article class="card"><span class="card-ico">🛡️</span><h3 data-i18n="feat4_t">uBlock Origin built in</h3><p data-i18n="feat4_d">Ads, trackers and fingerprinting blocked out of the box, enforced via policies.json.</p></article>
+        <article class="card"><span class="card-ico">🔎</span><h3 data-i18n="feat5_t">Private search</h3><p data-i18n="feat5_d">DuckDuckGo by default, suggestions off. No keystrokes, no referrer, no predictive calls.</p></article>
+        <article class="card"><span class="card-ico">🔒</span><h3 data-i18n="feat6_t">Hardened by default</h3><p data-i18n="feat6_d">RFP on, first-party isolation, HTTPS-only, WebRTC off, beacon/ping off, strict CSP everywhere.</p></article>
+        <article class="card highlight"><span class="card-ico">🎭</span><h3 data-i18n="feat7_t">Perfect Fingerprint 100/100</h3><p data-i18n="feat7_d">Deterministic fingerprint: letterboxing off, fixed metrics, UTC locked. 100% similarity across instances — canvas per-session randomized by design (CANVAS ENTROPY PASS).</p></article>
+        <article class="card highlight"><span class="card-ico">🧅</span><h3 data-i18n="feat8_t">Tor Mode (opt-in)</h3><p data-i18n="feat8_d">Route all traffic via SOCKS5 127.0.0.1:9050 with “FoxAI Tor.cmd” — DNS through SOCKS, WebRTC dead, no leaks. Normal ↔ Tor by profile swap.</p></article>
+        <article class="card"><span class="card-ico">🗂️</span><h3 data-i18n="feat9_t">Containers Pro</h3><p data-i18n="feat9_d">Container tabs UI for contextual identities — isolate work, personal, shopping.</p></article>
+        <article class="card"><span class="card-ico">🎬</span><h3 data-i18n="feat10_t">Media Lockdown</h3><p data-i18n="feat10_d">Autoplay, camera, mic and geolocation default-deny — ask only when you allow.</p></article>
+        <article class="card"><span class="card-ico">📥</span><h3 data-i18n="feat11_t">Download Safety</h3><p data-i18n="feat11_d">Ask-before-new-types for uncommon downloads. No silent execution.</p></article>
+        <article class="card"><span class="card-ico">⚡</span><h3 data-i18n="feat12_t">Startup Guard</h3><p data-i18n="feat12_d">Blank startup, no crash-session restore. You decide what reopens.</p></article>
       </div>
     </section>
 
+    <!-- SHOWCASE -->
+    <section id="showcase" class="section alt">
+      <h2 data-i18n="showcase_h">A browser you can see yourself in</h2>
+      <p class="sub" data-i18n="showcase_sub">FoxAI Start is yours to make: themes, backgrounds, clock and search engine — all local.</p>
+      <div class="showcase-grid">
+        <div class="showcase-card"><div class="ph" data-label="FoxAI Start"></div><p data-i18n="showcase1">New-tab with notes, to-do and quick search — stored only locally.</p></div>
+        <div class="showcase-card"><div class="ph" data-label="AI Sidebar"></div><p data-i18n="showcase2">Summarize the current page with one consent click.</p></div>
+        <div class="showcase-card"><div class="ph" data-label="Gestures"></div><p data-i18n="showcase3">Mouse-only navigation that feels physical, not bolted on.</p></div>
+      </div>
+      <p class="hint" style="text-align:center" data-i18n="showcase_hint">Screenshots are placeholders — replace <code>screenshots/*.webp</code> when ready. No stock images.</p>
+    </section>
+
+    <!-- SCREENSHOTS GALLERY -->
+    <section id="screenshots" class="section">
+      <h2 data-i18n="shots_h">Screenshots</h2>
+      <p class="sub" data-i18n="shots_sub">Add real captures to <code>screenshots/</code> — the gallery picks them up automatically. Until then, placeholders stay.</p>
+      <div class="gallery">
+        <figure class="shot"><div class="shot-ph" data-i18n="shot1">Main browser</div><figcaption>Main window + FoxAI Start</figcaption></figure>
+        <figure class="shot"><div class="shot-ph" data-i18n="shot2">AI feature</div><figcaption>AI Sidebar — consent-gated</figcaption></figure>
+        <figure class="shot"><div class="shot-ph" data-i18n="shot3">Tabs &amp; navigation</div><figcaption>Tabs, address bar, containers</figcaption></figure>
+        <figure class="shot"><div class="shot-ph" data-i18n="shot4">Settings</div><figcaption>Settings &amp; privacy toggles</figcaption></figure>
+        <figure class="shot"><div class="shot-ph" data-i18n="shot5">Tor mode</div><figcaption>FoxAI Tor.cmd — SOCKS5</figcaption></figure>
+      </div>
+    </section>
+
+    <!-- TECHNOLOGY -->
     <section id="tech" class="section alt">
       <h2 data-i18n="tech_h">What FoxAI is built on</h2>
-      <p class="sub" data-i18n="tech_sub">
-        No dark magic. A real browser engine, standard extension APIs, and a
-        build pipeline that is fully reproducible from source.
-      </p>
+      <p class="sub" data-i18n="tech_sub">No dark magic. A real engine, standard extension APIs, and a reproducible pipeline.</p>
       <div class="tech-grid">
-        <div class="card">
-          <h3>🦊 Firefox ESR 140.13.0</h3>
-          <p data-i18n="tech1_d">The engine itself — a stable, extended-support release of Firefox, rebranded as "FoxAI Browser" (name, icon and version strings via rcedit). It stays portable: unzip and run.</p>
-        </div>
-        <div class="card">
-          <h3 data-i18n="tech2_t">🧩 Four WebExtensions (MV2)</h3>
-          <p data-i18n="tech2_d">New-tab, AI sidebar, search &amp; gestures are all standard WebExtensions installed through <code>policies.json</code>, so they can't be disabled or tampered with by sites.</p>
-        </div>
-        <div class="card">
-          <h3>⚛️ React + Vite</h3>
-          <p data-i18n="tech3_d">The FoxAI Start new-tab is a small React app built with Vite — fast, and shipped as plain static assets with a strict CSP.</p>
-        </div>
-        <div class="card">
-          <h3 data-i18n="tech4_t">🛠️ PowerShell build pipeline</h3>
-          <p data-i18n="tech4_d"><code>build.ps1</code> reproduces everything from source: packages XPIs, downloads uBlock, brands the binaries, writes policy files, creates a fresh profile and a release zip.</p>
-        </div>
-        <div class="card">
-          <h3 data-i18n="tech5_t">🧪 WebDriver BiDi test suite</h3>
-          <p data-i18n="tech5_d">Five end-to-end tests drive a real headless browser over the BiDi protocol and verify the new-tab, persistence, search default, settings and the AI sidebar.</p>
-        </div>
-        <div class="card">
-          <h3 data-i18n="tech6_t">📦 Nothing on your system</h3>
-          <p data-i18n="tech6_d">No installer, no services, no registry changes, no background updaters. The whole browser lives in one folder you can delete at any time.</p>
-        </div>
+        <div class="card"><h3>🦊 Firefox ESR</h3><p data-i18n="tech1_d">Extended-support Firefox, rebranded “FoxAI Browser” via rcedit + foxai.cfg. Portable: unzip and run.</p></div>
+        <div class="card"><h3 data-i18n="tech2_t">🧩 Four WebExtensions (MV2)</h3><p data-i18n="tech2_d">New-tab, AI, search &amp; gestures installed via policies.json — sites cannot disable them.</p></div>
+        <div class="card"><h3>⚛️ React + Vite</h3><p data-i18n="tech3_d">FoxAI Start is a small React app with Vite, shipped as static assets under strict CSP.</p></div>
+        <div class="card"><h3 data-i18n="tech4_t">🛠️ PowerShell pipeline</h3><p data-i18n="tech4_d"><code>build-manual.ps1</code> / <code>build.ps1</code> packages XPIs, fetches uBlock, brands binaries, writes policies and the release zip.</p></div>
+        <div class="card"><h3 data-i18n="tech5_t">🧪 BiDi test suite</h3><p data-i18n="tech5_d">WebDriver BiDi drives headless FoxAI; checks fingerprint 100/100, CANVAS ENTROPY, new-tab, search and AI.</p></div>
+        <div class="card"><h3 data-i18n="tech6_t">📦 Portable</h3><p data-i18n="tech6_d">No installer, no services, no registry. One folder you can delete.</p></div>
+      </div>
+      <div class="how">
+        <h3 data-i18n="how_h">How it was built</h3>
+        <ol>
+          <li data-i18n="how1">Rebuilt from ~7k-file salvage backup → new-tab, AI, search, gestures, build &amp; tests (v1.0).</li>
+          <li data-i18n="how2">Hardening audits: CSP, first-party isolation, DoH, RFP, partition + clear-on-shutdown.</li>
+          <li data-i18n="how3">FoxAI One (v3.0.0): deterministic fingerprint 100/100 + opt-in Tor mode via SOCKS5 profile.</li>
+          <li data-i18n="how4">Reproducible: <code>build-manual.ps1</code> → <code>release/FoxAI-Browser-v3.0.0.zip</code> (324 MB).</li>
+        </ol>
       </div>
     </section>
 
-    <section id="why" class="section">
-      <h2 data-i18n="why_h">Why it exists</h2>
-      <p class="sub" data-i18n="why_sub">
-        The short version: browsers collect too much, show you too little, and
-        add features you never asked for. FoxAI is the opposite.
-      </p>
-      <div class="why-cols">
-        <div class="why">
-          <h3 data-i18n="why1_t">💥 It began with a deletion</h3>
-          <p data-i18n="why1_d">The original project was accidentally wiped. FoxAI was rebuilt from a ~7,000-file salvage backup — and during the rebuild, every default a browser sneaks in (telemetry, autofill, prefetch, referrers) was questioned and, where it leaks, turned off.</p>
-        </div>
-        <div class="why">
-          <h3 data-i18n="why2_t">🔬 Verifiable, not just "trust us"</h3>
-          <p data-i18n="why2_d">Each release ships a changelog that lists the exact leak that was closed and how. You can read it, rebuild it from source, and run the test suite yourself. There is nothing to take on faith.</p>
-        </div>
-        <div class="why">
-          <h3 data-i18n="why3_t">🏡 For daily use, not for show</h3>
-          <p data-i18n="why3_d">Privacy is useless if the browser is painful. FoxAI keeps the features people actually use — notes, to-do, bookmarks, quick search, AI help, mouse gestures — without the ones that exist to harvest you.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="ai" class="section alt">
-      <h2 data-i18n="ai_h">The AI that waits for permission</h2>
-      <p class="sub" data-i18n="ai_sub">
-        Nothing runs in the background. Page content is shared only when you
-        click "Allow page access", one action at a time — and you can revoke it instantly.
-      </p>
-      <ul class="ai-list">
-        <li data-i18n-html="ai1"><b>ChatGPT</b>, <b>Claude</b>, <b>Gemini</b> or keyless local <b>Ollama</b></li>
-        <li data-i18n="ai2">Free chat sends no page data</li>
-        <li data-i18n="ai3">Extraction capped and consent-gated</li>
-        <li data-i18n="ai4">API keys stored locally, never in URLs or logs</li>
-      </ul>
-    </section>
-
+    <!-- PRIVACY -->
     <section id="privacy" class="section">
       <h2 data-i18n="priv_h">Privacy you can verify</h2>
+      <p class="sub" data-i18n="priv_sub">No claims without code. Read config/user.js and foxai.cfg — every toggle is there.</p>
       <div class="cols">
         <ul class="check">
           <li data-i18n="priv1">No telemetry, no data collection</li>
-          <li data-i18n="priv2">Referrer disabled, beacon &amp; ping disabled</li>
-          <li data-i18n="priv3">First-party isolation on</li>
-          <li data-i18n="priv4">Prefetch / predictor / DNS prefetch off</li>
-          <li data-i18n="priv5">Autofill &amp; form history off</li>
-          <li data-i18n="priv6">Camera / microphone disabled by default</li>
+          <li data-i18n="priv2">Referrer, beacon &amp; ping disabled</li>
+          <li data-i18n="priv3">First-party isolation on; cookie partitioning + clear on shutdown</li>
+          <li data-i18n="priv4">Prefetch / predictor / DNS prefetch off; DoH via Cloudflare</li>
+          <li data-i18n="priv5">Autofill &amp; form history off; letterboxing off (deterministic sizing)</li>
+          <li data-i18n="priv6">Camera / mic / geo default-deny; autoplay blocked</li>
+          <li data-i18n="priv7">WebRTC disabled — no IP leaks; HTTPS-only on</li>
         </ul>
         <ul class="check">
-          <li data-i18n="priv7">Weather is opt-in (no location by default)</li>
-          <li data-i18n="priv8">Content scripts only run inside the browser</li>
-          <li data-i18n="priv9">Strict CSP: no inline script, no iframing</li>
-          <li data-i18n="priv10">Punycode shown for spoofed-looking domains</li>
-          <li data-i18n="priv11">Only the sites you visit, ever contacted</li>
-          <li data-i18n="priv12">Every fix is in the changelog, every line is local</li>
-          <li data-i18n="priv13">WebRTC disabled — no IP leaks</li>
-          <li data-i18n="priv14">HTTPS-only mode on by default</li>
+          <li data-i18n="priv8">Weather opt-in (no location by default); sensors/battery/beacon off</li>
+          <li data-i18n="priv9">Content scripts only inside the browser; strict CSP, no inline, no iframe</li>
+          <li data-i18n="priv10">Punycode shown for spoofing; partitioned storage</li>
+          <li data-i18n="priv11">Tor mode (opt-in): all traffic + DNS via SOCKS5, WebRTC dead</li>
+          <li data-i18n="priv12">Only sites you visit ever contacted; phone-home (studies, captive, region) off</li>
+          <li data-i18n="priv13">Fingerprint: 100/100 similarity + CANVAS ENTROPY PASS (per-session canvas noise)</li>
+          <li data-i18n="priv14">Every fix in CHANGELOG.md — build and check yourself</li>
         </ul>
       </div>
     </section>
 
-    <section id="about" class="section alt">
-      <h2 data-i18n="about_h">Who made it</h2>
-      <p class="sub" data-i18n="about_sub">
-        A one-person project. No company, no analytics, no sign-ups — just a
-        developer who wanted a browser with no hidden listeners.
-      </p>
-      <div class="about-box">
-        <img src="foxai-mark.svg" alt="" width="64" height="64">
-        <div>
-          <h3 data-i18n="about_t">Made by İlkay Can, in Türkiye</h3>
-          <p data-i18n="about_d">
-            Designed, built, tested and maintained by <b>İlkay Can</b> — a solo
-            developer based in <b>Türkiye</b>. Every commit is public, every
-            design decision is documented in the changelog, and the entire
-            source can be rebuilt with a single command. The name says it:
-            <b>Fox</b> — for the Firefox engine it rides on, and <b>AI</b> —
-            for the assistant that sits beside you, only when asked.
-          </p>
+    <!-- OPEN SOURCE -->
+    <section id="opensource" class="section alt">
+      <h2 data-i18n="os_h">Open source</h2>
+      <p class="sub" data-i18n="os_sub">No black box. Every commit public, every build reproducible.</p>
+      <div class="cta center">
+        <a class="btn primary" href="https://github.com/Can-5/foxai-browser" rel="noopener" data-i18n="os_btn">View Source on GitHub</a>
+        <a class="btn" href="https://github.com/Can-5/foxai-browser/releases" rel="noopener">Releases</a>
+      </div>
+      <p class="hint center" data-i18n="os_hint">MPL-2.0 (browser) · GPLv3 (uBlock Origin) · issues and PRs welcome.</p>
+    </section>
+
+    <!-- DOWNLOAD -->
+    <section id="download" class="section">
+      <h2 data-i18n="dl_h">Get FoxAI Browser</h2>
+      <p class="sub" data-i18n="dl_sub">Portable Firefox ESR build. Unzip, run, done — nothing installed to your system.</p>
+      <div class="dl-grid">
+        <div class="dl-card featured">
+          <h3>Windows</h3>
+          <p class="muted" data-i18n="dl_win">Recommended · Portable zip</p>
+          <a class="btn primary big" id="dlBtn" href="https://github.com/Can-5/foxai-browser/releases/download/v3.0.0/FoxAI-Browser-v3.0.0.zip" rel="noopener" data-i18n="dl_btn">Download v3.0.0</a>
+          <p class="hint" data-i18n="dl_hint">~324 MB · Firefox ESR base · unzip &amp; run FoxAI Browser.cmd</p>
+          <p class="hint"><a href="https://github.com/Can-5/foxai-browser/releases" rel="noopener" data-i18n="dl_all">All releases</a> · <a href="https://github.com/Can-5/foxai-browser#readme" rel="noopener">Build from source</a></p>
+        </div>
+        <div class="dl-card">
+          <h3>Linux</h3><p class="muted" data-i18n="dl_linux">Build from source</p><a class="btn" href="https://github.com/Can-5/foxai-browser" rel="noopener" data-i18n="dl_src">View on GitHub</a><p class="hint" data-i18n="dl_linux_hint">Use build-linux/ — no prebuilt zip yet.</p>
+        </div>
+        <div class="dl-card">
+          <h3>macOS</h3><p class="muted" data-i18n="dl_macos">Not yet</p><a class="btn" href="https://github.com/Can-5/foxai-browser" rel="noopener" data-i18n="dl_src2">View on GitHub</a><p class="hint" data-i18n="dl_macos_hint">Community build planned — source is public.</p>
         </div>
       </div>
+      <ol class="steps" aria-label="Install steps">
+        <li data-i18n="step1">Unzip <code>FoxAI-Browser-v3.0.0.zip</code> anywhere</li>
+        <li data-i18n="step2">Run <code>FoxAI Browser.cmd</code> (normal) or <code>FoxAI Tor.cmd</code> (Tor mode, after <code>scripts/install-tor.ps1</code>)</li>
+        <li data-i18n="step3">Done — FoxAI Start, AI Sidebar, gestures &amp; uBlock ready</li>
+      </ol>
+      <p class="hint center" data-i18n="dl_verify">Verify: <code>tests/test-fingerprint-benchmark.ps1</code> → 100.0% + CANVAS ENTROPY PASS · <a href="https://browserleaks.com" rel="noopener">browserleaks.com</a> · <a href="https://ipleak.net" rel="noopener">ipleak.net</a></p>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section alt">
+      <h2 data-i18n="faq_h">FAQ</h2>
+      <div class="faq">
+        <details><summary data-i18n="faq1_q">What is FoxAI Browser?</summary><p data-i18n="faq1_a">A portable, hardened Firefox ESR build with FoxAI Start new-tab, AI sidebar, gestures and uBlock Origin preinstalled. One folder, no installer.</p></details>
+        <details><summary data-i18n="faq2_q">Is it open source?</summary><p data-i18n="faq2_a">Yes — source at github.com/Can-5/foxai-browser (MPL-2.0; uBlock GPLv3). Every release is built reproducibly via build-manual.ps1.</p></details>
+        <details><summary data-i18n="faq3_q">What is it built with?</summary><p data-i18n="faq3_a">Firefox ESR engine (Gecko), four WebExtensions (MV2) for new-tab/AI/search/gestures, React+Vite for the new-tab UI, PowerShell build pipeline, WebDriver BiDi tests.</p></details>
+        <details><summary data-i18n="faq4_q">Which platforms are supported?</summary><p data-i18n="faq4_a">Windows portable is primary. Linux: build from source via build-linux/. macOS: not yet prebuilt, source available.</p></details>
+        <details><summary data-i18n="faq5_q">Is it free?</summary><p data-i18n="faq5_a">Yes, free and open source. No premium, no telemetry, no ads of its own.</p></details>
+        <details><summary data-i18n="faq6_q">Where can I download it?</summary><p data-i18n="faq6_a">Latest zip on GitHub Releases (v3.0.0, ~324 MB). Also “Build from source” in the repo.</p></details>
+        <details><summary data-i18n="faq7_q">How can I contribute?</summary><p data-i18n="faq7_a">Open an issue or PR on GitHub. See CHANGELOG.md for style and testing (BiDi suite).</p></details>
+        <details><summary data-i18n="faq8_q">How does the AI work?</summary><p data-i18n="faq8_a">The sidebar supports ChatGPT, Claude, Gemini or local Ollama. Page content is sent only after you click “Allow page access” — one action at a time, revocable, keys stored locally.</p></details>
+      </div>
+    </section>
+
+    <!-- ROADMAP -->
+    <section id="roadmap" class="section">
+      <h2 data-i18n="roadmap_h">Roadmap</h2>
+      <div class="roadmap-grid">
+        <div class="road-col"><h3 data-i18n="road_done">Completed</h3><ul class="road">
+          <li><span>v3.0.0</span> FoxAI One — 100/100 fingerprint + Tor Mode</li>
+          <li><span>v2.7–2.14</span> Perfect Fingerprint, Containers Pro, Media Lockdown, Download Safety, Search Privacy, Gestures v2, Startup Guard</li>
+          <li><span>v1.8.0</span> RFP on, phone-home off, partitioned storage, Hub</li>
+          <li><span>v1.5.1</span> DoH on, WebRTC no-leak, Safe Browsing reporting off</li>
+        </ul></div>
+        <div class="road-col"><h3 data-i18n="road_progress">In Progress</h3><ul class="road"><li><span>site</span> <span data-i18n="road_ip1">This bilingual site — Cloudflare Pages primary, GitHub Pages backup</span></li><li><span>tests</span> <span data-i18n="road_ip2">More BiDi coverage for Tor and fingerprint</span></li></ul></div>
+        <div class="road-col"><h3 data-i18n="road_planned">Planned</h3><ul class="road"><li><span data-i18n="road_p1">Linux prebuilt &amp; macOS community build</span></li><li><span data-i18n="road_p2">Real screenshots to replace placeholders</span></li><li><span data-i18n="road_p3">Auto-update polish</span></li></ul></div>
+      </div>
       <h3 class="road-title" data-i18n="road_t">The road so far</h3>
-      <ul class="road">
-        <li data-i18n-html="road1"><span>v1.0.0</span> Rebuilt from scratch from the salvage backup — new-tab, AI, search, gestures, build &amp; tests.</li>
-        <li data-i18n-html="road2"><span>v1.1.0</span> Gray default theme; AI sender validation; API keys moved out of URLs.</li>
-        <li data-i18n-html="road3"><span>v1.2.0</span> Full security &amp; privacy audit: strict CSP everywhere, weather opt-in, hardened prefs.</li>
-        <li data-i18n-html="road4"><span>v2.1.0</span> More settings (engine, clock, new-tab links) and version shown in the UI.</li>
-        <li data-i18n-html="road5"><span>now</span> This website, built the same way everything else is: local, static, no trackers.</li>
-        <li data-i18n-html="road6"><span>v1.4.0</span> Audit pass 2: geolocation is opt-in, WebRTC off, HTTPS-only on, tracking tags removed — plus a big settings upgrade.</li>
-        <li data-i18n-html="road7"><span>v1.5.0</span> Real-fork defaults: LibreWolf-style hardening (letterboxing, cookie partitioning, clear-on-shutdown, WebGL/DRM off, telemetry fully off) and fork tab behaviour.</li>
-        <li data-i18n-html="road8"><span>v1.5.1</span> Leak-test pass: DNS-over-HTTPS on (leak tests now show Cloudflare, not your ISP), WebRTC verified No Leak, Safe Browsing remote reporting off.</li>
-        <li data-i18n-html="road9"><span>v1.6.0</span> Built-in SOCKS5 proxy (Settings → Proxy): route all traffic through a proxy so leak tests show the proxy address — with no silent direct fallback if the proxy dies.</li>
-        <li data-i18n-html="road10"><span>v1.7.0</span> Launcher + auto-updater: <code>FoxAI Browser.cmd</code> starts the browser, <code>FoxAI Update.cmd</code> checks GitHub, installs the newest release and keeps your profile.</li>
-        <li data-i18n-html="road11"><span>v1.8.0</span> Full leak &amp; hardening audit: RFP fully on, every phone-home connection off (updates, studies, region, captive portal, connectivity), partitioned storage, faster network + cache, and the FoxAI Hub.</li>
+      <ul class="road full">
+        <li data-i18n-html="road1"><span>v1.0.0</span> Rebuilt from salvage backup — new-tab, AI, search, gestures, build &amp; tests.</li>
+        <li data-i18n-html="road2"><span>v1.1.0</span> Gray default theme; AI sender validation; keys out of URLs.</li>
+        <li data-i18n-html="road3"><span>v1.2.0</span> CSP everywhere, weather opt-in, hardened prefs.</li>
+        <li data-i18n-html="road6"><span>v1.4.0</span> Audit pass 2: geo opt-in, WebRTC off, HTTPS-only, tracking tags removed.</li>
+        <li data-i18n-html="road7"><span>v1.5.0</span> LibreWolf-style hardening: letterboxing, partitioning, clear-on-shutdown, WebGL/DRM off.</li>
+        <li data-i18n-html="road10"><span>v1.7.0</span> Launcher + auto-updater: FoxAI Browser.cmd / FoxAI Update.cmd.</li>
+        <li data-i18n-html="road11"><span>v1.8.0</span> Full leak &amp; hardening audit + Hub.</li>
+        <li data-i18n-html="road12"><span>v3.0.0</span> FoxAI One — fingerprint 100/100 + opt-in Tor.</li>
       </ul>
     </section>
 
-    <section id="hub" class="section alt">
-      <h2 data-i18n="hub_h">FoxAI Hub</h2>
-      <p class="sub" data-i18n="hub_sub">Everything FoxAI in one place — release, source, changelog and ways to verify or reach us.</p>
-      <div class="grid">
-        <article class="card">
-          <span class="card-ico">🚀</span>
-          <h3 data-i18n="hub1_t">Latest release</h3>
-          <p data-i18n="hub1_d">Portable build with the built-in launcher and auto-updater. One download, unzip anywhere, <code>FoxAI Update.cmd</code> keeps it fresh.</p>
-          <a class="btn small" href="#download" data-i18n="hub1_b">Download</a>
-        </article>
-        <article class="card">
-          <span class="card-ico">📦</span>
-          <h3 data-i18n="hub2_t">Source</h3>
-          <p data-i18n="hub2_d">Everything is built from a public repo — no dark magic, fully reproducible.</p>
-          <a class="btn small" href="https://github.com/Can-5/foxai-browser" rel="noopener" data-i18n="hub2_b">Open GitHub</a>
-        </article>
-        <article class="card">
-          <span class="card-ico">📄</span>
-          <h3 data-i18n="hub3_t">Changelog</h3>
-          <p data-i18n="hub3_d">Every release documented: what changed, why, and how it was verified.</p>
-          <a class="btn small" href="https://github.com/Can-5/foxai-browser/releases" rel="noopener" data-i18n="hub3_b">Releases</a>
-        </article>
-        <article class="card">
-          <span class="card-ico">💬</span>
-          <h3 data-i18n="hub4_t">Feedback</h3>
-          <p data-i18n="hub4_d">Bug report, idea or question? Issues are open and read.</p>
-          <a class="btn small" href="https://github.com/Can-5/foxai-browser/issues" rel="noopener" data-i18n="hub4_b">Open an issue</a>
-        </article>
-        <article class="card">
-          <span class="card-ico">🛡️</span>
-          <h3 data-i18n="hub5_t">Verify it yourself</h3>
-          <p data-i18n="hub5_d">Leak tests to run after install — expect the proxy or your connection's IP, never a browser leak.</p>
-          <p class="links-row">
-            <a href="https://browserleaks.com" rel="noopener">browserleaks.com</a> ·
-            <a href="https://ipleak.net" rel="noopener">ipleak.net</a> ·
-            <a href="https://dnsleaktest.com" rel="noopener">dnsleaktest.com</a>
-          </p>
-        </article>
-        <article class="card">
-          <span class="card-ico">⚡</span>
-          <h3 data-i18n="hub6_t">Quick start</h3>
-          <p data-i18n="hub6_d"><code>FoxAI Browser.cmd</code> starts the browser, <code>FoxAI Update.cmd</code> checks for updates. Nothing is installed to the system.</p>
-        </article>
+    <!-- GITHUB CTA -->
+    <section class="cta-banner">
+      <h2 data-i18n="cta_h">Built in public. Yours to keep.</h2>
+      <p data-i18n="cta_p">Star it, fork it, break it — every commit is yours to read.</p>
+      <div class="cta">
+        <a class="btn primary" href="https://github.com/Can-5/foxai-browser" rel="noopener">★ <span data-i18n="cta_star">View Source</span></a>
+        <a class="btn" href="https://github.com/Can-5/foxai-browser/issues" rel="noopener" data-i18n="cta_issue">Open an issue</a>
       </div>
-    </section>
-
-    <section id="download" class="section">
-      <h2 data-i18n="dl_h">Get FoxAI Browser</h2>
-      <p class="sub" data-i18n="dl_sub">
-        A portable, branded Firefox ESR build with everything pre-installed.
-        Unzip, run, done — nothing is installed to your system.
-      </p>
-      <div class="dl">
-        <a class="btn primary big" id="dlBtn" href="FoxAI-Browser-v2.1.0.zip" download data-i18n="dl_btn">Download v2.1.0</a>
-        <p class="hint" data-i18n="dl_hint">~200 MB · Windows · Firefox ESR 140.13.0 base</p>
-      </div>
-      <ol class="steps">
-        <li data-i18n="step1">Unzip <code>FoxAI-Browser-v2.1.0.zip</code> anywhere</li>
-        <li data-i18n="step2">Run <code>launcher.vbs</code> (or <code>firefox.exe</code>)</li>
-        <li data-i18n="step3">Done — FoxAI Start, AI Sidebar, gestures &amp; uBlock are ready</li>
-      </ol>
     </section>
   </main>
 
   <footer>
-    <img src="foxai-mark.svg" alt="" width="24" height="24">
+    <img src="foxai-mark.svg" alt="" width="24" height="24" decoding="async">
     <div>
-      <p data-i18n="footer_t">FoxAI Browser <span id="verFooter">v2.1.0</span> · Firefox ESR base · MPL-2.0 (uBlock Origin: GPLv3)</p>
-      <p class="made-by" data-i18n="footer_made">Made by İlkay Can, in Türkiye · © <span class="year"></span></p>
+      <p data-i18n="footer_t">FoxAI Browser <span id="verFooter">v3.0.0</span> · Firefox ESR base · MPL-2.0 (uBlock Origin: GPLv3)</p>
+      <p class="made-by" data-i18n="footer_made">Made by İlkay Can, in Türkiye · © <span class="year"></span> · <a href="https://github.com/Can-5/foxai-browser" rel="noopener">GitHub</a> · <a href="#privacy" data-i18n="footer_privacy">Privacy</a></p>
     </div>
   </footer>
 

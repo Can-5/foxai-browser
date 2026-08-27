@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://can-5.github.io/foxai-browser/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://can-5.github.io/foxai-browser/#features</loc></url>
-  <url><loc>https://can-5.github.io/foxai-browser/#tech</loc></url>
-  <url><loc>https://can-5.github.io/foxai-browser/#why</loc></url>
-  <url><loc>https://can-5.github.io/foxai-browser/#ai</loc></url>
-  <url><loc>https://can-5.github.io/foxai-browser/#privacy</loc></url>
-  <url><loc>https://can-5.github.io/foxai-browser/#hub</loc></url>
-  <url><loc>https://can-5.github.io/foxai-browser/#download</loc></url>
+  <url><loc>https://can-5.github.io/foxai-browser/#what</loc><priority>0.8</priority></url>
+  <url><loc>https://can-5.github.io/foxai-browser/#features</loc><priority>0.9</priority></url>
+  <url><loc>https://can-5.github.io/foxai-browser/#showcase</loc><priority>0.7</priority></url>
+  <url><loc>https://can-5.github.io/foxai-browser/#screenshots</loc><priority>0.6</priority></url>
+  <url><loc>https://can-5.github.io/foxai-browser/#tech</loc><priority>0.8</priority></url>
+  <url><loc>https://can-5.github.io/foxai-browser/#privacy</loc><priority>0.8</priority></url>
+  <url><loc>https://can-5.github.io/foxai-browser/#opensource</loc><priority>0.7</priority></url>
+  <url><loc>https://can-5.github.io/foxai-browser/#download</loc><priority>0.9</priority></url>
+  <url><loc>https://can-5.github.io/foxai-browser/#faq</loc><priority>0.6</priority></url>
+  <url><loc>https://can-5.github.io/foxai-browser/#roadmap</loc><priority>0.6</priority></url>
 </urlset>
