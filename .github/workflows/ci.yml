@@ -176,9 +176,9 @@ jobs:
           name: foxai-linux
           path: release-linux/*.tar.gz
 
-  # macOS build
+  # macOS build (latest = auto macOS 15 Sequoia / 26 Tahoe / 27 future)
   build-macos:
-    runs-on: macos-14
+    runs-on: macos-latest
     timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
