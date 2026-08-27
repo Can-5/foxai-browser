@@ -78,7 +78,7 @@ const DICT = {
     faq11_q:"How do I use Tor mode?", faq11_a:"Run scripts/install-tor.ps1 once, then start with FoxAI Tor.cmd. All traffic + DNS goes via SOCKS5 127.0.0.1:9050, WebRTC dead. Close Tor and start FoxAI Browser.cmd to return to normal.",
     faq12_q:"Is portable really portable?", faq12_a:"Yes — no installer, no services, no registry. One folder you can move to USB or delete. Your profile stays inside the folder.",
     faq13_q:"How do I update?", faq13_a:"Download the new zip from Releases or run FoxAI Update.cmd. Or build from source: build-manual.ps1 → release/FoxAI-Browser-v3.0.0.zip.",
-    faq14_q:"How do I get support?", faq14_a:"Open an issue on GitHub, or email hi@foxai.example — usually replies within a day. For bugs, include version and OS.",
+    faq14_q:"How do I get support?", faq14_a:"Open an issue on GitHub, or email foxaibrowsersuppport@outlook.com - auto-reply even when offline, human reply within 24h.",
     faq15_q:"Who made FoxAI Browser?", faq15_a:"Built by İlkay Can in Türkiye — Firefox ESR base, foxai-mark logo, Photon-inspired site. It’s my daily browser made public. ♥",
     shot6:"Mouse gestures v2", shot7:"Privacy controls", shot8:"Themes & backgrounds",
     roadmap_h:"Roadmap", road_done:"Completed", road_progress:"In Progress", road_planned:"Planned",
@@ -163,7 +163,7 @@ const DICT = {
     faq11_q:"Tor modunu nasıl kullanırım?", faq11_a:"Bir kez scripts/install-tor.ps1 çalıştır, sonra FoxAI Tor.cmd ile başlat. Tüm trafik + DNS SOCKS5 127.0.0.1:9050 üzerinden, WebRTC kapalı. Normale dönmek için Tor'u kapatıp FoxAI Browser.cmd'yi çalıştır.",
     faq12_q:"Gerçekten taşınabilir mi?", faq12_a:"Evet — kurulum, servis, kayıt defteri yok. USB'ye taşıyıp silebileceğin tek klasör. Profilin klasörün içinde kalır.",
     faq13_q:"Nasıl güncellerim?", faq13_a:"Yeni zip'i Releases'ten indir veya FoxAI Update.cmd'yi çalıştır. Veya kaynaktan derle: build-manual.ps1 → release/FoxAI-Browser-v3.0.0.zip.",
-    faq14_q:"Nasıl destek alırım?", faq14_a:"GitHub'da issue aç veya hi@foxai.example'a yaz — genelde bir gün içinde dönüş yapılır. Hatalarda sürüm ve işletim sistemini ekle.",
+    faq14_q:"Nasıl destek alırım?", faq14_a:"GitHub'da issue aç veya foxaibrowsersuppport@outlook.com'a yaz - PC kapaliyken bile otomatik cevap gelir, 24s icinde yanit.",
     faq15_q:"FoxAI Browser'ı kim yaptı?", faq15_a:"Türkiye'de İlkay Can yaptı — Firefox ESR taban, foxai-mark logo, Photon site. Günlük kullandığım tarayıcıyı herkese açtım. ♥",
     shot6:"Fare jestleri v2", shot7:"Gizlilik kontrolleri", shot8:"Temalar ve arka planlar",
     roadmap_h:"Yol Haritası", road_done:"Tamamlandı", road_progress:"Devam Ediyor", road_planned:"Planlandı",
@@ -248,3 +248,4 @@ document.addEventListener("DOMContentLoaded",()=>{
     }catch(e){}
   }
 });
+
