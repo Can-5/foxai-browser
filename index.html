@@ -152,6 +152,12 @@
         <article class="dl-card" data-os="mac"><div class="dl-head"><span class="dl-ico"><svg viewBox="0 0 24 24"><path d="M12 2a6 6 0 015 3 5 5 0 00-5 6 6 6 0 01-6-6 6 6 0 016-3z"/><circle cx="12" cy="12" r="2"/></svg></span><h3>macOS</h3><span class="badge ghost" data-i18n="dl_ci2">CI artifact</span></div><p class="dl-meta"><span data-i18n="dl_mac_d">.dmg / app bundle via CI</span></p><a class="btn" href="https://github.com/Can-5/foxai-browser/actions/workflows/ci.yml" rel="noopener" data-i18n="dl_mac_btn">Get macOS build (Actions)</a><p class="hint small" data-i18n-html="dl_mac_hint">Also <code>build-macos/build.sh</code> on a Mac.</p></article>
       </div>
       <p class="sub small" id="dlDetect"></p>
+      <ol class="steps" aria-label="Install steps">
+        <li data-i18n="step1">Unzip <code>FoxAI-Browser-v3.0.0.zip</code> anywhere</li>
+        <li data-i18n="step2">Run <code>FoxAI Browser.cmd</code> (normal) or <code>FoxAI Tor.cmd</code> (Tor mode, after <code>scripts/install-tor.ps1</code>)</li>
+        <li data-i18n="step3">Done — FoxAI Start, AI Sidebar, gestures & uBlock ready</li>
+      </ol>
+      <p class="hint center" data-i18n="dl_verify">Verify: <code>tests/test-fingerprint-benchmark.ps1</code> → 100.0% + CANVAS ENTROPY PASS · <a href="https://browserleaks.com" rel="noopener">browserleaks.com</a> · <a href="https://ipleak.net" rel="noopener">ipleak.net</a></p>
     </section>
 
     <!-- SCREENSHOTS GALLERY -->
@@ -159,11 +165,11 @@
       <h2 data-i18n="shots_h">Screenshots</h2>
       <p class="sub" data-i18n="shots_sub">Add real captures to <code>screenshots/</code> — the gallery picks them up automatically. Until then, placeholders stay.</p>
       <div class="gallery">
-        <figure class="shot"><div class="shot-chrome"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div><img src="screenshots/main.webp" alt="Main browser — FoxAI Start" width="640" height="400" loading="lazy" decoding="async"><figcaption>Main window + FoxAI Start</figcaption></figure>
-        <figure class="shot"><div class="shot-chrome"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div><img src="screenshots/ai.webp" alt="AI Sidebar — consent-gated" width="640" height="400" loading="lazy" decoding="async"><figcaption>AI Sidebar — consent-gated</figcaption></figure>
-        <figure class="shot"><div class="shot-chrome"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div><img src="screenshots/tabs.webp" alt="Tabs &amp; containers" width="640" height="400" loading="lazy" decoding="async"><figcaption>Tabs, address bar, containers</figcaption></figure>
-        <figure class="shot"><div class="shot-chrome"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div><img src="screenshots/settings.webp" alt="Settings &amp; privacy toggles" width="640" height="400" loading="lazy" decoding="async"><figcaption>Settings &amp; privacy toggles</figcaption></figure>
-        <figure class="shot"><div class="shot-chrome"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div><img src="screenshots/tor.webp" alt="Tor mode — SOCKS5" width="640" height="400" loading="lazy" decoding="async"><figcaption>FoxAI Tor.cmd — SOCKS5</figcaption></figure>
+        <figure class="shot"><div class="shot-chrome"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div><img src="screenshots/main.webp" alt="Main browser — FoxAI Start" width="640" height="400" loading="lazy" decoding="async"><figcaption data-i18n="shot1">Main window + FoxAI Start</figcaption></figure>
+        <figure class="shot"><div class="shot-chrome"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div><img src="screenshots/ai.webp" alt="AI Sidebar — consent-gated" width="640" height="400" loading="lazy" decoding="async"><figcaption data-i18n="shot2">AI Sidebar — consent-gated</figcaption></figure>
+        <figure class="shot"><div class="shot-chrome"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div><img src="screenshots/tabs.webp" alt="Tabs &amp; containers" width="640" height="400" loading="lazy" decoding="async"><figcaption data-i18n="shot3">Tabs, address bar, containers</figcaption></figure>
+        <figure class="shot"><div class="shot-chrome"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div><img src="screenshots/settings.webp" alt="Settings &amp; privacy toggles" width="640" height="400" loading="lazy" decoding="async"><figcaption data-i18n="shot4">Settings &amp; privacy toggles</figcaption></figure>
+        <figure class="shot"><div class="shot-chrome"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div><img src="screenshots/tor.webp" alt="Tor mode — SOCKS5" width="640" height="400" loading="lazy" decoding="async"><figcaption data-i18n="shot5">FoxAI Tor.cmd — SOCKS5</figcaption></figure>
         <figure class="shot"><div class="shot-chrome"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div><img src="screenshots/gestures.webp" alt="Mouse gestures v2" width="640" height="400" loading="lazy" decoding="async" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><div class="ph" data-label="Gestures v2" style="display:none"></div><figcaption data-i18n="shot6">Mouse gestures v2</figcaption></figure>
         <figure class="shot"><div class="shot-chrome"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div><img src="screenshots/privacy.webp" alt="Privacy controls" width="640" height="400" loading="lazy" decoding="async" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><div class="ph" data-label="Privacy" style="display:none"></div><figcaption data-i18n="shot7">Privacy controls</figcaption></figure>
         <figure class="shot"><div class="shot-chrome"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div><img src="screenshots/themes.webp" alt="Themes & backgrounds" width="640" height="400" loading="lazy" decoding="async" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><div class="ph" data-label="Themes" style="display:none"></div><figcaption data-i18n="shot8">Themes & backgrounds</figcaption></figure>
@@ -228,33 +234,6 @@
         <a class="btn" href="https://github.com/Can-5/foxai-browser/releases" rel="noopener">Releases</a>
       </div>
       <p class="hint center" data-i18n="os_hint">MPL-2.0 (browser) · GPLv3 (uBlock Origin) · issues and PRs welcome.</p>
-    </section>
-
-    <!-- DOWNLOAD -->
-    <section id="download" class="section">
-      <h2 data-i18n="dl_h">Get FoxAI Browser</h2>
-      <p class="sub" data-i18n="dl_sub">Portable Firefox ESR build. Unzip, run, done — nothing installed to your system.</p>
-      <div class="dl-grid">
-        <div class="dl-card featured">
-          <h3>Windows</h3>
-          <p class="muted" data-i18n="dl_win">Recommended · Portable zip</p>
-          <a class="btn primary big" id="dlBtn" href="https://github.com/Can-5/foxai-browser/releases/download/v3.0.0/FoxAI-Browser-v3.0.0.zip" rel="noopener" data-i18n="dl_btn">Download v3.0.0</a>
-          <p class="hint" data-i18n="dl_hint">~324 MB · Firefox ESR base · unzip &amp; run FoxAI Browser.cmd</p>
-          <p class="hint"><a href="https://github.com/Can-5/foxai-browser/releases" rel="noopener" data-i18n="dl_all">All releases</a> · <a href="https://github.com/Can-5/foxai-browser#readme" rel="noopener">Build from source</a></p>
-        </div>
-        <div class="dl-card">
-          <h3>Linux</h3><p class="muted" data-i18n="dl_linux">Build from source</p><a class="btn" href="https://github.com/Can-5/foxai-browser" rel="noopener" data-i18n="dl_src">View on GitHub</a><p class="hint" data-i18n="dl_linux_hint">Use build-linux/ — no prebuilt zip yet.</p>
-        </div>
-        <div class="dl-card">
-          <h3>macOS</h3><p class="muted" data-i18n="dl_macos">Not yet</p><a class="btn" href="https://github.com/Can-5/foxai-browser" rel="noopener" data-i18n="dl_src2">View on GitHub</a><p class="hint" data-i18n="dl_macos_hint">Community build planned — source is public.</p>
-        </div>
-      </div>
-      <ol class="steps" aria-label="Install steps">
-        <li data-i18n="step1">Unzip <code>FoxAI-Browser-v3.0.0.zip</code> anywhere</li>
-        <li data-i18n="step2">Run <code>FoxAI Browser.cmd</code> (normal) or <code>FoxAI Tor.cmd</code> (Tor mode, after <code>scripts/install-tor.ps1</code>)</li>
-        <li data-i18n="step3">Done — FoxAI Start, AI Sidebar, gestures &amp; uBlock ready</li>
-      </ol>
-      <p class="hint center" data-i18n="dl_verify">Verify: <code>tests/test-fingerprint-benchmark.ps1</code> → 100.0% + CANVAS ENTROPY PASS · <a href="https://browserleaks.com" rel="noopener">browserleaks.com</a> · <a href="https://ipleak.net" rel="noopener">ipleak.net</a></p>
     </section>
 
     <!-- FAQ -->
