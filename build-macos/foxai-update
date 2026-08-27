@@ -1,0 +1,4 @@
+#!/bin/bash
+# foxai-update - macOS updater
+set -euo pipefail
+echo "FoxAI Browser macOS: download latest from https://github.com/Can-5/foxai-browser/releases"

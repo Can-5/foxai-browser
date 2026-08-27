@@ -1,0 +1,14 @@
+﻿#!/bin/bash
+# foxai-browser - Launch FoxAI Browser on macOS
+set -euo pipefail
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+ROOT_DIR="$SCRIPT_DIR"
+if [[ "$SCRIPT_DIR" == */build-macos ]]; then ROOT_DIR="$(dirname "$SCRIPT_DIR")"; fi
+FIREFOX_BIN="$ROOT_DIR/firefox-foxai/runtime/Firefox.app/Contents/MacOS/firefox"
+PROFILE_DIR="$ROOT_DIR/firefox-foxai/profile/foxai"
+if [[ ! -x "$FIREFOX_BIN" ]]; then
+  echo "Error: Firefox binary not found at $FIREFOX_BIN" >&2
+  exit 1
+fi
+mkdir -p "$PROFILE_DIR"
+exec "$FIREFOX_BIN" -profile "$PROFILE_DIR" "$@"

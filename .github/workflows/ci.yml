@@ -2,9 +2,9 @@ name: CI/CD - FoxAI Browser
 
 on:
   push:
-    branches: [main]
+    branches: [main, master]
   pull_request:
-    branches: [main]
+    branches: [main, master]
   release:
     types: [published]
 
@@ -155,3 +155,42 @@ jobs:
             if (extra.length) { console.warn('TR extra keys:', extra); }
             console.log('i18n keys OK:', enKeys.length, 'keys');
           "
+  # Linux build
+  build-linux:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: extensions/foxai-core/package-lock.json
+      - name: Install deps
+        run: sudo apt-get update && sudo apt-get install -y wget bzip2 p7zip-full patchelf desktop-file-utils imagemagick
+      - name: Build Linux
+        run: bash build-linux/build.sh
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: foxai-linux
+          path: release-linux/*.tar.gz
+
+  # macOS build
+  build-macos:
+    runs-on: macos-14
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: extensions/foxai-core/package-lock.json
+      - name: Build macOS
+        run: bash build-macos/build.sh
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: foxai-macos
+          path: release-macos/*.tar.gz
