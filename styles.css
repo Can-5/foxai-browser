@@ -388,18 +388,18 @@ footer a:hover{color:var(--text)}
 /* ── handwriting accents ── */
 .hand{
   font-family:"Caveat","Patrick Hand","Segoe Script","Comic Sans MS",cursive;
-  font-weight:600; font-size:19px; line-height:1.2; letter-spacing:.01em;
+  font-weight:600; font-size:26px; line-height:1.2; letter-spacing:.01em;
   color:var(--accent); transform:rotate(-1deg); display:inline-block;
   margin:0 auto 10px; opacity:.95;
 }
 .hand-hero{
-  font-size:22px; color:rgba(255,255,255,.85); background:rgba(255,255,255,.08);
-  padding:6px 14px; border-radius:999px; border:1px dashed rgba(255,255,255,.18);
+  font-size:28px; color:rgba(255,255,255,.9); background:rgba(255,255,255,.08);
+  padding:8px 18px; border-radius:999px; border:1px dashed rgba(255,255,255,.18);
   transform:rotate(-1.2deg);
 }
-.section .hand{ color:var(--accent); font-size:20px; margin-bottom:8px; }
+.section .hand{ color:var(--accent); font-size:26px; margin-bottom:8px; }
 .hand-footer{
-  font-size:17px; color:var(--muted); margin:6px 0 2px; transform:rotate(-0.6deg);
+  font-size:22px; color:var(--muted); margin:6px 0 2px; transform:rotate(-0.6deg);
 }
 
 /* ── responsive ── */
