@@ -143,6 +143,17 @@
       <p class="hint" style="text-align:center" data-i18n="showcase_hint">Screenshots — FoxAI Start, AI Sidebar, Containers (no stock images).</p>
     </section>
 
+    <section id="download" class="section">
+      <h2 data-i18n="dl_h">Download FoxAI Browser</h2>
+      <p class="sub" data-i18n="dl_sub">Pick your platform — same profile format, same privacy. Windows is prebuilt now; Linux &amp; macOS ship as CI artifacts and upcoming release assets.</p>
+      <div class="dl-grid">
+        <article class="dl-card is-primary" data-os="win"><div class="dl-head"><span class="dl-ico"><svg viewBox="0 0 24 24"><path d="M3 12V6.75l6-1.32V12H3zm6 1.5H3v5.25l6 1.32V13.5zm7.5-7.32L21 5v7H13.5V6.18zM13.5 13.5H21v7l-7.5-1.18V13.5z"/></svg></span><h3>Windows</h3><span class="badge" data-i18n="dl_rec">Recommended</span></div><p class="dl-meta">Portable .zip · ~324 MB · <span data-i18n="dl_win_d">unzip &amp; run FoxAI Browser.cmd</span></p><a class="btn primary" href="https://github.com/Can-5/foxai-browser/releases/tag/v3.0.0" rel="noopener" data-i18n="dl_win_btn">Download for Windows</a><p class="hint small"><a href="https://github.com/Can-5/foxai-browser/releases/download/v3.0.0/FoxAI-Browser-v3.0.0.zip" rel="noopener">direct .zip</a> · <code>FoxAI Update.cmd</code> <span data-i18n="dl_upd">for updates</span></p></article>
+        <article class="dl-card" data-os="linux"><div class="dl-head"><span class="dl-ico"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zM7 14a1 1 0 011-1h2a1 1 0 011 1v1H7v-1zm8 0a1 1 0 011-1h2a1 1 0 011 1v1h-4v-1z"/></svg></span><h3>Linux</h3><span class="badge ghost" data-i18n="dl_ci">CI artifact</span></div><p class="dl-meta">.tar.gz · <span data-i18n="dl_lin_d">extract &amp; run <code>./foxai-browser</code></span></p><a class="btn" href="https://github.com/Can-5/foxai-browser/actions/workflows/ci.yml" rel="noopener" data-i18n="dl_lin_btn">Get Linux build (Actions)</a><p class="hint small" data-i18n-html="dl_lin_hint">Or <code>build-linux/build.sh</code> from source.</p></article>
+        <article class="dl-card" data-os="mac"><div class="dl-head"><span class="dl-ico"><svg viewBox="0 0 24 24"><path d="M12 2a6 6 0 015 3 5 5 0 00-5 6 6 6 0 01-6-6 6 6 0 016-3z"/><circle cx="12" cy="12" r="2"/></svg></span><h3>macOS</h3><span class="badge ghost" data-i18n="dl_ci2">CI artifact</span></div><p class="dl-meta"><span data-i18n="dl_mac_d">.dmg / app bundle via CI</span></p><a class="btn" href="https://github.com/Can-5/foxai-browser/actions/workflows/ci.yml" rel="noopener" data-i18n="dl_mac_btn">Get macOS build (Actions)</a><p class="hint small" data-i18n-html="dl_mac_hint">Also <code>build-macos/build.sh</code> on a Mac.</p></article>
+      </div>
+      <p class="sub small" id="dlDetect"></p>
+    </section>
+
     <!-- SCREENSHOTS GALLERY -->
     <section id="screenshots" class="section">
       <h2 data-i18n="shots_h">Screenshots</h2>

@@ -58,8 +58,9 @@ const DICT = {
     priv1:"No telemetry, no data collection", priv2:"Referrer, beacon & ping disabled", priv3:"First-party isolation on; cookie partitioning + clear on shutdown", priv4:"Prefetch / predictor / DNS prefetch off; DoH via Cloudflare", priv5:"Autofill & form history off; letterboxing off (deterministic sizing)", priv6:"Camera / mic / geo default-deny; autoplay blocked", priv7:"WebRTC disabled — no IP leaks; HTTPS-only on",
     priv8:"Weather opt-in (no location by default); sensors/battery/beacon off", priv9:"Content scripts only inside the browser; strict CSP, no inline, no iframe", priv10:"Punycode shown for spoofing; partitioned storage", priv11:"Tor mode (opt-in): all traffic + DNS via SOCKS5, WebRTC dead", priv12:"Only sites you visit ever contacted; phone-home (studies, captive, region) off", priv13:"Fingerprint: 100/100 similarity + CANVAS ENTROPY PASS (per-session canvas noise)", priv14:"Every fix in CHANGELOG.md — build and check yourself",
     os_h:"Open source", os_sub:"No black box. Every commit public, every build reproducible.", os_btn:"View Source on GitHub", os_hint:"MPL-2.0 (browser) · GPLv3 (uBlock Origin) · issues and PRs welcome.",
-    dl_h:"Get FoxAI Browser", dl_sub:"Portable Firefox ESR build. Unzip, run, done — nothing installed to your system.",
-    dl_win:"Recommended · Portable zip", dl_btn:"Download v" + VERSION, dl_hint:"~324 MB · Firefox ESR base · unzip & run FoxAI Browser.cmd",
+    dl_h:"Get FoxAI Browser", dl_sub:"Pick your platform — same profile, same privacy. Windows is prebuilt now; Linux &amp; macOS ship as CI artifacts and upcoming release assets.",
+    dl_rec:"Recommended", dl_ci:"CI artifact", dl_ci2:"CI artifact", dl_win_d:"Unzip &amp; run FoxAI Browser.cmd", dl_win_btn:"Download for Windows", dl_upd:"for updates", dl_lin_d:"Extract &amp; run <code>./foxai-browser</code>", dl_lin_btn:"Get Linux build (Actions)", dl_lin_hint:"Or from source: <code>build-linux/build.sh</code>.", dl_mac_d:".dmg / app bundle via CI", dl_mac_btn:"Get macOS build (Actions)", dl_mac_hint:"Also <code>build-macos/build.sh</code> on a Mac.",
+    dl_win:"Recommended · Portable zip", dl_btn:"Download v" + VERSION, dl_hint:"~324 MB · Firefox ESR base · unzip &amp; run FoxAI Browser.cmd",
     dl_all:"All releases", dl_src:"View on GitHub", dl_linux:"Build from source", dl_linux_hint:"Use build-linux/ — no prebuilt zip yet.", dl_macos:"Not yet", dl_macos_hint:"Community build planned — source is public.", dl_src2:"View on GitHub",
     step1:"Unzip <code>FoxAI-Browser-v" + VERSION + ".zip</code> anywhere", step2:"Run <code>FoxAI Browser.cmd</code> (normal) or <code>FoxAI Tor.cmd</code> (Tor mode, after <code>scripts/install-tor.ps1</code>)", step3:"Done — FoxAI Start, AI Sidebar, gestures & uBlock ready",
     dl_verify:"Verify: <code>tests/test-fingerprint-benchmark.ps1</code> → 100.0% + CANVAS ENTROPY PASS",
@@ -67,7 +68,7 @@ const DICT = {
     faq1_q:"What is FoxAI Browser?", faq1_a:"A portable, hardened Firefox ESR build with FoxAI Start new-tab, AI sidebar, gestures and uBlock Origin preinstalled. One folder, no installer.",
     faq2_q:"Is it open source?", faq2_a:"Yes — source at github.com/Can-5/foxai-browser (MPL-2.0; uBlock GPLv3). Every release is built reproducibly via build-manual.ps1.",
     faq3_q:"What is it built with?", faq3_a:"Firefox ESR engine (Gecko), four WebExtensions (MV2) for new-tab/AI/search/gestures, React+Vite for the new-tab UI, PowerShell build pipeline, WebDriver BiDi tests.",
-    faq4_q:"Which platforms are supported?", faq4_a:"Windows portable is primary. Linux: build from source via build-linux/. macOS: not yet prebuilt, source available.",
+    faq4_q:"Which platforms are supported?", faq4_a:"Windows portable is prebuilt. Linux: .tar.gz via build-linux/build.sh and CI. macOS: .dmg/app bundle via build-macos/build.sh and CI.",
     faq5_q:"Is it free?", faq5_a:"Yes, free and open source. No premium, no telemetry, no ads of its own.",
     faq6_q:"Where can I download it?", faq6_a:"Latest zip on GitHub Releases (v3.0.0, ~324 MB). Also “Build from source” in the repo.",
     faq7_q:"How can I contribute?", faq7_a:"Open an issue or PR on GitHub. See CHANGELOG.md for style and testing (BiDi suite).",
@@ -140,7 +141,8 @@ const DICT = {
     priv1:"Telemetri yok, veri toplama yok", priv2:"Referrer, beacon ve ping kapalı", priv3:"First-party isolation açık; çerez bölümleme + kapanışta temizleme", priv4:"Ön getirme / tahmin / DNS ön getirme kapalı; DoH Cloudflare", priv5:"Otomatik doldurma ve form geçmişi kapalı; letterboxing kapalı (deterministik boyut)", priv6:"Kamera / mikrofon / konum varsayılan reddedilir; otomatik oynatma engelli", priv7:"WebRTC kapalı — IP sızıntısı yok; HTTPS-only açık",
     priv8:"Hava durumu isteğe bağlı; sensör/pil/beacon kapalı", priv9:"İçerik betikleri sadece tarayıcı içinde; sıkı CSP, inline yok, iframe yok", priv10:"Sahtecilik için punycode göster; bölümlenmiş depolama", priv11:"Tor modu (isteğe bağlı): tüm trafik + DNS SOCKS5, WebRTC kapalı", priv12:"Sadece ziyaret ettiğin sitelerle bağlantı; telefon-aramalar (studies, captive, region) kapalı", priv13:"Parmak izi: %100 benzerlik + CANVAS ENTROPY PASS (oturumluk canvas gürültüsü)", priv14:"Her düzeltme CHANGELOG.md'de — kendin derle ve kontrol et",
     os_h:"Açık kaynak", os_sub:"Kara kutu yok. Her commit herkese açık, her derleme yeniden üretilebilir.", os_btn:"Kaynağı GitHub'da Gör", os_hint:"MPL-2.0 (tarayıcı) · GPLv3 (uBlock Origin) · issue ve PR'lar açık.",
-    dl_h:"FoxAI Browser'ı indir", dl_sub:"Taşınabilir Firefox ESR derlemesi. Aç, çalıştır, bitti — sisteme hiçbir şey kurulmaz.",
+    dl_h:"FoxAI Browser'ı indir", dl_sub:"Platformunu seç — aynı profil, aynı gizlilik. Windows hazır; Linux & macOS CI artifact'ı ve yakında release ekleri.",
+    dl_rec:"Önerilen", dl_ci:"CI artifact", dl_ci2:"CI artifact", dl_win_d:"Aç & FoxAI Browser.cmd çalıştır", dl_win_btn:"Windows için indir", dl_upd:"güncellemeler için", dl_lin_d:"Aç & <code>./foxai-browser</code> çalıştır", dl_lin_btn:"Linux derlemesini al (Actions)", dl_lin_hint:"Veya kaynaktan: <code>build-linux/build.sh</code>.", dl_mac_d:".dmg / app bundle (CI)", dl_mac_btn:"macOS derlemesini al (Actions)", dl_mac_hint:"Veya Mac'te <code>build-macos/build.sh</code>.",
     dl_win:"Önerilen · Taşınabilir zip", dl_btn:"v" + VERSION + " İndir", dl_hint:"~324 MB · Firefox ESR taban · aç ve FoxAI Browser.cmd çalıştır",
     dl_all:"Tüm sürümler", dl_src:"GitHub'da Gör", dl_linux:"Kaynaktan derle", dl_linux_hint:"build-linux/ kullan — henüz hazır zip yok.", dl_macos:"Henüz yok", dl_macos_hint:"Topluluk derlemesi planlanıyor — kaynak açık.", dl_src2:"GitHub'da Gör",
     step1:"<code>FoxAI-Browser-v" + VERSION + ".zip</code> dosyasını istediğin yere aç", step2:"<code>FoxAI Browser.cmd</code> (normal) veya <code>FoxAI Tor.cmd</code> (Tor modu, önce <code>scripts/install-tor.ps1</code>) çalıştır", step3:"Bitti — FoxAI Start, AI Kenar Çubuğu, jestler ve uBlock hazır",
@@ -149,7 +151,7 @@ const DICT = {
     faq1_q:"FoxAI Browser nedir?", faq1_a:"FoxAI Start yeni sekmesi, AI kenar çubuğu, jestler ve uBlock Origin ile gelen taşınabilir, sıkılaştırılmış Firefox ESR derlemesi. Tek klasör, kurulum yok.",
     faq2_q:"Açık kaynak mı?", faq2_a:"Evet — kaynak github.com/Can-5/foxai-browser (MPL-2.0; uBlock GPLv3). Her sürüm build-manual.ps1 ile yeniden üretilebilir.",
     faq3_q:"Neyle yapıldı?", faq3_a:"Firefox ESR motoru (Gecko), yeni sekme/AI/arama/jestler için dört WebExtension (MV2), yeni sekme UI için React+Vite, PowerShell derleme hattı, WebDriver BiDi testleri.",
-    faq4_q:"Hangi platformlar destekleniyor?", faq4_a:"Windows taşınabilir birincil. Linux: build-linux/ ile kaynaktan derle. macOS: henüz hazır yok, kaynak açık.",
+    faq4_q:"Hangi platformlar destekleniyor?", faq4_a:"Windows hazır. Linux: build-linux/build.sh ve CI'dan .tar.gz. macOS: build-macos/build.sh ve CI'dan .dmg/app bundle.",
     faq5_q:"Ücretli mi?", faq5_a:"Hayır, ücretsiz ve açık kaynak. Premium yok, telemetri yok, kendi reklamı yok.",
     faq6_q:"Nereden indirebilirim?", faq6_a:"En son zip GitHub Releases'te (v3.0.0, ~324 MB). Ayrıca depoda “Kaynaktan derle”.",
     faq7_q:"Nasıl katkıda bulunurum?", faq7_a:"GitHub'da issue veya PR aç. Tarz ve test için CHANGELOG.md'ye bak (BiDi paketi).",
@@ -225,4 +227,20 @@ document.addEventListener("DOMContentLoaded",()=>{
   // update OG url to current
   const og=document.querySelector('meta[property="og:url"]');
   if(og) og.content=location.href;
+  const pf=navigator.platform||"", ua=navigator.userAgent||"";
+  const el=document.getElementById("dlDetect");
+  if(el){
+    const isMac=pf.includes("Mac")||ua.includes("Mac OS");
+    const isLin=pf.includes("Linux")||ua.includes("Linux") && !ua.includes("Android");
+    let msg="";
+    if(isMac) msg=lang==="tr"?"Mac’te misin? macOS kartı sana göre.":"On a Mac? macOS card is for you.";
+    else if(isLin) msg=lang==="tr"?"Linux’tasın — Linux kartındaki CI yoksa kaynaktan derle.":"You’re on Linux — use the Linux card or build from source.";
+    else msg=lang==="tr"?"Windows’tasın — yukarıdaki Windows zip hazır.":"You’re on Windows — the Windows zip above is ready.";
+    el.textContent=msg;
+    try{ document.querySelectorAll(".dl-card").forEach(c=>c.classList.remove("is-primary"));
+      if(isMac) document.querySelector('.dl-card[data-os="mac"]')?.classList.add("is-primary");
+      else if(isLin) document.querySelector('.dl-card[data-os="linux"]')?.classList.add("is-primary");
+      else document.querySelector('.dl-card[data-os="win"]')?.classList.add("is-primary");
+    }catch(e){}
+  }
 });
