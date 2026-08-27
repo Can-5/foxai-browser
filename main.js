@@ -39,12 +39,12 @@ const DICT = {
     feat10_t:"Media Lockdown", feat10_d:"Autoplay, camera, mic and geolocation default-deny — ask only when you allow.",
     feat11_t:"Download Safety", feat11_d:"Ask-before-new-types for uncommon downloads. No silent execution.",
     feat12_t:"Startup Guard", feat12_d:"Blank startup, no crash-session restore. You decide what reopens.",
-    showcase_h:"A browser you can see yourself in", showcase_sub:"FoxAI Start is yours to make: themes, backgrounds, clock and search engine — all local.",
+    showcase_h:"A browser you can see yourself in", showcase_hand:"make it yours, not theirs →", showcase_sub:"FoxAI Start is yours to make: themes, backgrounds, clock and search engine — all local.",
     showcase1:"New-tab with notes, to-do and quick search — stored only locally.",
     showcase2:"Summarize the current page with one consent click.",
     showcase3:"Mouse-only navigation that feels physical, not bolted on.",
     showcase_hint:"Screenshots are placeholders — replace screenshots/*.webp when ready. No stock images.",
-    shots_h:"Screenshots", shots_sub:"Add real captures to screenshots/ — the gallery picks them up automatically. Until then, placeholders stay.",
+    shots_h:"Screenshots", shots_hand:"real screenshots, no mockups — pinky promise", shots_sub:"Add real captures to screenshots/ — the gallery picks them up automatically. Until then, placeholders stay.",
     shot1:"Main browser", shot2:"AI feature", shot3:"Tabs & navigation", shot4:"Settings", shot5:"Tor mode",
     tech_h:"What FoxAI is built on", tech_sub:"No dark magic. A real engine, standard extension APIs, and a reproducible pipeline.",
     tech1_d:"Extended-support Firefox, rebranded “FoxAI Browser” via rcedit + foxai.cfg. Portable: unzip and run.",
@@ -54,7 +54,7 @@ const DICT = {
     tech5_t:"🧪 BiDi test suite", tech5_d:"WebDriver BiDi drives headless FoxAI; checks fingerprint 100/100, CANVAS ENTROPY, new-tab, search and AI.",
     tech6_t:"📦 Portable", tech6_d:"No installer, no services, no registry. One folder you can delete.",
     how_h:"How it was built", how1:"Rebuilt from ~7k-file salvage backup → new-tab, AI, search, gestures, build & tests (v1.0).", how2:"Hardening audits: CSP, first-party isolation, DoH, RFP, partition + clear-on-shutdown.", how3:"FoxAI One (v3.0.0): deterministic fingerprint 100/100 + opt-in Tor mode via SOCKS5 profile.", how4:"Reproducible: build-manual.ps1 → release/FoxAI-Browser-v3.0.0.zip (324 MB).",
-    priv_h:"Privacy you can verify", priv_sub:"No claims without code. Read config/user.js and foxai.cfg — every toggle is there.",
+    priv_h:"Privacy you can verify", priv_hand:"no tricks — just check the code :)", priv_sub:"No claims without code. Read config/user.js and foxai.cfg — every toggle is there.",
     priv1:"No telemetry, no data collection", priv2:"Referrer, beacon & ping disabled", priv3:"First-party isolation on; cookie partitioning + clear on shutdown", priv4:"Prefetch / predictor / DNS prefetch off; DoH via Cloudflare", priv5:"Autofill & form history off; letterboxing off (deterministic sizing)", priv6:"Camera / mic / geo default-deny; autoplay blocked", priv7:"WebRTC disabled — no IP leaks; HTTPS-only on",
     priv8:"Weather opt-in (no location by default); sensors/battery/beacon off", priv9:"Content scripts only inside the browser; strict CSP, no inline, no iframe", priv10:"Punycode shown for spoofing; partitioned storage", priv11:"Tor mode (opt-in): all traffic + DNS via SOCKS5, WebRTC dead", priv12:"Only sites you visit ever contacted; phone-home (studies, captive, region) off", priv13:"Fingerprint: 100/100 similarity + CANVAS ENTROPY PASS (per-session canvas noise)", priv14:"Every fix in CHANGELOG.md — build and check yourself",
     os_h:"Open source", os_sub:"No black box. Every commit public, every build reproducible.", os_btn:"View Source on GitHub", os_hint:"MPL-2.0 (browser) · GPLv3 (uBlock Origin) · issues and PRs welcome.",
@@ -64,7 +64,7 @@ const DICT = {
     dl_all:"All releases", dl_src:"View on GitHub", dl_linux:"Build from source", dl_linux_hint:"Use build-linux/ — no prebuilt zip yet.", dl_macos:"Not yet", dl_macos_hint:"Community build planned — source is public.", dl_src2:"View on GitHub",
     step1:"Unzip <code>FoxAI-Browser-v" + VERSION + ".zip</code> anywhere", step2:"Run <code>FoxAI Browser.cmd</code> (normal) or <code>FoxAI Tor.cmd</code> (Tor mode, after <code>scripts/install-tor.ps1</code>)", step3:"Done — FoxAI Start, AI Sidebar, gestures & uBlock ready",
     dl_verify:"Verify: <code>tests/test-fingerprint-benchmark.ps1</code> → 100.0% + CANVAS ENTROPY PASS",
-    faq_h:"FAQ",
+    faq_h:"FAQ", faq_hand:"got questions? I've got answers ↴",
     faq1_q:"What is FoxAI Browser?", faq1_a:"A portable, hardened Firefox ESR build with FoxAI Start new-tab, AI sidebar, gestures and uBlock Origin preinstalled. One folder, no installer.",
     faq2_q:"Is it open source?", faq2_a:"Yes — source at github.com/Can-5/foxai-browser (MPL-2.0; uBlock GPLv3). Every release is built reproducibly via build-manual.ps1.",
     faq3_q:"What is it built with?", faq3_a:"Firefox ESR engine (Gecko), four WebExtensions (MV2) for new-tab/AI/search/gestures, React+Vite for the new-tab UI, PowerShell build pipeline, WebDriver BiDi tests.",
@@ -92,7 +92,7 @@ const DICT = {
     road11:'<span>v1.8.0</span> Full leak & hardening audit + Hub.',
     road12:'<span>v3.0.0</span> FoxAI One — fingerprint 100/100 + opt-in Tor.',
     cta_h:"Built in public. Yours to keep.", cta_p:"Star it, fork it, break it — every commit is yours to read.", cta_star:"View Source", cta_issue:"Open an issue",
-    footer_t:'FoxAI Browser <span id="verFooter">v' + VERSION + '</span> · Firefox ESR base · MPL-2.0 (uBlock Origin: GPLv3)', footer_made:'Made by İlkay Can, in Türkiye · © <span class="year"></span>', footer_privacy:"Privacy"
+    footer_t:'FoxAI Browser <span id="verFooter">v' + VERSION + '</span> · Firefox ESR base · MPL-2.0 (uBlock Origin: GPLv3)', footer_hand:"made with ♥ in Türkiye — İlkay", footer_made:'Made by İlkay Can, in Türkiye · © <span class="year"></span>', footer_privacy:"Privacy"
   },
   tr: {
     nav_features:"Özellikler", nav_showcase:"Vitrin", nav_tech:"Altyapı", nav_why:"Neden", nav_ai:"AI", nav_privacy:"Gizlilik", nav_hub:"Hub", nav_about:"Hakkında", nav_download:"İndir", nav_faq:"SSS", nav_cta:"FoxAI İndir", nav_download_btn:"İndir",
@@ -122,12 +122,12 @@ const DICT = {
     feat10_t:"Medya Kilidi", feat10_d:"Otomatik oynatma, kamera, mikrofon, konum varsayılan reddedilir — izin verene kadar.",
     feat11_t:"İndirme Güvenliği", feat11_d:"Nadir dosya türlerinde indirmeden önce sor. Sessiz çalıştırma yok.",
     feat12_t:"Başlangıç Koruması", feat12_d:"Boş başlangıç, çökme oturumu geri gelmez. Ne açılacağına sen karar ver.",
-    showcase_h:"Kendini içinde görebileceğin tarayıcı", showcase_sub:"FoxAI Start senin: temalar, arka planlar, saat ve arama motoru — hepsi yerel.",
+    showcase_h:"Kendini içinde görebileceğin tarayıcı", showcase_hand:"kendine göre yap, başkasına değil →", showcase_sub:"FoxAI Start senin: temalar, arka planlar, saat ve arama motoru — hepsi yerel.",
     showcase1:"Notlar, yapılacaklar ve hızlı arama içeren yeni sekme — sadece yerel.",
     showcase2:"Tek izin tıklamasıyla mevcut sayfayı özetle.",
     showcase3:"Fiziksel hissettiren, sonradan eklenmiş gibi durmayan fare gezinmesi.",
     showcase_hint:"Ekran görüntüleri yer tutucudur — hazır olunca screenshots/*.webp ile değiştir.",
-    shots_h:"Ekran Görüntüleri", shots_sub:"Gerçek görüntüleri screenshots/ klasörüne ekle — galeri otomatik alır.",
+    shots_h:"Ekran Görüntüleri", shots_hand:"gerçek ekran görüntüleri, söz veriyoruz", shots_sub:"Gerçek görüntüleri screenshots/ klasörüne ekle — galeri otomatik alır.",
     shot1:"Ana tarayıcı", shot2:"AI özelliği", shot3:"Sekmeler ve gezinme", shot4:"Ayarlar", shot5:"Tor modu",
     tech_h:"FoxAI neyle kuruldu", tech_sub:"Sihir yok. Gerçek motor, standart eklenti API'leri ve yeniden üretilebilir hat.",
     tech1_d:"Uzun destekli Firefox, rcedit + foxai.cfg ile “FoxAI Browser” markası. Taşınabilir: aç ve çalıştır.",
@@ -137,7 +137,7 @@ const DICT = {
     tech5_t:"🧪 BiDi test paketi", tech5_d:"WebDriver BiDi headless FoxAI sürer; parmak izi 100/100, CANVAS ENTROPY, yeni sekme, arama ve AI kontrol eder.",
     tech6_t:"📦 Taşınabilir", tech6_d:"Kurulum yok, servis yok, kayıt defteri yok. Silebileceğin tek klasör.",
     how_h:"Nasıl yapıldı", how1:"~7 bin dosyalık kurtarma yedeğinden yeniden: yeni sekme, AI, arama, jestler, derleme ve testler (v1.0).", how2:"Sıkılaştırma denetimleri: CSP, first-party isolation, DoH, RFP, bölümleme + kapanışta temizleme.", how3:"FoxAI One (v3.0.0): deterministik parmak izi 100/100 + SOCKS5 profilli isteğe bağlı Tor.", how4:"Yeniden üretilebilir: build-manual.ps1 → release/FoxAI-Browser-v3.0.0.zip (324 MB).",
-    priv_h:"Doğrulayabileceğin gizlilik", priv_sub:"Kod olmadan iddia yok. config/user.js ve foxai.cfg'yi oku — her ayar orada.",
+    priv_h:"Doğrulayabileceğin gizlilik", priv_hand:"numara yok — kodu aç bak :)", priv_sub:"Kod olmadan iddia yok. config/user.js ve foxai.cfg'yi oku — her ayar orada.",
     priv1:"Telemetri yok, veri toplama yok", priv2:"Referrer, beacon ve ping kapalı", priv3:"First-party isolation açık; çerez bölümleme + kapanışta temizleme", priv4:"Ön getirme / tahmin / DNS ön getirme kapalı; DoH Cloudflare", priv5:"Otomatik doldurma ve form geçmişi kapalı; letterboxing kapalı (deterministik boyut)", priv6:"Kamera / mikrofon / konum varsayılan reddedilir; otomatik oynatma engelli", priv7:"WebRTC kapalı — IP sızıntısı yok; HTTPS-only açık",
     priv8:"Hava durumu isteğe bağlı; sensör/pil/beacon kapalı", priv9:"İçerik betikleri sadece tarayıcı içinde; sıkı CSP, inline yok, iframe yok", priv10:"Sahtecilik için punycode göster; bölümlenmiş depolama", priv11:"Tor modu (isteğe bağlı): tüm trafik + DNS SOCKS5, WebRTC kapalı", priv12:"Sadece ziyaret ettiğin sitelerle bağlantı; telefon-aramalar (studies, captive, region) kapalı", priv13:"Parmak izi: %100 benzerlik + CANVAS ENTROPY PASS (oturumluk canvas gürültüsü)", priv14:"Her düzeltme CHANGELOG.md'de — kendin derle ve kontrol et",
     os_h:"Açık kaynak", os_sub:"Kara kutu yok. Her commit herkese açık, her derleme yeniden üretilebilir.", os_btn:"Kaynağı GitHub'da Gör", os_hint:"MPL-2.0 (tarayıcı) · GPLv3 (uBlock Origin) · issue ve PR'lar açık.",
@@ -147,7 +147,7 @@ const DICT = {
     dl_all:"Tüm sürümler", dl_src:"GitHub'da Gör", dl_linux:"Kaynaktan derle", dl_linux_hint:"build-linux/ kullan — henüz hazır zip yok.", dl_macos:"Henüz yok", dl_macos_hint:"Topluluk derlemesi planlanıyor — kaynak açık.", dl_src2:"GitHub'da Gör",
     step1:"<code>FoxAI-Browser-v" + VERSION + ".zip</code> dosyasını istediğin yere aç", step2:"<code>FoxAI Browser.cmd</code> (normal) veya <code>FoxAI Tor.cmd</code> (Tor modu, önce <code>scripts/install-tor.ps1</code>) çalıştır", step3:"Bitti — FoxAI Start, AI Kenar Çubuğu, jestler ve uBlock hazır",
     dl_verify:"Doğrula: <code>tests/test-fingerprint-benchmark.ps1</code> → %100 + CANVAS ENTROPY PASS",
-    faq_h:"SSS",
+    faq_h:"SSS", faq_hand:"sorun mu var? cevabı bende ↴",
     faq1_q:"FoxAI Browser nedir?", faq1_a:"FoxAI Start yeni sekmesi, AI kenar çubuğu, jestler ve uBlock Origin ile gelen taşınabilir, sıkılaştırılmış Firefox ESR derlemesi. Tek klasör, kurulum yok.",
     faq2_q:"Açık kaynak mı?", faq2_a:"Evet — kaynak github.com/Can-5/foxai-browser (MPL-2.0; uBlock GPLv3). Her sürüm build-manual.ps1 ile yeniden üretilebilir.",
     faq3_q:"Neyle yapıldı?", faq3_a:"Firefox ESR motoru (Gecko), yeni sekme/AI/arama/jestler için dört WebExtension (MV2), yeni sekme UI için React+Vite, PowerShell derleme hattı, WebDriver BiDi testleri.",
@@ -175,7 +175,7 @@ const DICT = {
     road11:'<span>v1.8.0</span> Tam sızıntı & sıkılaştırma denetimi + Hub.',
     road12:'<span>v3.0.0</span> FoxAI One — parmak izi 100/100 + isteğe bağlı Tor.',
     cta_h:"Herkese açık yapıldı. Senin kalacak.", cta_p:"Yıldızla, çatalla, kurcala — her commit okuman için orada.", cta_star:"Kaynağı Gör", cta_issue:"Issue Aç",
-    footer_t:'FoxAI Browser <span id="verFooter">v' + VERSION + '</span> · Firefox ESR taban · MPL-2.0 (uBlock Origin: GPLv3)', footer_made:'İlkay Can tarafından, Türkiye\'de yapıldı · © <span class="year"></span>', footer_privacy:"Gizlilik"
+    footer_t:'FoxAI Browser <span id="verFooter">v' + VERSION + '</span> · Firefox ESR taban · MPL-2.0 (uBlock Origin: GPLv3)', footer_hand:"♥ ile Türkiye'de yapıldı — İlkay", footer_made:'İlkay Can tarafından, Türkiye\'de yapıldı · © <span class="year"></span>', footer_privacy:"Gizlilik"
   }
 };
 

@@ -6,7 +6,10 @@
   <meta name="description" content="FoxAI Browser — a private, smart Firefox-based browser with AI sidebar, gesture navigation and built-in privacy. Portable, open source, no telemetry.">
   <meta name="theme-color" content="#1c1b22">
   <meta name="color-scheme" content="light dark">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; base-uri 'none'; form-action 'self'; object-src 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; font-src 'self' data: https://fonts.gstatic.com; base-uri 'none'; form-action 'self'; object-src 'none'">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
   <meta property="og:type" content="website">
   <meta property="og:title" content="FoxAI Browser — Private, Smart, Fox-fast">
   <meta property="og:description" content="A Firefox-based browser that respects you: no telemetry, AI sidebar on demand, gesture navigation. Portable, open source.">
@@ -64,6 +67,7 @@
       <div class="hero-text">
         <p class="chip" id="verChip">v3.0.0 · FoxAI One</p>
         <h1 data-i18n-html="hero_h1">Private. Smart. <span class="grad">Fox-fast.</span></h1>
+        <p class="hand hand-hero" aria-hidden="true">hey — your browser, your rules ✦</p>
         <p class="lead" data-i18n="hero_lead">A Firefox-based browser that respects you: no telemetry, no tracking, an AI sidebar that only sees what you allow, and a new-tab that is actually yours. Portable, open source, yours to verify.</p>
         <div class="cta">
           <a class="btn primary big" id="heroDl" href="#download" data-i18n="cta_dl">Download FoxAI Browser</a>
@@ -134,6 +138,7 @@
     <!-- SHOWCASE -->
     <section id="showcase" class="section alt">
       <h2 data-i18n="showcase_h">A browser you can see yourself in</h2>
+      <p class="hand" data-i18n="showcase_hand">make it yours, not theirs →</p>
       <p class="sub" data-i18n="showcase_sub">FoxAI Start is yours to make: themes, backgrounds, clock and search engine — all local.</p>
       <div class="showcase-grid">
         <div class="showcase-card"><div class="shot-chrome"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div><img src="screenshots/main.webp" alt="FoxAI Start new-tab" width="640" height="400" loading="lazy" decoding="async" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><div class="ph" data-label="FoxAI Start" style="display:none"></div><p data-i18n="showcase1">New-tab with notes, to-do and quick search — stored only locally.</p></div>
@@ -163,6 +168,7 @@
     <!-- SCREENSHOTS GALLERY -->
     <section id="screenshots" class="section">
       <h2 data-i18n="shots_h">Screenshots</h2>
+      <p class="hand" data-i18n="shots_hand">real screenshots, no mockups — pinky promise</p>
       <p class="sub" data-i18n="shots_sub">Add real captures to <code>screenshots/</code> — the gallery picks them up automatically. Until then, placeholders stay.</p>
       <div class="gallery">
         <figure class="shot"><div class="shot-chrome"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div><img src="screenshots/main.webp" alt="Main browser — FoxAI Start" width="640" height="400" loading="lazy" decoding="async"><figcaption data-i18n="shot1">Main window + FoxAI Start</figcaption></figure>
@@ -202,6 +208,7 @@
     <!-- PRIVACY -->
     <section id="privacy" class="section">
       <h2 data-i18n="priv_h">Privacy you can verify</h2>
+      <p class="hand" data-i18n="priv_hand">no tricks — just check the code :)</p>
       <p class="sub" data-i18n="priv_sub">No claims without code. Read config/user.js and foxai.cfg — every toggle is there.</p>
       <div class="cols">
         <ul class="check">
@@ -238,6 +245,7 @@
 
     <!-- FAQ -->
     <section id="faq" class="section alt">
+      <p class="hand" data-i18n="faq_hand">got questions? I've got answers ↴</p>
       <h2 data-i18n="faq_h">FAQ</h2>
       <div class="faq">
         <details><summary data-i18n="faq1_q">What is FoxAI Browser?</summary><p data-i18n="faq1_a">A portable, hardened Firefox ESR build with FoxAI Start new-tab, AI sidebar, gestures and uBlock Origin preinstalled. One folder, no installer.</p></details>
@@ -296,7 +304,8 @@
   <footer>
     <img src="foxai-mark.svg" alt="" width="24" height="24" decoding="async">
     <div>
-      <p data-i18n="footer_t">FoxAI Browser <span id="verFooter">v3.0.0</span> · Firefox ESR base · MPL-2.0 (uBlock Origin: GPLv3)</p>
+        <p data-i18n="footer_t">FoxAI Browser <span id="verFooter">v3.0.0</span> · Firefox ESR base · MPL-2.0 (uBlock Origin: GPLv3)</p>
+      <p class="hand hand-footer" data-i18n="footer_hand">made with ♥ in Türkiye — İlkay</p>
       <p class="made-by" data-i18n="footer_made">Made by İlkay Can, in Türkiye · © <span class="year"></span> · <a href="https://github.com/Can-5/foxai-browser" rel="noopener">GitHub</a> · <a href="#privacy" data-i18n="footer_privacy">Privacy</a></p>
     </div>
   </footer>
