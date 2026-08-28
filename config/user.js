@@ -1,4 +1,4 @@
-﻿// FoxAI Browser - profile overrides (copied to profile\foxai\user.js by build.ps1)
+// FoxAI Browser - profile overrides (copied to profile\foxai\user.js by build.ps1)
 // v3.1.0: deduped + stale prefs removed (FF119/FF128/FF148), faster startup, lower RAM
 // RFP fingerprint block (100/100) is intentional - do not modify.
 
