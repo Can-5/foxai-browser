@@ -1,73 +1,96 @@
-﻿
-/* ============================================================
-   FoxAI v2.4.0 - Dark UI Complete
-   ============================================================ */
-@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+/* FoxAI Browser — Photon minimalist tabs
+   Light: #f9f9fb surface, active tab #fff
+   Dark:  #1c1b22 charcoal, active tab #1c1b22
+   Tab 32px, radius 8px, close on hover only, no glow. */
 
-:root {
-  --foxai-bg: #16161a;
-  --foxai-surface: #1e1e23;
-  --foxai-border: #33333a;
-  --foxai-text: #e4e4e8;
-  --foxai-muted: #9a9aa2;
-  --foxai-accent: #5b9dff;
-  --foxai-accent2: #7c6cff;
+/* ── tab bar: compact ── */
+#TabsToolbar {
+  min-height: 36px !important;
+  max-height: 36px !important;
+  padding: 2px 6px !important;
+  border-bottom: 1px solid rgba(0,0,0,.08) !important;
 }
 
-/* Tab bar */
-#TabsToolbar, #tabbrowser-tabs {
-  background: var(--foxai-bg) !important;
-  border-bottom: 1px solid var(--foxai-border) !important;
+#tabbrowser-tabs {
+  --tab-min-height: 32px !important;
+  --tab-max-height: 32px !important;
 }
-.tabbrowser-tab .tab-background {
-  background: var(--foxai-surface) !important;
-  border-radius: 6px !important;
-  border: 1px solid transparent !important;
-}
-.tabbrowser-tab[selected="true"] .tab-background {
-  background: #26262c !important;
-  border-color: var(--foxai-accent) !important;
-  box-shadow: 0 0 0 1px var(--foxai-accent), inset 0 0 12px rgba(91,157,255,.08) !important;
-}
-.tabbrowser-tab[selected="true"] .tab-label { color: #fff !important; font-weight: 600 !important; }
-.tabbrowser-tab:not([selected="true"]) .tab-label { color: var(--foxai-muted) !important; }
 
-/* Nav bar */
-#nav-bar {
-  background: var(--foxai-bg) !important;
-  border-bottom: 1px solid var(--foxai-border) !important;
-}
-#urlbar {
-  background: var(--foxai-surface) !important;
-  border: 1px solid var(--foxai-border) !important;
+/* ── tab: 32px, radius 8px ── */
+.tabbrowser-tab {
+  min-height: 32px !important;
+  max-height: 32px !important;
+  margin: 1px 2px !important;
   border-radius: 8px !important;
 }
-#urlbar:focus-within {
-  border-color: var(--foxai-accent) !important;
-  box-shadow: 0 0 0 2px rgba(91,157,255,.25) !important;
+
+.tabbrowser-tab .tab-background {
+  border-radius: 8px !important;
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
 }
 
-/* Bookmarks toolbar */
-#PersonalToolbar { background: var(--foxai-bg) !important; }
-
-/* Menus */
-menupopup, panel {
-  background: var(--foxai-surface) !important;
-  border: 1px solid var(--foxai-border) !important;
+/* inactive: gray */
+.tabbrowser-tab:not([selected]) .tab-background {
+  background: rgba(0,0,0,.06) !important;
 }
-menuitem:hover, menu:hover { background: #2b2b32 !important; }
-
-/* Sidebar */
-#sidebar-box, #sidebar-header {
-  background: var(--foxai-bg) !important;
-  color: var(--foxai-text) !important;
+.tabbrowser-tab:not([selected]):hover .tab-background {
+  background: rgba(0,0,0,.1) !important;
 }
 
-/* Scrollbar */
-scrollbar { width: 10px !important; background: var(--foxai-bg) !important; }
-scrollbar thumb {
-  background: #3d3d45 !important;
-  border-radius: 5px !important;
-  border: 2px solid var(--foxai-bg) !important;
+/* active: white (light) */
+.tabbrowser-tab[selected] .tab-background {
+  background: #fff !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,.1) !important;
 }
-scrollbar thumb:hover { background: #4d4d56 !important; }
+
+/* ── content: favicon 16px centered ── */
+.tab-content {
+  padding: 0 8px !important;
+}
+.tab-icon-image {
+  width: 16px !important;
+  height: 16px !important;
+}
+.tab-label {
+  font-size: 12px !important;
+}
+
+/* ── close button: hover only ── */
+.tab-close-button {
+  display: none !important;
+}
+.tabbrowser-tab:hover .tab-close-button {
+  display: inline-flex !important;
+}
+
+/* ── new tab button: simple ── */
+#tabs-newtab-button {
+  border-radius: 8px !important;
+  padding: 4px !important;
+  width: 28px !important;
+  height: 28px !important;
+  margin-left: 2px !important;
+}
+#tabs-newtab-button .toolbarbutton-icon {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+/* ── dark mode: Photon charcoal ── */
+@media (prefers-color-scheme: dark) {
+  #TabsToolbar {
+    border-bottom-color: rgba(255,255,255,.08) !important;
+  }
+  .tabbrowser-tab:not([selected]) .tab-background {
+    background: rgba(255,255,255,.06) !important;
+  }
+  .tabbrowser-tab:not([selected]):hover .tab-background {
+    background: rgba(255,255,255,.1) !important;
+  }
+  .tabbrowser-tab[selected] .tab-background {
+    background: #1c1b22 !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,.4) !important;
+  }
+}

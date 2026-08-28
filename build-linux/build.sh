@@ -214,7 +214,7 @@ install_config() {
     
     # Generate policies.json with file:// URLs
     local pol=$(cat "${CONFIG_DIR}/policies.json")
-    local file_url() {
+    file_url() {
         echo "file://$(realpath "$1" | sed 's| |%20|g')"
     }
     pol="${pol//%%CORE%%/$(file_url "${DIST_DIR}/foxai-core@foxai.browser.xpi")}"

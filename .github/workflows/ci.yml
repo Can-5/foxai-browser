@@ -167,7 +167,7 @@ jobs:
           cache: 'npm'
           cache-dependency-path: extensions/foxai-core/package-lock.json
       - name: Install deps
-        run: sudo apt-get update && sudo apt-get install -y wget bzip2 p7zip-full patchelf desktop-file-utils imagemagick
+        run: sudo apt-get update && sudo apt-get install -y wget curl bzip2 p7zip-full patchelf desktop-file-utils imagemagick
       - name: Build Linux
         run: bash build-linux/build.sh
       - name: Upload artifact
@@ -187,6 +187,8 @@ jobs:
           node-version: '20'
           cache: 'npm'
           cache-dependency-path: extensions/foxai-core/package-lock.json
+      - name: Install deps
+        run: brew install wget p7zip
       - name: Build macOS
         run: bash build-macos/build.sh
       - name: Upload artifact

@@ -67,7 +67,7 @@ log_step "Firefox ESR: ${ESR_VERSION}"
 
 # Check dependencies
 check_deps() {
-    local deps=("wget" "tar" "bzip2" "node" "npm" "7z" "patchelf" "desktop-file-validate")
+    local deps=("wget" "tar" "bzip2" "node" "npm" "7z" "hdiutil")
     for dep in "${deps[@]}"; do
         if ! command -v "$dep" &> /dev/null; then
             log_error "Missing dependency: $dep"
@@ -99,10 +99,10 @@ fetch_firefox() {
         }
         
         log_step "Extracting Firefox ESR"
-        hdiutil attach ${installer} -mountpoint /tmp/foxai-mnt -quiet
-  cp -R /tmp/foxai-mnt/Firefox.app ${ROOT_DIR}/firefox-foxai/runtime/Firefox.app/Contents/MacOS/firefox.app
-  hdiutil detach /tmp/foxai-mnt -quiet
-  touch ${BUILD_DIR}/firefox-extracted
+        hdiutil attach "${installer}" -mountpoint /tmp/foxai-mnt -quiet
+        cp -R /tmp/foxai-mnt/Firefox.app "${ROOT_DIR}/firefox-foxai/runtime/Firefox.app"
+        hdiutil detach /tmp/foxai-mnt -quiet
+        touch "${BUILD_DIR}/firefox-extracted"
         log_success "Firefox ESR ready"
     else
         log_success "Firefox ESR already present"
@@ -216,7 +216,7 @@ install_config() {
     
     # Generate policies.json with file:// URLs
     local pol=$(cat "${CONFIG_DIR}/policies.json")
-    local file_url() {
+    file_url() {
         echo "file://$(realpath "$1" | sed 's| |%20|g')"
     }
     pol="${pol//%%CORE%%/$(file_url "${DIST_DIR}/foxai-core@foxai.browser.xpi")}"
@@ -231,17 +231,16 @@ install_config() {
 # Apply branding
 apply_branding() {
     log_step "Applying branding"
-    local log_warn "Skipping binary branding on macOS"
-    
+
     # Create simple icon if not exists
     local ico="${ASSETS_DIR}/foxai.ico"
     if [[ ! -f "${ico}" ]]; then
         # Create simple icon from PNG
         convert "${ASSETS_DIR}/foxai-128.png" -resize 128x128 "${ico}" 2>/dev/null || true
     fi
-    
-    # Note: log_warn "Skipping binary branding on macOS"
-    log_warn "Skipping binary branding (log_warn "Skipping binary branding on macOS"
+
+    # Note: binary branding (rcedit) is Windows-only; skipped on macOS
+    log_warn "Skipping binary branding on macOS"
     log_success "Branding step completed"
 }
 
@@ -281,8 +280,8 @@ create_release() {
     cp -r "${ROOT_DIR}/firefox-foxai" "${stage_dir}/firefox-foxai"
     
     # Copy launcher scripts
-    cp "${ROOT_DIR}/build-linux/foxai-browser" "${stage_dir}/foxai-browser"
-    cp "${ROOT_DIR}/build-linux/foxai-update" "${stage_dir}/foxai-update"
+    cp "${ROOT_DIR}/build-macos/foxai-browser" "${stage_dir}/foxai-browser"
+    cp "${ROOT_DIR}/build-macos/foxai-update" "${stage_dir}/foxai-update"
     chmod +x "${stage_dir}/foxai-browser" "${stage_dir}/foxai-update"
     
     # Version file
