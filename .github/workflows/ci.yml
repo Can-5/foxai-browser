@@ -34,14 +34,12 @@ jobs:
           cache: 'npm'
           cache-dependency-path: extensions/foxai-core/package-lock.json
 
-      - name: Setup PowerShell
-
       - name: Download Firefox ESR installer
         shell: pwsh
         run: |
-          $url = "${{ env.FIREFOX_URL }}"
+          $url = "${{ env.ESR_URL }}"
           $out = "FirefoxSetup.exe"
-          Write-Host "Downloading Firefox ESR ${{ env.FIREFOX_VERSION }}..."
+          Write-Host "Downloading Firefox ESR ${{ env.ESR_VERSION }}..."
           Invoke-WebRequest -Uri $url -OutFile $out -ProgressAction SilentlyContinue
           Write-Host "Downloaded $([math]::Round((Get-Item $out).Length/1MB,1)) MB"
 
@@ -56,15 +54,6 @@ jobs:
           }
           Write-Host "Firefox runtime extracted to firefox-foxai/runtime/"
           Get-ChildItem firefox-foxai/runtime/firefox.exe -ErrorAction SilentlyContinue | ForEach-Object { Write-Host "firefox.exe found: $($_.FullName)" }
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: extensions/foxai-core/package-lock.json
-
-      - name: Setup PowerShell
 
       - name: Install dependencies (foxai-core)
         working-directory: ./extensions/foxai-core
