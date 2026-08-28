@@ -35,9 +35,6 @@ jobs:
           cache-dependency-path: extensions/foxai-core/package-lock.json
 
       - name: Setup PowerShell
-        uses: actions/setup-powershell@v1
-        with:
-          version: 'latest'
 
       - name: Download Firefox ESR installer
         shell: pwsh
@@ -68,9 +65,6 @@ jobs:
           cache-dependency-path: extensions/foxai-core/package-lock.json
 
       - name: Setup PowerShell
-        uses: actions/setup-powershell@v1
-        with:
-          version: 'latest'
 
       - name: Install dependencies (foxai-core)
         working-directory: ./extensions/foxai-core
