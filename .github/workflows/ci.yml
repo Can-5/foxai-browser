@@ -129,7 +129,7 @@ jobs:
             const content = fs.readFileSync('website/main.js', 'utf8');
             const match = content.match(/const DICT = ({[\s\S]*?});/);
             if (!match) { console.error('DICT not found'); process.exit(1); }
-            const dict = eval('(' + match[1] + ')');
+            const dict = (() => { const VERSION='3.1.0'; return eval('(' + match[1] + ')'); })();
             const enKeys = Object.keys(dict.en).sort();
             const trKeys = Object.keys(dict.tr).sort();
             const missing = enKeys.filter(k => !trKeys.includes(k));

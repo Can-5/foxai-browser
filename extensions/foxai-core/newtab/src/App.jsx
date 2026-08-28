@@ -148,6 +148,7 @@ function OnboardingWizard() {
                 <li>🌍 SOCKS5 proxy support</li>
               </ul>
             </div>
+            </div>
           )}
 
           {step === 1 && (
