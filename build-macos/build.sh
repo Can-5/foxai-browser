@@ -212,6 +212,8 @@ install_extensions() {
 # Install config
 install_config() {
     log_step "Installing config"
+    mkdir -p "${ROOT_DIR}/firefox-foxai/runtime/Firefox.app/Contents/Resources/defaults/pref"
+    mkdir -p "${ROOT_DIR}/firefox-foxai/runtime/Firefox.app/Contents/Resources/distribution"
     cp "${CONFIG_DIR}/foxai.cfg" "${ROOT_DIR}/firefox-foxai/runtime/Firefox.app/Contents/Resources/defaults/pref/foxai.cfg"
     
     # Generate policies.json with file:// URLs

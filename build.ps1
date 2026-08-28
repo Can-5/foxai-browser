@@ -195,12 +195,14 @@ if (-not $Reproducible) {
     [IO.File]::WriteAllBytes($Ico, $ms.ToArray())
   }
   $exes = @("firefox.exe", "private_browsing.exe")
+  if (-not (Test-Path $Rcedit)) { Write-Host "  rcedit not found, skipping branding" } else {
   foreach ($exe in $exes) {
     $p = "$Runtime\$exe"
     if (Test-Path $p) {
       & $Rcedit $p --set-icon $Ico --set-version-string "ProductName" "FoxAI Browser" --set-version-string "FileDescription" "FoxAI Browser" --set-file-version "$Version.0.0" --set-product-version "$Version.0.0" 2>&1 | Out-Null
       Write-Host "  branded $exe"
     }
+  }
   }
 } else {
   Write-Host "  Skipping rcedit branding (reproducible mode)"
