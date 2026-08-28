@@ -23,7 +23,7 @@ export default defineConfig({
     chunkSizeWarningLimit: 100,
     rollupOptions: {
       input: {
-        main: path.resolve(__dirname, "newtab/src/main.jsx"),
+        main: path.resolve(__dirname, "newtab/index.html"),
       },
       output: {
         manualChunks: {
