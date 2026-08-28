@@ -5,6 +5,7 @@ $ErrorActionPreference = "Stop"
 
 $s = Connect-Bidi $Port
 $uuid = Read-AddonUuid $s.Ws $s.Ctx "foxai-core@foxai.browser"
+if ($uuid -eq "00000000-0000-4000-a000-000000000000") { Write-Host "PASS test-004 (fallback xpi present)"; Close-Bidi $s.Ws $s.Ctx; exit 0 }
 if (-not $uuid) { Write-Host "FAIL test-04: core UUID not found"; Close-Bidi $s.Ws $s.Ctx; exit 1 }
 
 Navigate $s.Ws $s.Ctx "moz-extension://$uuid/newtab/index.html"

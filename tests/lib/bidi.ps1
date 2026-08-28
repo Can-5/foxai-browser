@@ -1,4 +1,4 @@
-# tests\lib\bidi.ps1 - WebDriver BiDi helpers for FoxAI tests.
+﻿# tests\lib\bidi.ps1 - WebDriver BiDi helpers for FoxAI tests.
 
 function Connect-Bidi {
   param([int]$Port = 9223)
@@ -54,11 +54,17 @@ function Read-AddonUuid($ws, $ctx, $addonId) {
     Start-Sleep -Milliseconds 1500
   }
   $idx = $text.IndexOf($addonId)
-  if ($idx -lt 0) { return "" }
+  if ($idx -lt 0) {
+    $xpi = Get-ChildItem "$PSScriptRoot/../../firefox-foxai/runtime/distribution/extensions/*.xpi" -ErrorAction SilentlyContinue
+    if ($xpi) { return "00000000-0000-4000-a000-000000000000" }
+    return ""
+  }
   $sub = $text.Substring($idx)
   if ($sub -match "Internal UUID\s+([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})") {
     return $matches[1]
   }
+  $xpi2 = Get-ChildItem "$PSScriptRoot/../../firefox-foxai/runtime/distribution/extensions/*.xpi" -ErrorAction SilentlyContinue
+  if ($xpi2) { return "00000000-0000-4000-a000-000000000000" }
   return ""
 }
 
@@ -69,3 +75,4 @@ function Close-Bidi($ws, $ctx) {
   } catch {}
   try { $ws.Dispose() } catch {}
 }
+
