@@ -32,6 +32,33 @@
   <script>/* base-path helper for GH Pages /foxai-browser/ vs Cloudflare / */(function(){var b=document.createElement('base');var p=location.pathname;if(p.indexOf('/foxai-browser/')===0){b.href='/foxai-browser/';document.head.prepend(b);} })();</script>
 </head>
 <body>
+  <!-- Firefox Photon browser chrome wrapper (decorative) -->
+  <div class="browser-chrome" aria-hidden="true">
+    <div class="chrome-tabbar">
+      <div class="traffic">
+        <span class="tlight close"></span>
+        <span class="tlight min"></span>
+        <span class="tlight max"></span>
+      </div>
+      <div class="tab active">
+        <img class="tab-fav" src="foxai-mark.svg" alt="" width="14" height="14">
+        <span class="tab-title">FoxAI Browser - foxai-browser.pages.dev</span>
+        <span class="tab-close">✕</span>
+      </div>
+      <button class="tab-new" type="button" aria-label="New tab">+</button>
+    </div>
+    <div class="chrome-omnibox">
+      <span class="omni-lock" aria-hidden="true">
+        <svg viewBox="0 0 16 16" width="12" height="12"><path d="M8 1a3 3 0 0 0-3 3v2H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-1V4a3 3 0 0 0-3-3zm0 2a1 1 0 0 1 1 1v2H7V4a1 1 0 0 1 1-1z" fill="currentColor"/></svg>
+      </span>
+      <span class="omni-url">foxai-browser.pages.dev</span>
+      <span class="omni-actions">
+        <span class="omni-btn" aria-hidden="true">★</span>
+        <span class="omni-btn" aria-hidden="true">↻</span>
+        <span class="omni-btn" aria-hidden="true">⋯</span>
+      </span>
+    </div>
+  </div>
   <a class="skip" href="#main">Skip to content</a>
   <header class="nav" role="banner">
     <a class="brand" href="#top" aria-label="FoxAI Browser home">
