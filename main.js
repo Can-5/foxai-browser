@@ -1,5 +1,5 @@
-﻿// FoxAI Browser site — v3.0.0 FoxAI One | bilingual EN/TR, configurable releases
-const VERSION = "3.0.0";
+﻿// FoxAI Browser site — v3.1.0 FoxAI One | bilingual EN/TR, configurable releases
+const VERSION = "3.1.0";
 const LANG_KEY = "fxweb:lang";
 // Central release config — change only here for future versions
 const RELEASE = {
@@ -53,7 +53,7 @@ const DICT = {
     tech4_t:"🛠️ PowerShell pipeline", tech4_d:"build-manual.ps1 / build.ps1 packages XPIs, fetches uBlock, brands binaries, writes policies and the release zip.",
     tech5_t:"🧪 BiDi test suite", tech5_d:"WebDriver BiDi drives headless FoxAI; checks fingerprint 100/100, CANVAS ENTROPY, new-tab, search and AI.",
     tech6_t:"📦 Portable", tech6_d:"No installer, no services, no registry. One folder you can delete.",
-    how_h:"How it was built", how1:"Rebuilt from ~7k-file salvage backup → new-tab, AI, search, gestures, build & tests (v1.0).", how2:"Hardening audits: CSP, first-party isolation, DoH, RFP, partition + clear-on-shutdown.", how3:"FoxAI One (v3.0.0): deterministic fingerprint 100/100 + opt-in Tor mode via SOCKS5 profile.", how4:"Reproducible: build-manual.ps1 → release/FoxAI-Browser-v3.0.0.zip (324 MB).",
+    how_h:"How it was built", how1:"Rebuilt from ~7k-file salvage backup → new-tab, AI, search, gestures, build & tests (v1.0).", how2:"Hardening audits: CSP, first-party isolation, DoH, RFP, partition + clear-on-shutdown.", how3:"FoxAI One (v3.1.0): deterministic fingerprint 100/100 + opt-in Tor mode via SOCKS5 profile.", how4:"Reproducible: build-manual.ps1 → release/FoxAI-Browser-v3.1.0.zip (324 MB).",
     priv_h:"Privacy you can verify", priv_hand:"no tricks — just check the code :)", priv_sub:"No claims without code. Read config/user.js and foxai.cfg — every toggle is there.",
     priv1:"No telemetry, no data collection", priv2:"Referrer, beacon & ping disabled", priv3:"First-party isolation on; cookie partitioning + clear on shutdown", priv4:"Prefetch / predictor / DNS prefetch off; DoH via Cloudflare", priv5:"Autofill & form history off; letterboxing off (deterministic sizing)", priv6:"Camera / mic / geo default-deny; autoplay blocked", priv7:"WebRTC disabled — no IP leaks; HTTPS-only on",
     priv8:"Weather opt-in (no location by default); sensors/battery/beacon off", priv9:"Content scripts only inside the browser; strict CSP, no inline, no iframe", priv10:"Punycode shown for spoofing; partitioned storage", priv11:"Tor mode (opt-in): all traffic + DNS via SOCKS5, WebRTC dead", priv12:"Only sites you visit ever contacted; phone-home (studies, captive, region) off", priv13:"Fingerprint: 100/100 similarity + CANVAS ENTROPY PASS (per-session canvas noise)", priv14:"Every fix in CHANGELOG.md — build and check yourself",
@@ -70,14 +70,14 @@ const DICT = {
     faq3_q:"What is it built with?", faq3_a:"Firefox ESR engine (Gecko), four WebExtensions (MV2) for new-tab/AI/search/gestures, React+Vite for the new-tab UI, PowerShell build pipeline, WebDriver BiDi tests.",
     faq4_q:"Which platforms are supported?", faq4_a:"Windows 10/11/12 auto (windows-latest CI). Linux: universal tar.gz for all distros (Ubuntu/Fedora/Arch/Debian) via build-linux/build.sh and ubuntu-latest CI. macOS: universal .app auto for Sonoma→Tahoe 26→27 via build-macos/build.sh and macos-latest CI.",
     faq5_q:"Is it free?", faq5_a:"Yes, free and open source. No premium, no telemetry, no ads of its own.",
-    faq6_q:"Where can I download it?", faq6_a:"Latest zip on GitHub Releases (v3.0.0, ~324 MB). Also “Build from source” in the repo.",
+    faq6_q:"Where can I download it?", faq6_a:"Latest zip on GitHub Releases (v3.1.0, ~324 MB). Also “Build from source” in the repo.",
     faq7_q:"How can I contribute?", faq7_a:"Open an issue or PR on GitHub. See CHANGELOG.md for style and testing (BiDi suite).",
     faq8_q:"How does the AI work?", faq8_a:"The sidebar supports ChatGPT, Claude, Gemini or local Ollama. Page content is sent only after you click “Allow page access” — one action at a time, revocable, keys stored locally.",
     faq9_q:"Does FoxAI send my data anywhere?", faq9_a:"No. Telemetry, referrer, beacon and studies are off. Only sites you visit are contacted. Check config/user.js — nothing phones home.",
     faq10_q:"How does fingerprint protection work?", faq10_a:"100/100 similarity across instances by locking metrics (UTC, fixed window, letterboxing off). Canvas is per-session randomized by design — CANVAS ENTROPY PASS means trackers can't link sessions.",
     faq11_q:"How do I use Tor mode?", faq11_a:"Run scripts/install-tor.ps1 once, then start with FoxAI Tor.cmd. All traffic + DNS goes via SOCKS5 127.0.0.1:9050, WebRTC dead. Close Tor and start FoxAI Browser.cmd to return to normal.",
     faq12_q:"Is portable really portable?", faq12_a:"Yes — no installer, no services, no registry. One folder you can move to USB or delete. Your profile stays inside the folder.",
-    faq13_q:"How do I update?", faq13_a:"Download the new zip from Releases or run FoxAI Update.cmd. Or build from source: build-manual.ps1 → release/FoxAI-Browser-v3.0.0.zip.",
+    faq13_q:"How do I update?", faq13_a:"Download the new zip from Releases or run FoxAI Update.cmd. Or build from source: build-manual.ps1 → release/FoxAI-Browser-v3.1.0.zip.",
     faq14_q:"How do I get support?", faq14_a:"Open an issue on GitHub, or email foxaibrowsersuppport@outlook.com - auto-reply even when offline, human reply within 24h.",
     faq15_q:"Who made FoxAI Browser?", faq15_a:"Built by İlkay Can in Türkiye — Firefox ESR base, foxai-mark logo, Photon-inspired site. It’s my daily browser made public. ♥",
     shot6:"Mouse gestures v2", shot7:"Privacy controls", shot8:"Themes & backgrounds",
@@ -92,7 +92,7 @@ const DICT = {
     road7:'<span>v1.5.0</span> LibreWolf-style hardening: letterboxing, partitioning, clear-on-shutdown, WebGL/DRM off.',
     road10:'<span>v1.7.0</span> Launcher + auto-updater: FoxAI Browser.cmd / FoxAI Update.cmd.',
     road11:'<span>v1.8.0</span> Full leak & hardening audit + Hub.',
-    road12:'<span>v3.0.0</span> FoxAI One — fingerprint 100/100 + opt-in Tor.',
+    road12:'<span>v3.1.0</span> FoxAI One — fingerprint 100/100 + opt-in Tor.',
     cta_h:"Built in public. Yours to keep.", cta_p:"Star it, fork it, break it — every commit is yours to read.", cta_star:"View Source", cta_issue:"Open an issue",
     footer_t:'FoxAI Browser <span id="verFooter">v' + VERSION + '</span> · Firefox ESR base · MPL-2.0 (uBlock Origin: GPLv3)', footer_hand:"made with ♥ in Türkiye — İlkay", footer_made:'Made by İlkay Can, in Türkiye · © <span class="year"></span>', footer_privacy:"Privacy"
   },
@@ -138,7 +138,7 @@ const DICT = {
     tech4_t:"🛠️ PowerShell hattı", tech4_d:"build-manual.ps1 / build.ps1 XPI paketler, uBlock çeker, ikilileri markalar, politikaları ve zip'i yazar.",
     tech5_t:"🧪 BiDi test paketi", tech5_d:"WebDriver BiDi headless FoxAI sürer; parmak izi 100/100, CANVAS ENTROPY, yeni sekme, arama ve AI kontrol eder.",
     tech6_t:"📦 Taşınabilir", tech6_d:"Kurulum yok, servis yok, kayıt defteri yok. Silebileceğin tek klasör.",
-    how_h:"Nasıl yapıldı", how1:"~7 bin dosyalık kurtarma yedeğinden yeniden: yeni sekme, AI, arama, jestler, derleme ve testler (v1.0).", how2:"Sıkılaştırma denetimleri: CSP, first-party isolation, DoH, RFP, bölümleme + kapanışta temizleme.", how3:"FoxAI One (v3.0.0): deterministik parmak izi 100/100 + SOCKS5 profilli isteğe bağlı Tor.", how4:"Yeniden üretilebilir: build-manual.ps1 → release/FoxAI-Browser-v3.0.0.zip (324 MB).",
+    how_h:"Nasıl yapıldı", how1:"~7 bin dosyalık kurtarma yedeğinden yeniden: yeni sekme, AI, arama, jestler, derleme ve testler (v1.0).", how2:"Sıkılaştırma denetimleri: CSP, first-party isolation, DoH, RFP, bölümleme + kapanışta temizleme.", how3:"FoxAI One (v3.1.0): deterministik parmak izi 100/100 + SOCKS5 profilli isteğe bağlı Tor.", how4:"Yeniden üretilebilir: build-manual.ps1 → release/FoxAI-Browser-v3.1.0.zip (324 MB).",
     priv_h:"Doğrulayabileceğin gizlilik", priv_hand:"numara yok — kodu aç bak :)", priv_sub:"Kod olmadan iddia yok. config/user.js ve foxai.cfg'yi oku — her ayar orada.",
     priv1:"Telemetri yok, veri toplama yok", priv2:"Referrer, beacon ve ping kapalı", priv3:"First-party isolation açık; çerez bölümleme + kapanışta temizleme", priv4:"Ön getirme / tahmin / DNS ön getirme kapalı; DoH Cloudflare", priv5:"Otomatik doldurma ve form geçmişi kapalı; letterboxing kapalı (deterministik boyut)", priv6:"Kamera / mikrofon / konum varsayılan reddedilir; otomatik oynatma engelli", priv7:"WebRTC kapalı — IP sızıntısı yok; HTTPS-only açık",
     priv8:"Hava durumu isteğe bağlı; sensör/pil/beacon kapalı", priv9:"İçerik betikleri sadece tarayıcı içinde; sıkı CSP, inline yok, iframe yok", priv10:"Sahtecilik için punycode göster; bölümlenmiş depolama", priv11:"Tor modu (isteğe bağlı): tüm trafik + DNS SOCKS5, WebRTC kapalı", priv12:"Sadece ziyaret ettiğin sitelerle bağlantı; telefon-aramalar (studies, captive, region) kapalı", priv13:"Parmak izi: %100 benzerlik + CANVAS ENTROPY PASS (oturumluk canvas gürültüsü)", priv14:"Her düzeltme CHANGELOG.md'de — kendin derle ve kontrol et",
@@ -155,14 +155,14 @@ const DICT = {
     faq3_q:"Neyle yapıldı?", faq3_a:"Firefox ESR motoru (Gecko), yeni sekme/AI/arama/jestler için dört WebExtension (MV2), yeni sekme UI için React+Vite, PowerShell derleme hattı, WebDriver BiDi testleri.",
     faq4_q:"Hangi platformlar destekleniyor?", faq4_a:"Windows 10/11/12 otomatik (windows-latest CI). Linux: tüm dağıtımlar için evrensel tar.gz (Ubuntu/Fedora/Arch/Debian) — build-linux/build.sh ve ubuntu-latest CI. macOS: Sonoma→Tahoe 26→27 otomatik evrensel .app — build-macos/build.sh ve macos-latest CI.",
     faq5_q:"Ücretli mi?", faq5_a:"Hayır, ücretsiz ve açık kaynak. Premium yok, telemetri yok, kendi reklamı yok.",
-    faq6_q:"Nereden indirebilirim?", faq6_a:"En son zip GitHub Releases'te (v3.0.0, ~324 MB). Ayrıca depoda “Kaynaktan derle”.",
+    faq6_q:"Nereden indirebilirim?", faq6_a:"En son zip GitHub Releases'te (v3.1.0, ~324 MB). Ayrıca depoda “Kaynaktan derle”.",
     faq7_q:"Nasıl katkıda bulunurum?", faq7_a:"GitHub'da issue veya PR aç. Tarz ve test için CHANGELOG.md'ye bak (BiDi paketi).",
     faq8_q:"AI nasıl çalışıyor?", faq8_a:"Kenar çubuğu ChatGPT, Claude, Gemini veya yerel Ollama destekler. Sayfa içeriği sadece “Sayfaya erişime izin ver”e tıklayınca gönderilir — tek seferlik, geri alınabilir, anahtarlar yerel saklanır.",
     faq9_q:"FoxAI verilerimi gönderiyor mu?", faq9_a:"Hayır. Telemetri, referrer, beacon ve studies kapalı. Sadece ziyaret ettiğin sitelerle bağlantı kurulur. config/user.js'ye bak — hiçbir şey eve telefon etmez.",
     faq10_q:"Parmak izi koruması nasıl çalışıyor?", faq10_a:"Örnekler arası %100 benzerlik: UTC ve pencere kilitli, letterboxing kapalı. Canvas oturumluk rastgele — CANVAS ENTROPY PASS izleyicilerin oturumları bağlayamaması demek.",
     faq11_q:"Tor modunu nasıl kullanırım?", faq11_a:"Bir kez scripts/install-tor.ps1 çalıştır, sonra FoxAI Tor.cmd ile başlat. Tüm trafik + DNS SOCKS5 127.0.0.1:9050 üzerinden, WebRTC kapalı. Normale dönmek için Tor'u kapatıp FoxAI Browser.cmd'yi çalıştır.",
     faq12_q:"Gerçekten taşınabilir mi?", faq12_a:"Evet — kurulum, servis, kayıt defteri yok. USB'ye taşıyıp silebileceğin tek klasör. Profilin klasörün içinde kalır.",
-    faq13_q:"Nasıl güncellerim?", faq13_a:"Yeni zip'i Releases'ten indir veya FoxAI Update.cmd'yi çalıştır. Veya kaynaktan derle: build-manual.ps1 → release/FoxAI-Browser-v3.0.0.zip.",
+    faq13_q:"Nasıl güncellerim?", faq13_a:"Yeni zip'i Releases'ten indir veya FoxAI Update.cmd'yi çalıştır. Veya kaynaktan derle: build-manual.ps1 → release/FoxAI-Browser-v3.1.0.zip.",
     faq14_q:"Nasıl destek alırım?", faq14_a:"GitHub'da issue aç veya foxaibrowsersuppport@outlook.com'a yaz - PC kapaliyken bile otomatik cevap gelir, 24s icinde yanit.",
     faq15_q:"FoxAI Browser'ı kim yaptı?", faq15_a:"Türkiye'de İlkay Can yaptı — Firefox ESR taban, foxai-mark logo, Photon site. Günlük kullandığım tarayıcıyı herkese açtım. ♥",
     shot6:"Fare jestleri v2", shot7:"Gizlilik kontrolleri", shot8:"Temalar ve arka planlar",
@@ -177,7 +177,7 @@ const DICT = {
     road7:'<span>v1.5.0</span> LibreWolf tarzı sıkılaştırma: letterboxing, bölümleme, kapanışta temizleme, WebGL/DRM kapalı.',
     road10:'<span>v1.7.0</span> Başlatıcı + otomatik güncelleyici: FoxAI Browser.cmd / FoxAI Update.cmd.',
     road11:'<span>v1.8.0</span> Tam sızıntı & sıkılaştırma denetimi + Hub.',
-    road12:'<span>v3.0.0</span> FoxAI One — parmak izi 100/100 + isteğe bağlı Tor.',
+    road12:'<span>v3.1.0</span> FoxAI One — parmak izi 100/100 + isteğe bağlı Tor.',
     cta_h:"Herkese açık yapıldı. Senin kalacak.", cta_p:"Yıldızla, çatalla, kurcala — her commit okuman için orada.", cta_star:"Kaynağı Gör", cta_issue:"Issue Aç",
     footer_t:'FoxAI Browser <span id="verFooter">v' + VERSION + '</span> · Firefox ESR taban · MPL-2.0 (uBlock Origin: GPLv3)', footer_hand:"♥ ile Türkiye'de yapıldı — İlkay", footer_made:'İlkay Can tarafından, Türkiye\'de yapıldı · © <span class="year"></span>', footer_privacy:"Gizlilik"
   }
@@ -248,4 +248,5 @@ document.addEventListener("DOMContentLoaded",()=>{
     }catch(e){}
   }
 });
+
 

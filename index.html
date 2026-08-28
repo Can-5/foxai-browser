@@ -65,7 +65,7 @@
     <div class="hero-wrap">
     <section class="hero" id="top">
       <div class="hero-text">
-        <p class="chip" id="verChip">v3.0.0 · FoxAI One</p>
+        <p class="chip" id="verChip">v3.1.0 · FoxAI One</p>
         <h1 data-i18n-html="hero_h1">Private. Smart. <span class="grad">Fox-fast.</span></h1>
         <p class="hand hand-hero" aria-hidden="true">hey — your browser, your rules ✦</p>
         <p class="lead" data-i18n="hero_lead">A Firefox-based browser that respects you: no telemetry, no tracking, an AI sidebar that only sees what you allow, and a new-tab that is actually yours. Portable, open source, yours to verify.</p>
@@ -152,13 +152,13 @@
       <h2 data-i18n="dl_h">Download FoxAI Browser</h2>
       <p class="sub" data-i18n="dl_sub">Pick your platform — same profile format, same privacy. Windows is prebuilt now; Linux &amp; macOS ship as CI artifacts and upcoming release assets.</p>
       <div class="dl-grid">
-        <article class="dl-card is-primary" data-os="win"><div class="dl-head"><span class="dl-ico"><svg viewBox="0 0 24 24"><path d="M3 12V6.75l6-1.32V12H3zm6 1.5H3v5.25l6 1.32V13.5zm7.5-7.32L21 5v7H13.5V6.18zM13.5 13.5H21v7l-7.5-1.18V13.5z"/></svg></span><h3>Windows</h3><span class="badge" data-i18n="dl_rec">Recommended</span></div><p class="dl-meta">Portable .zip · ~324 MB · <span data-i18n="dl_win_d">unzip &amp; run FoxAI Browser.cmd</span></p><a class="btn primary" href="https://github.com/Can-5/foxai-browser/releases/tag/v3.0.0" rel="noopener" data-i18n="dl_win_btn">Download for Windows</a><p class="hint small"><a href="https://github.com/Can-5/foxai-browser/releases/download/v3.0.0/FoxAI-Browser-v3.0.0.zip" rel="noopener">direct .zip</a> · <code>FoxAI Update.cmd</code> <span data-i18n="dl_upd">for updates</span></p></article>
+        <article class="dl-card is-primary" data-os="win"><div class="dl-head"><span class="dl-ico"><svg viewBox="0 0 24 24"><path d="M3 12V6.75l6-1.32V12H3zm6 1.5H3v5.25l6 1.32V13.5zm7.5-7.32L21 5v7H13.5V6.18zM13.5 13.5H21v7l-7.5-1.18V13.5z"/></svg></span><h3>Windows</h3><span class="badge" data-i18n="dl_rec">Recommended</span></div><p class="dl-meta">Portable .zip · ~324 MB · <span data-i18n="dl_win_d">unzip &amp; run FoxAI Browser.cmd</span></p><a class="btn primary" href="https://github.com/Can-5/foxai-browser/releases/tag/v3.1.0" rel="noopener" data-i18n="dl_win_btn">Download for Windows</a><p class="hint small"><a href="https://github.com/Can-5/foxai-browser/releases/download/v3.1.0/FoxAI-Browser-v3.1.0.zip" rel="noopener">direct .zip</a> · <code>FoxAI Update.cmd</code> <span data-i18n="dl_upd">for updates</span></p></article>
         <article class="dl-card" data-os="linux"><div class="dl-head"><span class="dl-ico"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zM7 14a1 1 0 011-1h2a1 1 0 011 1v1H7v-1zm8 0a1 1 0 011-1h2a1 1 0 011 1v1h-4v-1z"/></svg></span><h3>Linux</h3><span class="badge ghost" data-i18n="dl_ci">CI artifact</span></div><p class="dl-meta">.tar.gz · <span data-i18n="dl_lin_d">extract &amp; run <code>./foxai-browser</code></span></p><a class="btn" href="https://github.com/Can-5/foxai-browser/actions/workflows/ci.yml" rel="noopener" data-i18n="dl_lin_btn">Get Linux build (Actions)</a><p class="hint small" data-i18n-html="dl_lin_hint">Or <code>build-linux/build.sh</code> from source.</p></article>
         <article class="dl-card" data-os="mac"><div class="dl-head"><span class="dl-ico"><svg viewBox="0 0 24 24"><path d="M12 2a6 6 0 015 3 5 5 0 00-5 6 6 6 0 01-6-6 6 6 0 016-3z"/><circle cx="12" cy="12" r="2"/></svg></span><h3>macOS</h3><span class="badge ghost" data-i18n="dl_ci2">CI artifact</span></div><p class="dl-meta"><span data-i18n="dl_mac_d">.dmg / app bundle via CI</span></p><a class="btn" href="https://github.com/Can-5/foxai-browser/actions/workflows/ci.yml" rel="noopener" data-i18n="dl_mac_btn">Get macOS build (Actions)</a><p class="hint small" data-i18n-html="dl_mac_hint">Also <code>build-macos/build.sh</code> on a Mac.</p></article>
       </div>
       <p class="sub small" id="dlDetect"></p>
       <ol class="steps" aria-label="Install steps">
-        <li data-i18n="step1">Unzip <code>FoxAI-Browser-v3.0.0.zip</code> anywhere</li>
+        <li data-i18n="step1">Unzip <code>FoxAI-Browser-v3.1.0.zip</code> anywhere</li>
         <li data-i18n="step2">Run <code>FoxAI Browser.cmd</code> (normal) or <code>FoxAI Tor.cmd</code> (Tor mode, after <code>scripts/install-tor.ps1</code>)</li>
         <li data-i18n="step3">Done — FoxAI Start, AI Sidebar, gestures & uBlock ready</li>
       </ol>
@@ -199,8 +199,8 @@
         <ol>
           <li data-i18n="how1">Rebuilt from ~7k-file salvage backup → new-tab, AI, search, gestures, build &amp; tests (v1.0).</li>
           <li data-i18n="how2">Hardening audits: CSP, first-party isolation, DoH, RFP, partition + clear-on-shutdown.</li>
-          <li data-i18n="how3">FoxAI One (v3.0.0): deterministic fingerprint 100/100 + opt-in Tor mode via SOCKS5 profile.</li>
-          <li data-i18n="how4">Reproducible: <code>build-manual.ps1</code> → <code>release/FoxAI-Browser-v3.0.0.zip</code> (324 MB).</li>
+          <li data-i18n="how3">FoxAI One (v3.1.0): deterministic fingerprint 100/100 + opt-in Tor mode via SOCKS5 profile.</li>
+          <li data-i18n="how4">Reproducible: <code>build-manual.ps1</code> → <code>release/FoxAI-Browser-v3.1.0.zip</code> (324 MB).</li>
         </ol>
       </div>
     </section>
@@ -253,14 +253,14 @@
         <details><summary data-i18n="faq3_q">What is it built with?</summary><p data-i18n="faq3_a">Firefox ESR engine (Gecko), four WebExtensions (MV2) for new-tab/AI/search/gestures, React+Vite for the new-tab UI, PowerShell build pipeline, WebDriver BiDi tests.</p></details>
         <details><summary data-i18n="faq4_q">Which platforms are supported?</summary><p data-i18n="faq4_a">Windows portable is primary. Linux: build from source via build-linux/. macOS: not yet prebuilt, source available.</p></details>
         <details><summary data-i18n="faq5_q">Is it free?</summary><p data-i18n="faq5_a">Yes, free and open source. No premium, no telemetry, no ads of its own.</p></details>
-        <details><summary data-i18n="faq6_q">Where can I download it?</summary><p data-i18n="faq6_a">Latest zip on GitHub Releases (v3.0.0, ~324 MB). Also “Build from source” in the repo.</p></details>
+        <details><summary data-i18n="faq6_q">Where can I download it?</summary><p data-i18n="faq6_a">Latest zip on GitHub Releases (v3.1.0, ~324 MB). Also “Build from source” in the repo.</p></details>
         <details><summary data-i18n="faq7_q">How can I contribute?</summary><p data-i18n="faq7_a">Open an issue or PR on GitHub. See CHANGELOG.md for style and testing (BiDi suite).</p></details>
         <details><summary data-i18n="faq8_q">How does the AI work?</summary><p data-i18n="faq8_a">The sidebar supports ChatGPT, Claude, Gemini or local Ollama. Page content is sent only after you click “Allow page access” — one action at a time, revocable, keys stored locally.</p></details>
         <details><summary data-i18n="faq9_q">Does FoxAI send my data anywhere?</summary><p data-i18n="faq9_a">No. Telemetry, referrer, beacon and studies are off. Only sites you visit are contacted. Check config/user.js — nothing phones home.</p></details>
         <details><summary data-i18n="faq10_q">How does fingerprint protection work?</summary><p data-i18n="faq10_a">100/100 similarity across instances by locking metrics (UTC, fixed window, letterboxing off). Canvas is per-session randomized by design — CANVAS ENTROPY PASS means trackers can't link sessions.</p></details>
         <details><summary data-i18n="faq11_q">How do I use Tor mode?</summary><p data-i18n="faq11_a">Run scripts/install-tor.ps1 once, then start with FoxAI Tor.cmd. All traffic + DNS goes via SOCKS5 127.0.0.1:9050, WebRTC dead. Close Tor and start FoxAI Browser.cmd to return to normal.</p></details>
         <details><summary data-i18n="faq12_q">Is portable really portable?</summary><p data-i18n="faq12_a">Yes — no installer, no services, no registry. One folder you can move to USB or delete. Your profile stays inside the folder.</p></details>
-        <details><summary data-i18n="faq13_q">How do I update?</summary><p data-i18n="faq13_a">Download the new zip from Releases or run FoxAI Update.cmd. Or build from source: build-manual.ps1 → release/FoxAI-Browser-v3.0.0.zip.</p></details>
+        <details><summary data-i18n="faq13_q">How do I update?</summary><p data-i18n="faq13_a">Download the new zip from Releases or run FoxAI Update.cmd. Or build from source: build-manual.ps1 → release/FoxAI-Browser-v3.1.0.zip.</p></details>
         <details><summary data-i18n="faq14_q">How do I get support?</summary><p data-i18n="faq14_a">Open an issue on GitHub, or email foxaibrowsersuppport@outlook.com — usually replies within a day. For bugs, include your foxai-browser version and OS.</p></details>
         <details><summary data-i18n="faq15_q">Who made FoxAI Browser?</summary><p data-i18n="faq15_a">Built by İlkay Can in Türkiye — Firefox ESR base, foxai-mark logo, Photon-inspired site. It’s my daily browser made public. ♥</p></details>
       </div>
@@ -271,7 +271,7 @@
       <h2 data-i18n="roadmap_h">Roadmap</h2>
       <div class="roadmap-grid">
         <div class="road-col"><h3 data-i18n="road_done">Completed</h3><ul class="road">
-          <li><span>v3.0.0</span> FoxAI One — 100/100 fingerprint + Tor Mode</li>
+          <li><span>v3.1.0</span> FoxAI One — 100/100 fingerprint + Tor Mode</li>
           <li><span>v2.7–2.14</span> Perfect Fingerprint, Containers Pro, Media Lockdown, Download Safety, Search Privacy, Gestures v2, Startup Guard</li>
           <li><span>v1.8.0</span> RFP on, phone-home off, partitioned storage, Hub</li>
           <li><span>v1.5.1</span> DoH on, WebRTC no-leak, Safe Browsing reporting off</li>
@@ -288,7 +288,7 @@
         <li data-i18n-html="road7"><span>v1.5.0</span> LibreWolf-style hardening: letterboxing, partitioning, clear-on-shutdown, WebGL/DRM off.</li>
         <li data-i18n-html="road10"><span>v1.7.0</span> Launcher + auto-updater: FoxAI Browser.cmd / FoxAI Update.cmd.</li>
         <li data-i18n-html="road11"><span>v1.8.0</span> Full leak &amp; hardening audit + Hub.</li>
-        <li data-i18n-html="road12"><span>v3.0.0</span> FoxAI One — fingerprint 100/100 + opt-in Tor.</li>
+        <li data-i18n-html="road12"><span>v3.1.0</span> FoxAI One — fingerprint 100/100 + opt-in Tor.</li>
       </ul>
     </section>
 
@@ -306,7 +306,7 @@
   <footer>
     <img src="foxai-mark.svg" alt="" width="24" height="24" decoding="async">
     <div>
-        <p data-i18n="footer_t">FoxAI Browser <span id="verFooter">v3.0.0</span> · Firefox ESR base · MPL-2.0 (uBlock Origin: GPLv3)</p>
+        <p data-i18n="footer_t">FoxAI Browser <span id="verFooter">v3.1.0</span> · Firefox ESR base · MPL-2.0 (uBlock Origin: GPLv3)</p>
       <p class="hand hand-footer" data-i18n="footer_hand">made with ♥ in Türkiye — İlkay</p>
       <p class="made-by" data-i18n="footer_made">Made by İlkay Can, in Türkiye · © <span class="year"></span> · <a href="https://github.com/Can-5/foxai-browser" rel="noopener">GitHub</a> · <a href="#privacy" data-i18n="footer_privacy">Privacy</a></p>
     </div>
