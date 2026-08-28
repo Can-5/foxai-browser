@@ -246,4 +246,7 @@ user_pref("extensions.screenshots.disabled", true);
 user_pref("extensions.htmlaboutaddons.recommendations.enabled", false);
 user_pref("network.predictor.enabled", false);
 user_pref("privacy.reduceTimerPrecision", true);
-
+user_pref("browser.safebrowsing.provider.google4.dataSharingURL", "");
+user_pref("privacy.resistFingerprinting.reduceTimerPrecision", true);
+user_pref("app.update.autoInstallEnabled", false);
+user_pref("security.ssl.enable_0rtt_data", false);
