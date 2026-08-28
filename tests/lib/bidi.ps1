@@ -46,8 +46,13 @@ function Eval-Str($ws, $id, $ctx, $expression) {
 }
 
 function Read-AddonUuid($ws, $ctx, $addonId) {
-  Navigate $ws $ctx "about:debugging#/runtime/this-firefox" 4000
-  $text = Eval-Str $ws 600 $ctx "document.body.innerText"
+  Navigate $ws $ctx "about:debugging#/runtime/this-firefox" 8000
+  $text = ""
+  for ($i=0; $i -lt 5; $i++) {
+    $text = Eval-Str $ws (601+$i) $ctx "document.body.innerText"
+    if ($text.IndexOf($addonId) -ge 0) { break }
+    Start-Sleep -Milliseconds 1500
+  }
   $idx = $text.IndexOf($addonId)
   if ($idx -lt 0) { return "" }
   $sub = $text.Substring($idx)
