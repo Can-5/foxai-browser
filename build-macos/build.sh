@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 # build.sh - FoxAI Browser macOS Build script
 # Creates a portable FoxAI Browser for Linux (AppImage/tar.gz)
 
