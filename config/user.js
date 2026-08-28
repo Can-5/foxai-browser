@@ -230,3 +230,20 @@ user_pref("browser.translations.enable", true);              // master switch; p
 user_pref("browser.translations.automaticallyPopup", false); // no auto-translate / auto-offer popup
 user_pref("browser.translations.select.enable", false);      // no select-to-translate
 user_pref("browser.translations.alwaysTranslateLanguages", ""); // no forced auto-translate languages
+// restored for CI compat (ESR153 still uses them)
+user_pref("beacon.enabled", false);
+user_pref("network.dns.echconfig.enabled", true);
+user_pref("network.http.echconfig.enabled", true);
+user_pref("privacy.trackingprotection.emailtracking.enabled", true);
+user_pref("browser.safebrowsing.provider.mozilla.gsbReportURL", "");
+user_pref("browser.safebrowsing.provider.google.gsbReportURL", "");
+user_pref("browser.safebrowsing.downloads.remote.url", "");
+user_pref("browser.safebrowsing.provider.google4.gsbReportURL", "");
+user_pref("extensions.webservice.discoverURL", "");
+user_pref("browser.aboutwelcome.enabled", false);
+user_pref("browser.tabs.firefox-view", false);
+user_pref("extensions.screenshots.disabled", true);
+user_pref("extensions.htmlaboutaddons.recommendations.enabled", false);
+user_pref("network.predictor.enabled", false);
+user_pref("privacy.reduceTimerPrecision", true);
+
