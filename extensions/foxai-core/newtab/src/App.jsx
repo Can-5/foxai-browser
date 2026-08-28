@@ -253,7 +253,7 @@ function OnboardingWizard() {
                 <li>Theme: {data.theme}</li>
                 <li>Privacy: {data.privacyLevel}</li>
                 <li>Proxy: {data.proxyEnabled ? `${data.proxyHost}:${data.proxyPort}` : "Disabled"}</li>
-                <li>AI: {data.aiEnabled ? `${data.aiProvider} ({data.aiModel || "default"})` : "Disabled"}</li>
+                <li>AI: {data.aiEnabled ? data.aiProvider + " (" + (data.aiModel || "default") + ")" : "Disabled"}</li>
               </ul>
               <p className="muted small">You can change these anytime in Settings (⚙️).</p>
             </div>
