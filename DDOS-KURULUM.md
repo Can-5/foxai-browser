@@ -5,76 +5,75 @@
 - **Tarayıcı katmanı:** `ddos-guard.js` — hızlı reload / fetch flood / headless bot'u tarayıcıda keser
 - GitHub Pages tek başına DDoS korumaz, Fastly sadece temel seviye
 
-## 1) DNS — Cloudflare (2 dk)
-Cloudflare Dashboard → `foxai.dev` → DNS → Add record
+## ✅ Yapılan İşlemler (Otomatik)
+
+### CNAME — TAMAMLANDI ✓
 ```
-Type: CNAME
-Name: browser
-Target: can-5.github.io
-Proxy: Proxied (turuncu bulut) — ZORUNLU
-TTL: Auto
+Type: CNAME | Name: browser | Target: can-5.github.io | Proxied: turuncu bulut
+Record ID: 49dc5c73fd1a7ac3e6c344b2854c181e
 ```
 
-## 2) GitHub Pages — Custom Domain (1 dk)
+### Worker Deploy — TAMAMLANDI ✓
+- Script: `foxai-ddos-guard` → `foxai-ddos-guard.kygszilkaycan.workers.dev`
+- Version: `9a02ba3e-e7af-4aaf-8ef3-97643badab15`
+- Route: `browser.foxai.dev/*` → `foxai-ddos-guard` (route_id: `037c3bdc752c4877ac66c4905b967292`)
+
+### ddos-guard.js — TAMAMLANDI ✓
+- `index.html`'e `<script src="ddos-guard.js">` eklendi
+- 40 istek/10s → 90s ban, headless bot tespiti, fetch flood sayacı
+
+---
+
+## 🔴 SIRADA — Yapman Gerekenler
+
+### 1) NS Değişimi — Cloudflare Aktifleştir (EN ÖNEMLİ)
+Zone foxai.dev **pending** — Cloudflare'de aktif olabilmesi için nameserver'ları değiştirmen lazım.
+
+**Domainini nereden aldıysan oraya git** (Tucows/Vercel/Namecool/etc.):
+
+| Mevcut (Vercel) | Yeni (Cloudflare) |
+|---|---|
+| `ns1.vercel-dns.com` | `davina.ns.cloudflare.com` |
+| `ns2.vercel-dns.com` | `greg.ns.cloudflare.com` |
+
+> Adımlar: Registrar dashboard → Domain Management → NS Records → Mevcut kayıtları sil → Yukarıdaki 2 Cloudflare NS'yi ekle → Kaydet
+
+NS propagasyonu 1-24 saat sürebilir. propagationtools.org ile kontrol edebilirsin.
+
+### 2) GitHub Pages Custom Domain
 GitHub → `Can-5/foxai-browser` → Settings → Pages
 - Custom domain: `browser.foxai.dev` → Save
 - Enforce HTTPS: ✓
-- Repo kökünde `CNAME` dosyası otomatik oluşur (içinde `browser.foxai.dev` olmalı) — bu repoda zaten oluşturuldu
+- `CNAME` dosyası repoda zaten var (browser.foxai.dev)
+- 2-5 dk bekle, GitHub sertifika versin
 
-Bekle 2-5 dk, GitHub sertifika versin. Sonra `https://browser.foxai.dev` açılmalı.
+### 3) WAF Kuralı — Zone Active Olunca
+Zone aktif olduktan sonra Cloudflare Dashboard'dan ekle:
+1. foxai.dev → Security → WAF → Custom rules → Create rule
+2. Kural adı: `DDoS Guard - browser.foxai.dev`
+3. Expression: `(http.host eq "browser.foxai.dev")`
+4. Action: Managed Challenge
+5. Kaydet
 
-## 3) Cloudflare Güvenlik Ayarları (1 dk)
-`foxai.dev` → Security → Settings
+**VEYA** Token ile API:
+```bash
+# Zone active olduktan sonra bu çalışmaz:
+curl -X POST "https://api.cloudflare.com/client/v4/zones/abf3adcf5ba11e644617b5c6462d3fbf/rulesets" \
+  -H "Authorization: Bearer cfut_cnRwp...357a8c4c" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"DDoS Guard","kind":"zone","phase":"http_request_firewall_custom","rules":[{"expression":"(http.host eq \"browser.foxai.dev\")","action":"managed_challenge","enabled":true}]}'
+```
+
+### 4) Cloudflare Security Ayarları
+foxai.dev → Security → Settings:
 - Security Level: Medium
 - Bot Fight Mode: ON
 - Browser Integrity Check: ON
 - Challenge Passage: 30 minutes
 
-Security → DDoS → HTTP DDoS Attack Protection: ON (varsayılan)
+---
 
-Security → WAF → Custom rules → Create rule
-```
-Rule name: foxai-rate-limit
-Field: URI Path contains /  (veya Host equals browser.foxai.dev)
-Rate: 30 requests / 10 seconds per IP
-Action: Managed Challenge
-```
-
-## 4) Cloudflare Worker — Gelişmiş Filtre (isteğe bağlı ama önerilir)
-`cloudflare-worker.js` dosyasını Worker olarak deploy et:
-
-1. Cloudflare → Workers & Pages → Create Worker → ad: `foxai-guard`
-2. `cloudflare-worker.js` içeriğini yapıştır → Deploy
-3. Worker → Settings → Triggers → Add Route:
-   ```
-   Route: browser.foxai.dev/*
-   Zone: foxai.dev
-   ```
-4. Kaydet
-
-Worker ne yapar:
-- IP başına 30 req/10s üstü → 3sn challenge
-- 50 req/10s üstü → 429 Too Many Requests + 60s ban
-- curl/python/go-http gibi otomasyon UA → challenge
-- Normal kullanıcı → şeffaf proxy ile `can-5.github.io/foxai-browser`'a iletir, güvenlik header'ları ekler
-
-> Worker olmadan da Cloudflare WAF rate limit yeterli. Worker ekstra esneklik sağlar.
-
-## 5) Site İçi Koruma — ddos-guard.js
-- `index.html` zaten `<script src="ddos-guard.js">` ile yüklüyor
-- 40 istek / 10s üstü → 90s tarayıcı ban + overlay
-- `navigator.webdriver` / HeadlessChrome → eşik 15'e düşer
-- `fetch` flood'u da sayılır
-
-Test:
-```js
-// console'da flood simüle
-for(let i=0;i<50;i++) fetch('/')
-// → overlay çıkmalı, 90s sonra düzelir
-// Temizlemek için: localStorage.removeItem('fx:ddos:ban'); sessionStorage.removeItem('fx:ddos:hits')
-```
-
-## 6) Doğrulama
+## Doğrulama
 - `https://browser.foxai.dev` → açılıyor mu? (Cloudflare sertifikası)
 - `https://can-5.github.io/foxai-browser/` → hala açık ama canonical artık browser.foxai.dev
 - Cloudflare → Analytics → Security → bloklanan istekleri gör
@@ -84,6 +83,7 @@ for(let i=0;i<50;i++) fetch('/')
 - `CNAME` dosyası GitHub Pages için zorunlu, silme
 - Gerçek DDoS (UDP flood, SYN flood) Cloudflare'de L3'te durur, senin koduna gelmez
 - `ddos-guard.js` gerçek DDoS'u durdurmaz, sadece tarayıcı bot/spam'i keser — asıl iş Cloudflare'de
+- Zone pending olduğu için WAF API ile eklenemiyor, dashboard'dan ekle veya NS değişimi bekle
 
 ## Geri Alma
 - DNS CNAME'i sil → site tekrar sadece github.io'dan gelir
