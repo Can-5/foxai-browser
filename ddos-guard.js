@@ -6,12 +6,12 @@
   'use strict';
 
   const CFG = {
-    MAX_HITS: 40,              // 10 saniyede max istek
+    MAX_HITS: 30,              // 10 saniyede max istek — Cloudflare gibi sert
     WINDOW_MS: 10_000,
-    BAN_MS: 90_000,            // ban suresi (1.5 dk)
+    BAN_MS: 3_000,             // Cloudflare gibi bekletmeden: 3sn challenge sonra otomatik devam
     STORAGE_BAN: 'fx:ddos:ban',
     STORAGE_HITS: 'fx:ddos:hits',
-    CHALLENGE_REQUIRED: false, // true yaparsan fare hareketi bekler
+    CHALLENGE_REQUIRED: false,
   };
 
   // Zaten banli mi?
@@ -40,9 +40,10 @@
     el.style.cssText = 'position:fixed;inset:0;z-index:999999;display:flex;align-items:center;justify-content:center;background:rgba(28,27,34,.92);backdrop-filter:blur(8px);color:#fff;font-family:Inter,system-ui,sans-serif;padding:24px;text-align:center';
     el.innerHTML = '<div style="max-width:480px;background:#1c1b22;border:1px solid #333;border-radius:16px;padding:28px 24px;box-shadow:0 16px 48px rgba(0,0,0,.4)">' +
       '<div style="font-size:32px;margin-bottom:12px">🛡️</div>' +
-      '<h2 style="margin:0 0 8px;font-size:18px;font-weight:700">Çok hızlı istek algılandı</h2>' +
-      '<p style="margin:0 0 14px;opacity:.8;font-size:14px;line-height:1.5">Güvenlik için kısa bir bekleme uyguladık. Sayfa <span id="fx-ddos-timer">--</span> sonra otomatik açılacak.</p>' +
-      '<p style="margin:0;opacity:.6;font-size:12px">FoxAI Browser • DDoS Guard • IP geçici olarak yavaşlatıldı</p></div>';
+      '<h2 style="margin:0 0 8px;font-size:18px;font-weight:700">Güvenlik kontrolü</h2>' +
+      '<p style="margin:0 0 14px;opacity:.8;font-size:14px;line-height:1.5">Otomasyon koruması devrede — <span id="fx-ddos-timer">3s</span> sonra otomatik devam edecek.</p>' +
+      '<div style="height:4px;background:#2a2a33;border-radius:999px;overflow:hidden;margin:12px 0"><div style="height:100%;width:0;background:linear-gradient(90deg,#ff6b35,#ff9a54);animation:load 3s ease forwards"></div></div>' +
+      '<p style="margin:0;opacity:.6;font-size:12px">FoxAI Browser • Cloudflare tarzı hızlı challenge • bekletmeden</p></div><style>@keyframes load{to{width:100%}}</style>';
     document.documentElement.appendChild(el);
     const timer = el.querySelector('#fx-ddos-timer');
     const iv = setInterval(() => {
