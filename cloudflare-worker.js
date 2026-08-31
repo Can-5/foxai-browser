@@ -39,41 +39,36 @@ export default {
     //   return challengeResponse('Bölgesel hız limiti', 429);
     // }
 
-    // 4) Normal gecis -> origin'e proxy et
-    // Origin: can-5.github.io (GitHub Pages)
-    // Worker browser.foxai.dev uzerinde calisiyorsa, istegi GitHub'a forward et
-    const originUrl = new URL(request.url);
-    // browser.foxai.dev -> can-5.github.io/foxai-browser
-    // Eger Worker route'u browser.foxai.dev/* ise asagidaki mapping'i kullan:
-    if (originUrl.hostname === 'browser.foxai.dev') {
-      originUrl.hostname = 'can-5.github.io';
-      originUrl.pathname = '/foxai-browser' + originUrl.pathname;
-      // GitHub Pages Host header'i dogru bekler
-      const newHeaders = new Headers(request.headers);
-      newHeaders.set('Host', 'can-5.github.io');
-      newHeaders.set('X-Forwarded-Host', 'browser.foxai.dev');
-      newHeaders.set('X-FoxAI-Guard', 'pass');
-      newHeaders.set('X-Real-IP', ip);
-
-      const originReq = new Request(originUrl.toString(), {
-        method: request.method,
-        headers: newHeaders,
-        body: request.body,
-        redirect: 'manual',
-      });
-      let res = await fetch(originReq);
-      // Cevaba guvenlik basliklari ekle
-      res = new Response(res.body, res);
-      res.headers.set('X-Content-Type-Options', 'nosniff');
-      res.headers.set('X-Frame-Options', 'DENY');
-      res.headers.set('Referrer-Policy', 'no-referrer');
-      res.headers.set('X-FoxAI-Guard', 'pass:' + hits);
-      res.headers.set('Cache-Control', res.headers.get('Cache-Control') || 'public, max-age=3600');
-      return res;
+    // 4) browser.foxai.dev -> foxai.dev redirect (301)
+    if (url.hostname === 'browser.foxai.dev') {
+      const target = new URL(request.url);
+      target.hostname = 'foxai.dev';
+      return Response.redirect(target.toString(), 301);
     }
 
-    // Diger hostlarda sadece gecir
-    return fetch(request);
+    // 5) foxai.dev -> GitHub Pages origin
+    const originUrl = new URL(request.url);
+    originUrl.hostname = 'can-5.github.io';
+    const newHeaders = new Headers(request.headers);
+    newHeaders.set('Host', 'can-5.github.io');
+    newHeaders.set('X-Forwarded-Host', 'foxai.dev');
+    newHeaders.set('X-FoxAI-Guard', 'pass');
+    newHeaders.set('X-Real-IP', ip);
+
+    const originReq = new Request(originUrl.toString(), {
+      method: request.method,
+      headers: newHeaders,
+      body: request.body,
+      redirect: 'manual',
+    });
+    let res = await fetch(originReq);
+    res = new Response(res.body, res);
+    res.headers.set('X-Content-Type-Options', 'nosniff');
+    res.headers.set('X-Frame-Options', 'DENY');
+    res.headers.set('Referrer-Policy', 'no-referrer');
+    res.headers.set('X-FoxAI-Guard', 'pass:' + hits);
+    res.headers.set('Cache-Control', res.headers.get('Cache-Control') || 'public, max-age=3600');
+    return res;
   },
 };
 
