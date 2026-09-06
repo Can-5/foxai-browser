@@ -13,7 +13,7 @@ const RELEASE = {
 const DICT = {
   en: {
     nav_features:"Features", nav_showcase:"Showcase", nav_tech:"Technology", nav_why:"Why", nav_ai:"AI", nav_privacy:"Privacy", nav_hub:"Hub", nav_about:"About", nav_download:"Download", nav_faq:"FAQ", nav_cta:"Get FoxAI", nav_download_btn:"Download",
-    hero_h1:'Modern. Private. <span class="grad">Yours.</span>',
+    hero_h1:'Private. Smart. <span class="grad">Fox-fast.</span>',
     hero_lead:"A Firefox-based browser that respects you: no telemetry, no tracking, an AI sidebar that only sees what you allow, and a new-tab that is actually yours. Portable, open source, yours to verify.",
     cta_dl:"Download FoxAI Browser", cta_gh:"View on GitHub", cta_see:"See what's inside",
     hero_hint:"Portable · Windows · Firefox ESR base · no installer · ~324 MB",
@@ -100,7 +100,7 @@ const DICT = {
   },
   tr: {
     nav_features:"Özellikler", nav_showcase:"Vitrin", nav_tech:"Altyapı", nav_why:"Neden", nav_ai:"AI", nav_privacy:"Gizlilik", nav_hub:"Hub", nav_about:"Hakkında", nav_download:"İndir", nav_faq:"SSS", nav_cta:"FoxAI İndir", nav_download_btn:"İndir",
-    hero_h1:'Modern. Gizli. <span class="grad">Senin.</span>',
+    hero_h1:'Gizli. Akıllı. <span class="grad">Tilki kadar hızlı.</span>',
     hero_lead:"Sana saygı duyan Firefox tabanlı tarayıcı: telemetri yok, sadece izin verdiklerini gören AI kenar çubuğu ve gerçekten sana ait bir yeni sekme. Taşınabilir, açık kaynak, doğrulanabilir.",
     cta_dl:"FoxAI Browser İndir", cta_gh:"GitHub'da Gör", cta_see:"İçindekilere bak",
     hero_hint:"Taşınabilir · Windows · Firefox ESR taban · kurulum yok · ~324 MB",
