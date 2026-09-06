@@ -1,4 +1,4 @@
-/* FoxAI Browser — Safari-family redesign (light, centered, system type) */
+/* FoxAI Browser — light redesign (centered, system type) */
 :root{
   --bg:#fbfbfd;--bg-alt:#f5f5f7;--surface:#fff;
   --line:#d2d2d7;--text:#1d1d1f;--muted:#515154;--muted-light:#86868b;
@@ -37,7 +37,7 @@ code{background:var(--bg-alt);border:1px solid var(--line);padding:1px 6px;borde
 .mobile-menu a{color:var(--muted);font-size:14px}
 .mobile-menu a:hover{color:var(--text)}
 
-/* ── buttons — pill, Apple blue ── */
+/* ── buttons — pill, system blue ── */
 .btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:999px;padding:10px 26px;color:var(--text);background:var(--surface);font:inherit;font-size:14px;font-weight:500;cursor:pointer;transition:background .15s,border-color .15s,transform .1s;text-decoration:none;gap:8px}
 .btn:hover{background:var(--bg-alt);text-decoration:none}
 .btn.small{padding:7px 18px;font-size:12px}
@@ -49,7 +49,7 @@ code{background:var(--bg-alt);border:1px solid var(--line);padding:1px 6px;borde
 .cta{display:flex;gap:12px}
 .cta.center{justify-content:center}
 
-/* ── hero — light, centered, Safari-style ── */
+/* ── hero — light, centered ── */
 .hero{position:relative;background:radial-gradient(50% 34% at 50% 0%,rgba(255,138,61,.08),transparent 70%),var(--bg);color:var(--text);border-bottom:1px solid rgba(0,0,0,.06)}
 .hero-inner{display:block;max-width:900px;margin:0 auto;padding:96px 24px 64px;text-align:center}
 .chip{display:inline-flex;align-items:center;gap:6px;margin:0 0 18px;padding:5px 16px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:13px;background:var(--surface)}
@@ -58,7 +58,7 @@ code{background:var(--bg-alt);border:1px solid var(--line);padding:1px 6px;borde
 .hero .grad{background:linear-gradient(90deg,var(--fox1),var(--fox2));-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero .lead{margin:0 auto 26px;color:#6e6e73;font-size:21px;line-height:1.45;max-width:640px}
 .hero .cta{justify-content:center;align-items:center;margin:0;gap:30px}
-/* Apple-style text links with chevron (hero only) */
+/* text links with chevron (hero only) */
 .hero .cta .btn{background:none;border:none;color:var(--blue);padding:0;font-size:19px;font-weight:400;min-width:0;border-radius:0}
 .hero .cta .btn::after{content:"›";margin-left:6px;font-size:1.1em;line-height:1}
 .hero .cta .btn:hover{background:none;text-decoration:underline}
@@ -66,7 +66,7 @@ code{background:var(--bg-alt);border:1px solid var(--line);padding:1px 6px;borde
 .hero .btn.ghost{border-color:var(--line);color:var(--blue);background:transparent}
 .hero .btn.ghost:hover{background:rgba(0,113,227,.06)}
 
-/* ── browser chrome — light Safari-like toolbar ── */
+/* ── browser chrome — light toolbar ── */
 .browser-chrome{max-width:980px;margin:0 auto;padding:28px 24px 0;color:var(--text);font-size:12px}
 .chrome-tabbar{display:flex;align-items:flex-end;gap:2px;height:34px;padding:0 8px;background:#ececf1;border:1px solid rgba(0,0,0,.06);border-bottom:none;border-radius:12px 12px 0 0}
 .traffic{display:flex;align-items:center;gap:8px;padding:0 10px 0 2px;height:32px}
@@ -209,35 +209,8 @@ footer a{color:var(--muted);text-decoration:none}
 footer a:hover{color:var(--text);text-decoration:underline}
 footer .hand-footer{color:var(--muted-light)}
 
-/* ── handwriting accents retired (Safari-clean) ── */
+/* ── handwriting accents retired ── */
 .hand,.hand-hero{display:none}
-
-/* ── Safari start-page widgets ── */
-.safari-search{max-width:520px;margin:30px auto 0;display:flex;align-items:center;gap:10px;background:var(--tile);border-radius:12px;padding:13px 18px;color:var(--muted-light);font-size:15px}
-.safari-search svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
-.fav-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:12px;margin:30px auto 0;max-width:760px}
-.fav{text-align:center;font-size:11px;color:var(--muted);line-height:1.3}
-.fav-icon{width:52px;height:52px;margin:0 auto 6px;border-radius:13px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:20px;font-family:var(--display);box-shadow:0 2px 8px rgba(0,0,0,.14)}
-.fav-icon.g1{background:linear-gradient(135deg,#5ac8fa,#007aff)}
-.fav-icon.g2{background:linear-gradient(135deg,#ff9f0a,#ff375f)}
-.fav-icon.g3{background:linear-gradient(135deg,#bf5af2,#7d7aff)}
-.fav-icon.g4{background:linear-gradient(135deg,#30d158,#0a84ff)}
-.fav-icon.g5{background:linear-gradient(135deg,#ff453a,#ff9f0a)}
-.fav-icon.g6{background:linear-gradient(135deg,#64d2ff,#5e5ce6)}
-.fav-icon.g7{background:linear-gradient(135deg,#ac8e68,#6e6e73)}
-.fav-icon.g8{background:linear-gradient(135deg,#ff6482,#af52de)}
-.widgets{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:26px;text-align:left}
-.widget{background:var(--tile);border-radius:var(--r-lg);padding:22px}
-.widget h3{margin:0 0 4px;font-size:16px;font-weight:600;letter-spacing:-.01em}
-.widget .wsub{margin:0 0 14px;color:var(--muted);font-size:13px}
-.priv-row{display:flex;align-items:center;gap:10px;margin:9px 0;font-size:13px;color:var(--muted)}
-.priv-row .bar{flex:1;height:8px;border-radius:999px;background:rgba(0,0,0,.08);overflow:hidden}
-.priv-row .bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--ai1),var(--ai2))}
-.priv-row b{color:var(--text);min-width:28px;text-align:right;font-variant-numeric:tabular-nums}
-.read-row{display:flex;flex-direction:column;gap:2px;padding:9px 0;border-top:1px solid rgba(0,0,0,.07);font-size:14px}
-.read-row:first-of-type{border-top:none}
-.read-row small{color:var(--muted-light);font-size:12px}
-@media(max-width:640px){.fav-grid{grid-template-columns:repeat(4,1fr)}.widgets{grid-template-columns:1fr}}
 
 /* ── responsive ── */
 @media(max-width:900px){
