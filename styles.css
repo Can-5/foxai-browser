@@ -4,7 +4,7 @@
   --line:#d2d2d7;--text:#1d1d1f;--muted:#515154;--muted-light:#86868b;
   --blue:#0071e3;--blue-dark:#0077ed;
   --accent:#ff713b;--fox1:#ff8a3d;--fox2:#ff4d6d;--ai1:#8b5cf6;--ai2:#60a5fa;
-  --dark:#1c1b22;--dark2:#2b2a33;--dark-text:#fbfbfe;
+  --dark:#1c1b22;--dark2:#2b2a33;--dark-text:#fbfbfe;--tile:#e9e9ee;
   --max:1100px;--r:10px;--r-lg:18px;
   --font:"Inter",-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Arial,sans-serif;
   --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter","Segoe UI",Arial,sans-serif;
@@ -116,10 +116,10 @@ code{background:var(--bg-alt);border:1px solid var(--line);padding:1px 6px;borde
 
 /* ── card grids ── */
 .grid,.why-cols,.tech-grid,.showcase-grid,.roadmap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:32px}
-.card,.why,.dl-card,.road-col,.how,.faq details{background:var(--bg-alt);border:none;border-radius:var(--r-lg)}
+.card,.why,.dl-card,.road-col,.how,.faq details{background:var(--tile);border:none;border-radius:var(--r-lg)}
 .card{display:grid;grid-template-columns:44px 1fr;grid-template-rows:auto auto;column-gap:14px;row-gap:6px;align-content:start;padding:22px;text-align:left;transition:box-shadow .2s,transform .2s}
 .card:hover{box-shadow:0 8px 24px rgba(0,0,0,.08)}
-.card-ico{grid-column:1;grid-row:1/3;width:44px;height:44px;border-radius:12px;background:var(--bg-alt);display:grid;place-items:center;color:var(--blue)}
+.card-ico{grid-column:1;grid-row:1/3;width:44px;height:44px;border-radius:12px;background:#fff;box-shadow:0 1px 5px rgba(0,0,0,.08);display:grid;place-items:center;color:var(--blue)}
 .card-ico svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .card h3{grid-column:2;grid-row:1;margin:0;font-size:16px;font-weight:600;line-height:1.3;letter-spacing:-.01em}
 .card p{grid-column:2;grid-row:2;margin:0;color:var(--muted);font-size:14px;line-height:1.55}
@@ -211,6 +211,33 @@ footer .hand-footer{color:var(--muted-light)}
 
 /* ── handwriting accents retired (Safari-clean) ── */
 .hand,.hand-hero{display:none}
+
+/* ── Safari start-page widgets ── */
+.safari-search{max-width:520px;margin:30px auto 0;display:flex;align-items:center;gap:10px;background:var(--tile);border-radius:12px;padding:13px 18px;color:var(--muted-light);font-size:15px}
+.safari-search svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
+.fav-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:12px;margin:30px auto 0;max-width:760px}
+.fav{text-align:center;font-size:11px;color:var(--muted);line-height:1.3}
+.fav-icon{width:52px;height:52px;margin:0 auto 6px;border-radius:13px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:20px;font-family:var(--display);box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.fav-icon.g1{background:linear-gradient(135deg,#5ac8fa,#007aff)}
+.fav-icon.g2{background:linear-gradient(135deg,#ff9f0a,#ff375f)}
+.fav-icon.g3{background:linear-gradient(135deg,#bf5af2,#7d7aff)}
+.fav-icon.g4{background:linear-gradient(135deg,#30d158,#0a84ff)}
+.fav-icon.g5{background:linear-gradient(135deg,#ff453a,#ff9f0a)}
+.fav-icon.g6{background:linear-gradient(135deg,#64d2ff,#5e5ce6)}
+.fav-icon.g7{background:linear-gradient(135deg,#ac8e68,#6e6e73)}
+.fav-icon.g8{background:linear-gradient(135deg,#ff6482,#af52de)}
+.widgets{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:26px;text-align:left}
+.widget{background:var(--tile);border-radius:var(--r-lg);padding:22px}
+.widget h3{margin:0 0 4px;font-size:16px;font-weight:600;letter-spacing:-.01em}
+.widget .wsub{margin:0 0 14px;color:var(--muted);font-size:13px}
+.priv-row{display:flex;align-items:center;gap:10px;margin:9px 0;font-size:13px;color:var(--muted)}
+.priv-row .bar{flex:1;height:8px;border-radius:999px;background:rgba(0,0,0,.08);overflow:hidden}
+.priv-row .bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--ai1),var(--ai2))}
+.priv-row b{color:var(--text);min-width:28px;text-align:right;font-variant-numeric:tabular-nums}
+.read-row{display:flex;flex-direction:column;gap:2px;padding:9px 0;border-top:1px solid rgba(0,0,0,.07);font-size:14px}
+.read-row:first-of-type{border-top:none}
+.read-row small{color:var(--muted-light);font-size:12px}
+@media(max-width:640px){.fav-grid{grid-template-columns:repeat(4,1fr)}.widgets{grid-template-columns:1fr}}
 
 /* ── responsive ── */
 @media(max-width:900px){
