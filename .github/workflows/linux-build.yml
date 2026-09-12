@@ -1,0 +1,122 @@
+﻿name: Linux Build & Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  linux-build:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            wget curl tar gzip bzip2 xz-utils \
+            libfuse2 fuse3 \
+            rpm alien dpkg-dev \
+            appimagetool
+
+      - name: Download Firefox ESR 128
+        run: |
+          mkdir -p firefox
+          wget -q "https://archive.mozilla.org/pub/firefox/releases/128.0/linux-x86_64/en-US/firefox-128.0.tar.bz2" -O firefox-esr.tar.bz2
+          tar -xjf firefox-esr.tar.bz2 -C firefox --strip-components=1
+
+      - name: Download KoboldCpp Linux
+        run: |
+          mkdir -p koboldcpp
+          wget -q "https://github.com/LostRuins/koboldcpp/releases/download/v1.120/koboldcpp-linux-x64-nocuda" -O koboldcpp/koboldcpp
+          chmod +x koboldcpp/koboldcpp
+
+      - name: Download qwen2.5-3b model
+        run: |
+          wget -q "https://huggingface.co/Qwen/Qwen2.5-3B-Instruct-GGUF/resolve/main/qwen2.5-3b-instruct-q4_k_m.gguf" -O koboldcpp/qwen2.5-3b-instruct-q4_k_m.gguf
+
+      - name: Prepare AppDir
+        run: |
+          mkdir -p FoxAI-Browser.AppDir/usr/bin
+          mkdir -p FoxAI-Browser.AppDir/usr/share/applications
+          mkdir -p FoxAI-Browser.AppDir/usr/share/icons/hicolor/256x256/apps
+
+          # Firefox
+          cp -r firefox FoxAI-Browser.AppDir/
+          # Profile + configs
+          cp -r firefox-foxai/profile/foxai FoxAI-Browser.AppDir/profile
+          cp firefox-foxai/runtime/foxai.cfg FoxAI-Browser.AppDir/foxai.cfg
+          cp firefox-foxai/runtime/distribution/distribution.ini FoxAI-Browser.AppDir/distribution.ini
+          
+          # KoboldCpp
+          cp -r koboldcpp FoxAI-Browser.AppDir/
+          
+          # Launcher
+          cp linux/foxai-launcher.sh FoxAI-Browser.AppDir/foxai-launcher.sh
+          chmod +x FoxAI-Browser.AppDir/foxai-launcher.sh
+          
+          # AppRun (entry point)
+          cat > FoxAI-Browser.AppDir/AppRun << "EOF"
+          #!/bin/bash
+          cd "$(dirname "$0")"
+          exec ./foxai-launcher.sh "$@"
+          EOF
+          chmod +x FoxAI-Browser.AppDir/AppRun
+          
+          # Desktop file
+          cp linux/foxai-browser.desktop FoxAI-Browser.AppDir/foxai-browser.desktop
+          
+          # Icon
+          cp foxai.ico FoxAI-Browser.AppDir/foxai-browser.ico
+          
+          # Symlink for icon
+          ln -sf foxai-browser.ico FoxAI-Browser.AppDir/.DirIcon
+
+      - name: Build AppImage
+        run: |
+          ARCH=x86_64 appimagetool FoxAI-Browser.AppDir FoxAI-Browser-${{ github.ref_name }}.AppImage
+
+      - name: Build RPM
+        run: |
+          mkdir -p rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+          cp FoxAI-Browser-${{ github.ref_name }}.AppImage rpmbuild/SOURCES/
+          cp linux/foxai-browser.desktop rpmbuild/SOURCES/
+          cp foxai.ico rpmbuild/SOURCES/foxai-browser.ico
+          rpmbuild -ba linux/foxai-browser.spec --define "_topdir $(pwd)/rpmbuild"
+
+      - name: Build DEB
+        run: |
+          mkdir -p deb/DEBIAN
+          mkdir -p deb/usr/bin
+          mkdir -p deb/usr/share/applications
+          mkdir -p deb/usr/share/icons/hicolor/256x256/apps
+          
+          cp FoxAI-Browser-${{ github.ref_name }}.AppImage deb/usr/bin/foxai-browser
+          chmod +x deb/usr/bin/foxai-browser
+          cp linux/foxai-browser.desktop deb/usr/share/applications/
+          cp foxai.ico deb/usr/share/icons/hicolor/256x256/apps/foxai-browser.ico
+          
+          # Calculate installed size
+          SIZE=$(du -sk deb | cut -f1)
+          sed -i "s/Installed-Size:.*/Installed-Size: $SIZE/" deb/DEBIAN/control
+          
+          dpkg-deb --build deb foxai-browser-${{ github.ref_name }}-amd64.deb
+
+      - name: Upload Release Assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            FoxAI-Browser-${{ github.ref_name }}.AppImage
+            rpmbuild/RPMS/x86_64/foxai-browser-${{ github.ref_name }}-1.x86_64.rpm
+            foxai-browser-${{ github.ref_name }}-amd64.deb
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
