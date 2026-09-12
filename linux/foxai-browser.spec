@@ -1,4 +1,4 @@
-﻿Name:           foxai-browser
+Name:           foxai-browser
 Version:        2.0.0.0
 Release:        1%{?dist}
 Summary:        FoxAI Browser - Privacy-focused Firefox fork with offline AI
