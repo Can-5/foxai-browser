@@ -12,7 +12,7 @@ permissions:
 jobs:
   linux-build:
     runs-on: ubuntu-22.04
-    timeout-minutes: 60
+    timeout-minutes: 90
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,7 +24,17 @@ jobs:
             wget curl tar gzip bzip2 xz-utils \
             libfuse2 fuse3 \
             rpm alien dpkg-dev \
-            appimagetool
+            squashfs-tools file
+
+      - name: Install appimagetool (from GitHub releases)
+        run: |
+          wget -q "https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage" -O appimagetool
+          chmod +x appimagetool
+          # Extract to avoid FUSE dependency in CI
+          ./appimagetool --appimage-extract > /dev/null 2>&1
+          sudo mv squashfs-root/usr/bin/appimagetool* /usr/local/bin/appimagetool
+          chmod +x /usr/local/bin/appimagetool
+          appimagetool --version
 
       - name: Download Firefox ESR 128
         run: |
@@ -38,30 +48,48 @@ jobs:
           wget -q "https://github.com/LostRuins/koboldcpp/releases/download/v1.120/koboldcpp-linux-x64-nocuda" -O koboldcpp/koboldcpp
           chmod +x koboldcpp/koboldcpp
 
-      - name: Download qwen2.5-3b model
-        run: |
-          wget -q "https://huggingface.co/Qwen/Qwen2.5-3B-Instruct-GGUF/resolve/main/qwen2.5-3b-instruct-q4_k_m.gguf" -O koboldcpp/qwen2.5-3b-instruct-q4_k_m.gguf
-
       - name: Prepare AppDir
         run: |
+          APPVER="${GITHUB_REF_NAME#v}"
           mkdir -p FoxAI-Browser.AppDir/usr/bin
           mkdir -p FoxAI-Browser.AppDir/usr/share/applications
           mkdir -p FoxAI-Browser.AppDir/usr/share/icons/hicolor/256x256/apps
 
-          # Firefox
+          # Firefox + built-in config dirs
           cp -r firefox FoxAI-Browser.AppDir/
-          # Profile + configs
-          cp -r firefox-foxai/profile/foxai FoxAI-Browser.AppDir/profile
-          cp firefox-foxai/runtime/foxai.cfg FoxAI-Browser.AppDir/foxai.cfg
-          cp firefox-foxai/runtime/distribution/distribution.ini FoxAI-Browser.AppDir/distribution.ini
-          
-          # KoboldCpp
+          mkdir -p FoxAI-Browser.AppDir/firefox/defaults/pref
+          mkdir -p FoxAI-Browser.AppDir/firefox/distribution/extensions
+
+          # Locked prefs -> firefox/defaults/pref (auto-loaded by Firefox)
+          cp config/foxai.cfg FoxAI-Browser.AppDir/firefox/defaults/pref/foxai.cfg
+
+          # Branding + enterprise policies
+          cp config/distribution.ini FoxAI-Browser.AppDir/firefox/distribution/distribution.ini
+          cp config/policies.json FoxAI-Browser.AppDir/firefox/distribution/policies.json
+          cp linux/resources/distribution/extensions/*.xpi FoxAI-Browser.AppDir/firefox/distribution/extensions/
+
+          # Render %%CORE%%/%%SEARCH%%/%%AI%%/%%UBLOCK%% placeholders -> file:// paths
+          EXT="$(pwd)/FoxAI-Browser.AppDir/firefox/distribution/extensions"
+          sed -i "s|%%CORE%%|file:///$EXT/foxai-core@foxai.browser.xpi|g" FoxAI-Browser.AppDir/firefox/distribution/policies.json
+          sed -i "s|%%SEARCH%%|file:///$EXT/foxai-search-startpage@foxai.local.xpi|g" FoxAI-Browser.AppDir/firefox/distribution/policies.json
+          sed -i "s|%%AI%%|file:///$EXT/foxai-ai@foxai.browser.xpi|g" FoxAI-Browser.AppDir/firefox/distribution/policies.json
+          sed -i "s|%%UBLOCK%%|file:///$EXT/uBlock0@raymondhill.net.xpi|g" FoxAI-Browser.AppDir/firefox/distribution/policies.json
+
+          # Update distribution.ini version to match tag
+          sed -i "s|^version=.*|version=$APPVER|" FoxAI-Browser.AppDir/firefox/distribution/distribution.ini
+
+          # Empty profile + config (launcher syncs user.js on every run)
+          mkdir -p FoxAI-Browser.AppDir/profile
+          cp -r config FoxAI-Browser.AppDir/config
+
+          # KoboldCpp (model NOT bundled - downloaded on first --offline run)
           cp -r koboldcpp FoxAI-Browser.AppDir/
-          
+          rm -f FoxAI-Browser.AppDir/koboldcpp/*.gguf
+
           # Launcher
           cp linux/foxai-launcher.sh FoxAI-Browser.AppDir/foxai-launcher.sh
           chmod +x FoxAI-Browser.AppDir/foxai-launcher.sh
-          
+
           # AppRun (entry point)
           cat > FoxAI-Browser.AppDir/AppRun << "EOF"
           #!/bin/bash
@@ -69,15 +97,16 @@ jobs:
           exec ./foxai-launcher.sh "$@"
           EOF
           chmod +x FoxAI-Browser.AppDir/AppRun
-          
+
           # Desktop file
           cp linux/foxai-browser.desktop FoxAI-Browser.AppDir/foxai-browser.desktop
-          
+
           # Icon
           cp foxai.ico FoxAI-Browser.AppDir/foxai-browser.ico
-          
-          # Symlink for icon
           ln -sf foxai-browser.ico FoxAI-Browser.AppDir/.DirIcon
+
+          # Version file (launcher reads this)
+          echo "$APPVER" > FoxAI-Browser.AppDir/version.txt
 
       - name: Build AppImage
         run: |
@@ -85,28 +114,36 @@ jobs:
 
       - name: Build RPM
         run: |
+          APPVER="${GITHUB_REF_NAME#v}"
           mkdir -p rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
-          cp FoxAI-Browser-${{ github.ref_name }}.AppImage rpmbuild/SOURCES/
+          cp FoxAI-Browser-${{ github.ref_name }}.AppImage rpmbuild/SOURCES/FoxAI-Browser-$APPVER.AppImage
           cp linux/foxai-browser.desktop rpmbuild/SOURCES/
           cp foxai.ico rpmbuild/SOURCES/foxai-browser.ico
-          rpmbuild -ba linux/foxai-browser.spec --define "_topdir $(pwd)/rpmbuild"
+          cp linux/foxai-browser.spec rpmbuild/SPECS/
+          sed -i "s|^Version:.*|Version: $APPVER|" rpmbuild/SPECS/foxai-browser.spec
+          rpmbuild -ba rpmbuild/SPECS/foxai-browser.spec --define "_topdir $(pwd)/rpmbuild"
 
       - name: Build DEB
         run: |
+          APPVER="${GITHUB_REF_NAME#v}"
           mkdir -p deb/DEBIAN
           mkdir -p deb/usr/bin
           mkdir -p deb/usr/share/applications
           mkdir -p deb/usr/share/icons/hicolor/256x256/apps
-          
+
+          cp linux/deb/DEBIAN/control deb/DEBIAN/control
           cp FoxAI-Browser-${{ github.ref_name }}.AppImage deb/usr/bin/foxai-browser
           chmod +x deb/usr/bin/foxai-browser
           cp linux/foxai-browser.desktop deb/usr/share/applications/
           cp foxai.ico deb/usr/share/icons/hicolor/256x256/apps/foxai-browser.ico
-          
+
+          # Set version to match tag
+          sed -i "s|^Version:.*|Version: $APPVER-1|" deb/DEBIAN/control
+
           # Calculate installed size
           SIZE=$(du -sk deb | cut -f1)
           sed -i "s/Installed-Size:.*/Installed-Size: $SIZE/" deb/DEBIAN/control
-          
+
           dpkg-deb --build deb foxai-browser-${{ github.ref_name }}-amd64.deb
 
       - name: Upload Release Assets
@@ -114,7 +151,7 @@ jobs:
         with:
           files: |
             FoxAI-Browser-${{ github.ref_name }}.AppImage
-            rpmbuild/RPMS/x86_64/foxai-browser-${{ github.ref_name }}-1.x86_64.rpm
+            rpmbuild/RPMS/x86_64/foxai-browser-*.rpm
             foxai-browser-${{ github.ref_name }}-amd64.deb
           draft: false
           prerelease: false

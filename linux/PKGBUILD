@@ -1,0 +1,29 @@
+# Maintainer: Can-5 <kygszilkaycan@icloud.com>
+# PKGBUILD for FoxAI Browser (AppImage-based, works on Arch/Manjaro/Artix/EndeavourOS)
+# Build: makepkg -si  (via: cd linux && makepkg -si)
+# Source is fetched from the GitHub release matching $pkgver.
+
+pkgname=foxai-browser
+pkgver=2.0.0.3
+pkgrel=1
+pkgdesc="Privacy-hardened Firefox fork with offline AI (qwen2.5-3b via koboldcpp on localhost:5001)"
+arch=('x86_64')
+url="https://github.com/Can-5/foxai-browser"
+license=('MPL-2.0')
+depends=('fuse2' 'gtk3' 'dbus' 'nss' 'libxtst' 'alsa-lib' 'libxss' 'mesa' 'libdrm' 'curl')
+optdepends=('libappindicator-gtk3: tray integration')
+source=("FoxAI-Browser-${pkgver}.AppImage::https://github.com/Can-5/foxai-browser/releases/download/v${pkgver}/FoxAI-Browser-v${pkgver}.AppImage")
+sha256sums=('SKIP')
+options=('!strip')
+install=foxai-browser.install
+
+package() {
+  install -Dm755 "${srcdir}/FoxAI-Browser-${pkgver}.AppImage" "${pkgdir}/usr/bin/foxai-browser"
+
+  install -Dm644 "${srcdir}/FoxAI-Browser-${pkgver}.AppImage" \
+    "${pkgdir}/usr/share/pixmaps/foxai-browser.ico"
+
+  # Desktop file (bundled inside the repo at linux/foxai-browser.desktop)
+  install -Dm644 "${srcdir}/../linux/foxai-browser.desktop" \
+    "${pkgdir}/usr/share/applications/foxai-browser.desktop"
+}

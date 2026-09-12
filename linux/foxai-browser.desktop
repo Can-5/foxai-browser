@@ -1,0 +1,25 @@
+﻿[Desktop Entry]
+Version=1.0
+Type=Application
+Name=FoxAI Browser
+Comment=Privacy-focused Firefox fork with offline AI
+Exec=foxai-browser %U
+Icon=foxai-browser
+Terminal=false
+Categories=Network;WebBrowser;
+StartupNotify=true
+MimeType=text/html;text/xml;application/xhtml+xml;application/xml;application/rss+xml;application/rdf+xml;image/gif;image/jpeg;image/png;x-scheme-handler/http;x-scheme-handler/https;
+Keywords=Web;Browser;Internet;Privacy;AI;
+Actions=PrivateWindow;TorWindow;OfflineMode;
+
+[Desktop Action PrivateWindow]
+Name=New Private Window
+Exec=foxai-browser -private-window %U
+
+[Desktop Action TorWindow]
+Name=New Tor Window
+Exec=foxai-browser -tor %U
+
+[Desktop Action OfflineMode]
+Name=Offline AI Mode
+Exec=foxai-browser -offline %U
