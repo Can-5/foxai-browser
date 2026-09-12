@@ -24,7 +24,7 @@ jobs:
             wget curl tar gzip bzip2 xz-utils \
             libfuse2 fuse3 \
             rpm alien dpkg-dev \
-            squashfs-tools file
+            squashfs-tools file desktop-file-utils
 
       - name: Install appimagetool (from GitHub releases)
         run: |
@@ -101,9 +101,10 @@ jobs:
           # Desktop file
           cp linux/foxai-browser.desktop FoxAI-Browser.AppDir/foxai-browser.desktop
 
-          # Icon
-          cp foxai.ico FoxAI-Browser.AppDir/foxai-browser.ico
-          ln -sf foxai-browser.ico FoxAI-Browser.AppDir/.DirIcon
+          # Icon (PNG for appimagetool/desktop-file-validate)
+          cp linux/resources/icons/hicolor/256x256/apps/foxai-browser.png FoxAI-Browser.AppDir/foxai-browser.png
+          cp linux/resources/icons/hicolor/256x256/apps/foxai-browser.png FoxAI-Browser.AppDir/usr/share/icons/hicolor/256x256/apps/foxai-browser.png
+          ln -sf foxai-browser.png FoxAI-Browser.AppDir/.DirIcon
 
           # Version file (launcher reads this)
           echo "$APPVER" > FoxAI-Browser.AppDir/version.txt
@@ -118,7 +119,7 @@ jobs:
           mkdir -p rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
           cp FoxAI-Browser-${{ github.ref_name }}.AppImage rpmbuild/SOURCES/FoxAI-Browser-$APPVER.AppImage
           cp linux/foxai-browser.desktop rpmbuild/SOURCES/
-          cp foxai.ico rpmbuild/SOURCES/foxai-browser.ico
+          cp linux/resources/icons/hicolor/256x256/apps/foxai-browser.png rpmbuild/SOURCES/
           cp linux/foxai-browser.spec rpmbuild/SPECS/
           sed -i "s|^Version:.*|Version: $APPVER|" rpmbuild/SPECS/foxai-browser.spec
           rpmbuild -ba rpmbuild/SPECS/foxai-browser.spec --define "_topdir $(pwd)/rpmbuild"
@@ -135,7 +136,7 @@ jobs:
           cp FoxAI-Browser-${{ github.ref_name }}.AppImage deb/usr/bin/foxai-browser
           chmod +x deb/usr/bin/foxai-browser
           cp linux/foxai-browser.desktop deb/usr/share/applications/
-          cp foxai.ico deb/usr/share/icons/hicolor/256x256/apps/foxai-browser.ico
+          cp linux/resources/icons/hicolor/256x256/apps/foxai-browser.png deb/usr/share/icons/hicolor/256x256/apps/foxai-browser.png
 
           # Set version to match tag
           sed -i "s|^Version:.*|Version: $APPVER-1|" deb/DEBIAN/control

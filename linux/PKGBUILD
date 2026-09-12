@@ -4,7 +4,7 @@
 # Source is fetched from the GitHub release matching $pkgver.
 
 pkgname=foxai-browser
-pkgver=2.0.0.3
+pkgver=2.0.0.4
 pkgrel=1
 pkgdesc="Privacy-hardened Firefox fork with offline AI (qwen2.5-3b via koboldcpp on localhost:5001)"
 arch=('x86_64')
@@ -20,8 +20,8 @@ install=foxai-browser.install
 package() {
   install -Dm755 "${srcdir}/FoxAI-Browser-${pkgver}.AppImage" "${pkgdir}/usr/bin/foxai-browser"
 
-  install -Dm644 "${srcdir}/FoxAI-Browser-${pkgver}.AppImage" \
-    "${pkgdir}/usr/share/pixmaps/foxai-browser.ico"
+  install -Dm644 "${srcdir}/../linux/resources/icons/hicolor/256x256/apps/foxai-browser.png" \
+    "${pkgdir}/usr/share/pixmaps/foxai-browser.png"
 
   # Desktop file (bundled inside the repo at linux/foxai-browser.desktop)
   install -Dm644 "${srcdir}/../linux/foxai-browser.desktop" \
