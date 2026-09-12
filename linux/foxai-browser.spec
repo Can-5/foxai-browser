@@ -10,6 +10,11 @@ Source2:        foxai-browser.png
 Requires:       glibc >= 2.28, libstdc++ >= 11, gtk3 >= 3.24, dbus, libX11, libXext, libXrender, libXcomposite, libXcursor, libXdamage, libXfixes, libXi, libXrandr, libXScrnSaver, libxtst, nss, alsa-lib, libasound2, mesa-libgbm, libdrm
 BuildArch:      x86_64
 
+# AppImage = ELF runtime + appended squashfs. brp-strip truncates the squashfs
+# payload, producing a broken 944KB binary. Disable all post-install processing.
+%define debug_package %{nil}
+%define __os_install_post %{nil}
+
 %description
 FoxAI Browser is a privacy-hardened Firefox fork with built-in offline AI support.
 Features:
