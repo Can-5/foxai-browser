@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 # FoxAI Browser Linux Launcher
 # Usage: foxai-launcher.sh [launch|private|tor|offline|check|update|version]
 
