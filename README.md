@@ -48,6 +48,47 @@ firefox-foxai\runtime\firefox.exe -profile "firefox-foxai\profile\foxai" -no-rem
 
 Or extract `release\FoxAI-Browser-v1.0.0.zip` and run `firefox.exe`.
 
+## Install (Linux)
+
+Linux packages are built automatically by GitHub Actions on every tag push. Grab them from the [Releases](https://github.com/Can-5/foxai-browser/releases) page:
+
+### Fedora (RPM) — "setup.exe" experience
+
+Download `foxai-browser-X.Y.Z-1.x86_64.rpm`, then **double-click it** (Discover opens with an Install button) or:
+
+```bash
+sudo dnf install ./foxai-browser-X.Y.Z-1.x86_64.rpm
+```
+
+This installs the AppImage to `/usr/bin/foxai-browser` plus a launcher icon in the app menu. `fuse2` is pulled in automatically. Launch from the menu or by running `foxai-browser`.
+
+### Any distro — portable AppImage (like a Windows .exe)
+
+```bash
+wget https://github.com/Can-5/foxai-browser/releases/download/vX.Y.Z/FoxAI-Browser-vX.Y.Z.AppImage
+chmod +x FoxAI-Browser-vX.Y.Z.AppImage
+./FoxAI-Browser-vX.Y.Z.AppImage          # normal
+./FoxAI-Browser-vX.Y.Z.AppImage --offline  # offline AI (downloads ~1.9GB model on first run)
+```
+
+Note: double-clicking the AppImage requires FUSE 2 (`sudo dnf install fuse2` on Fedora, `sudo apt install libfuse2` on Debian/Ubuntu).
+
+### Arch — PKGBUILD
+
+```bash
+cd linux && makepkg -si
+```
+
+### Ubuntu / Debian
+
+```bash
+sudo dpkg -i foxai-browser-vX.Y.Z-amd64.deb   # sudo apt -f install if deps missing
+```
+
+### Launcher modes
+
+`foxai-browser --private` (private window) · `foxai-browser --tor` (Tor window) · `foxai-browser --check` (check for updates) · `foxai-browser --update` (self-update from GitHub Releases).
+
 ## Notes / gotchas
 
 - XPIs must use forward-slash entry names (PowerShell `ZipFile.CreateFromDirectory` writes backslashes and Firefox 404s subdirectories).
