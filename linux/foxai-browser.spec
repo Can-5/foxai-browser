@@ -7,7 +7,7 @@ URL:            https://github.com/Can-5/foxai-browser
 Source0:        FoxAI-Browser-%{version}.AppImage
 Source1:        foxai-browser.desktop
 Source2:        foxai-browser.png
-Requires:       glibc >= 2.28, libstdc++ >= 11, gtk3 >= 3.24, dbus, libX11, libXext, libXrender, libXcomposite, libXcursor, libXdamage, libXfixes, libXi, libXrandr, libXScrnSaver, libxtst, nss, alsa-lib, libasound2, mesa-libgbm, libdrm
+Requires:       glibc >= 2.28, libstdc++ >= 11, gtk3 >= 3.24, dbus, libX11, libXext, libXrender, libXcomposite, libXcursor, libXdamage, libXfixes, libXi, libXrandr, libXScrnSaver, libxtst, nss, alsa-lib, fuse2, mesa-libgbm, libdrm
 BuildArch:      x86_64
 
 # AppImage = ELF runtime + appended squashfs. brp-strip truncates the squashfs
