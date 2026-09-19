@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FoxAI Browser — İndir</title>
+<meta name="description" content="Gizlilik odaklı, yapay zekâ destekli FoxAI Browser'ı indir. Windows, macOS, Linux.">
+<meta name="theme-color" content="#fffaf6" id="themeColor">
+<style>
+:root{
+  --fox-a:#FF8A3D; --fox-b:#FF4D6D;
+  --ai-a:#8B5CF6; --ai-b:#60A5FA;
+  --ink:#141310; --muted:#6b6f76; --paper:#fffaf6;
+  --card:#ffffff; --line:#f0e6dc;
+  --radius:22px;
+  --shadow-sm:0 2px 10px rgba(20,19,16,.07);
+  --shadow-md:0 14px 44px -12px rgba(255,93,85,.28);
+  --shadow-lg:0 30px 80px -20px rgba(255,77,109,.35);
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+html{scroll-behavior:smooth}
+/* ---------- koyu mod (Safari karanlık estetiği) ---------- */
+[data-theme="dark"]{
+  --ink:#f3eee7; --muted:#a39d93; --paper:#131009;
+  --card:#1e1913; --line:#3a322a;
+  --shadow-sm:0 2px 10px rgba(0,0,0,.4);
+  --shadow-md:0 14px 44px -12px rgba(0,0,0,.6);
+  --shadow-lg:0 30px 80px -20px rgba(0,0,0,.65);
+}
+[data-theme="dark"] nav{background:rgba(19,16,9,.78)}
+[data-theme="dark"] .btn.ghost{background:#241e16}
+[data-theme="dark"] .card.featured{background:linear-gradient(#241e16,#241e16) padding-box,
+  linear-gradient(135deg,var(--fox-a),var(--fox-b),var(--ai-a)) border-box}
+[data-theme="dark"] .player-bar,[data-theme="dark"] .player-foot,[data-theme="dark"] .pp{background:#241e16}
+[data-theme="dark"] .player-screen{background:
+  radial-gradient(420px 200px at 85% -40px,rgba(139,92,246,.2),transparent 70%),
+  radial-gradient(420px 220px at 10% 110%,rgba(255,77,109,.16),transparent 70%),#1e1913}
+[data-theme="dark"] .toggle{background:#4a423a}
+[data-theme="dark"] .pdot{background:#4a423a}
+[data-theme="dark"] .racer.fox{background:linear-gradient(180deg,#241f3d,#1e1913)}
+[data-theme="dark"] .cmp thead{background:#241e16}
+[data-theme="dark"] .chip{background:rgba(30,25,19,.85)}
+/* ---------- scroll progress ---------- */
+#progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:200;
+  background:linear-gradient(90deg,var(--fox-a),var(--fox-b),var(--ai-a));
+  transform:scaleX(0);transform-origin:0 50%}
+/* ---------- özellik şeridi ---------- */
+.ticker{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  background:var(--card);margin-top:34px}
+.ticker-track{display:flex;width:max-content;animation:tick 30s linear infinite}
+.ticker-track span{padding:13px 30px;white-space:nowrap;font-weight:700;font-size:.92rem;color:var(--muted)}
+.ticker:hover .ticker-track{animation-play-state:paused}
+@keyframes tick{to{transform:translateX(-50%)}}
+/* ---------- spotlight hover ---------- */
+[data-spot]{position:relative}
+[data-spot]::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(340px circle at var(--mx,50%) var(--my,50%),rgba(255,138,61,.13),transparent 65%);
+  opacity:0;transition:opacity .35s}
+[data-spot]:hover::before{opacity:1}
+[data-theme="dark"] [data-spot]::before{background:radial-gradient(340px circle at var(--mx,50%) var(--my,50%),rgba(139,92,246,.2),transparent 65%)}
+/* ---------- başa dön ---------- */
+#toTop{position:fixed;right:22px;bottom:22px;z-index:150;width:46px;height:46px;border-radius:50%;
+  border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:20px;cursor:pointer;
+  box-shadow:var(--shadow-sm);opacity:0;pointer-events:none;transform:translateY(12px);
+  transition:opacity .35s var(--ease),transform .35s var(--ease)}
+#toTop.show{opacity:1;pointer-events:auto;transform:none}
+/* ---------- tema düğmesi ---------- */
+.theme-btn{border:1px solid var(--line);background:var(--card);border-radius:999px;width:38px;height:38px;
+  font-size:17px;cursor:pointer;line-height:1;transition:transform .3s var(--ease)}
+.theme-btn:hover{transform:rotate(18deg) scale(1.06)}
+/* ---------- başlık parıltısı ---------- */
+.grad{background-size:220% auto;animation:shine 9s linear infinite}
+@keyframes shine{to{background-position:220% center}}
+/* ---------- bölüm göndermeleri ---------- */
+.xref{color:var(--ai-a);font-weight:700;text-decoration:none;white-space:nowrap}
+.xref .arr{display:inline-block;transition:transform .3s var(--ease)}
+.xref:hover .arr{transform:translateX(5px)}
+/* ---------- fox göz kırpma + logo easter egg ---------- */
+#foxWrap .pupil circle{transform-box:fill-box;transform-origin:center;transition:transform .09s ease}
+#foxWrap.blink .pupil circle{transform:scaleY(.08)}
+.brand .dot{display:inline-block;cursor:pointer}
+.brand .dot.spin{animation:spin .7s var(--ease)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .ticker-track,.grad,.brand .dot.spin{animation:none}
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,Inter,Arial,sans-serif;
+  background:var(--paper); color:var(--ink);
+  overflow-x:hidden; -webkit-font-smoothing:antialiased;
+}
+::selection{background:rgba(255,77,109,.25)}
+
+/* ---------- floating blobs ---------- */
+.blob{position:fixed;border-radius:50%;filter:blur(90px);opacity:.5;pointer-events:none;z-index:0;will-change:transform}
+.blob.b1{width:520px;height:520px;top:-160px;left:-140px;background:radial-gradient(circle,#ffcf9e,transparent 70%)}
+.blob.b2{width:620px;height:620px;top:10%;right:-220px;background:radial-gradient(circle,#ffc2d1,transparent 70%)}
+.blob.b3{width:460px;height:460px;bottom:-160px;left:30%;background:radial-gradient(circle,#c9c2ff,transparent 70%)}
+
+/* ---------- nav ---------- */
+nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:14px 28px;background:rgba(255,250,246,.78);backdrop-filter:saturate(1.4) blur(18px);-webkit-backdrop-filter:saturate(1.4) blur(18px);
+  border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.1rem;letter-spacing:-.02em}
+.brand .dot{width:30px;height:30px;border-radius:10px;background:linear-gradient(135deg,var(--fox-a),var(--fox-b));
+  display:grid;place-items:center;color:#fff;font-size:16px;box-shadow:var(--shadow-sm)}
+nav .links{display:flex;gap:22px;font-size:.92rem;font-weight:600}
+nav .links a{color:var(--ink);text-decoration:none;opacity:.75;transition:opacity .2s}
+nav .links a:hover{opacity:1}
+
+/* magnetic button (base) */
+.btn{display:inline-flex;align-items:center;gap:10px;border:0;cursor:pointer;
+  font-weight:700;font-size:1rem;padding:15px 32px;border-radius:999px;color:#fff;
+  background:linear-gradient(135deg,var(--fox-a),var(--fox-b));
+  box-shadow:var(--shadow-md);transition:box-shadow .25s var(--ease);
+  will-change:transform;text-decoration:none}
+.btn:hover{box-shadow:var(--shadow-lg)}
+.btn.ghost{background:#fff;color:var(--ink);border:1.5px solid var(--line);box-shadow:var(--shadow-sm)}
+.btn.small{padding:11px 24px;font-size:.9rem}
+
+/* ---------- hero ---------- */
+.hero{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:90px 24px 40px;
+  display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;font-weight:800;letter-spacing:.14em;
+  text-transform:uppercase;color:#d1385c;background:rgba(255,77,109,.1);border:1px solid rgba(255,77,109,.25);
+  padding:8px 16px;border-radius:999px;margin-bottom:22px}
+h1{font-size:clamp(2.6rem,5.4vw,4.4rem);line-height:1.02;letter-spacing:-.035em;font-weight:900}
+h1 .grad{background:linear-gradient(120deg,var(--fox-a),var(--fox-b) 55%,var(--ai-a));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{margin:22px 0 34px;font-size:1.12rem;line-height:1.65;color:var(--muted);max-width:34rem}
+.cta-row{display:flex;gap:14px;flex-wrap:wrap}
+.meta-row{display:flex;gap:26px;margin-top:34px;flex-wrap:wrap}
+.meta{font-size:.86rem;color:var(--muted)}
+.meta b{display:block;font-size:1.35rem;color:var(--ink);letter-spacing:-.02em}
+
+/* fox stage */
+.stage{position:relative;display:grid;place-items:center;min-height:480px;perspective:900px}
+.ring{position:absolute;border-radius:50%;border:1.5px dashed rgba(255,77,109,.35)}
+.ring.r1{width:340px;height:340px;animation:spin 26s linear infinite}
+.ring.r2{width:440px;height:440px;animation:spin 40s linear infinite reverse;border-color:rgba(139,92,246,.3)}
+.ring.r3{width:250px;height:250px;animation:spin 18s linear infinite;border-color:rgba(96,165,250,.35)}
+@keyframes spin{to{transform:rotate(360deg)}}
+#foxWrap{position:relative;width:min(66vw,360px);aspect-ratio:1;will-change:transform;filter:drop-shadow(0 30px 50px rgba(255,77,109,.35))}
+#foxWrap svg{width:100%;height:100%;display:block}
+.pupil{transition:transform .12s ease-out}
+.chip{position:absolute;padding:10px 16px;border-radius:16px;background:rgba(255,255,255,.85);
+  backdrop-filter:blur(12px);border:1px solid var(--line);box-shadow:var(--shadow-sm);
+  font-size:.82rem;font-weight:700;white-space:nowrap}
+.chip.c1{top:6%;left:-4%}.chip.c2{bottom:14%;right:-6%}.chip.c3{top:44%;right:-12%}
+
+/* ---------- sections ---------- */
+section.block{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:70px 24px}
+.sec-head{text-align:center;max-width:640px;margin:0 auto 46px}
+.sec-head h2{font-size:clamp(1.9rem,3.6vw,2.8rem);letter-spacing:-.03em;font-weight:800}
+.sec-head p{color:var(--muted);margin-top:12px;font-size:1.05rem;line-height:1.6}
+
+/* download cards */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:34px 30px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;
+  transition:box-shadow .3s var(--ease),border-color .3s;will-change:transform;transform-style:preserve-3d}
+.card:hover{box-shadow:var(--shadow-lg);border-color:rgba(255,77,109,.35)}
+.card.featured{border:2px solid transparent;background:linear-gradient(#fff,#fff) padding-box,
+  linear-gradient(135deg,var(--fox-a),var(--fox-b)) border-box}
+.card .os{font-size:2.6rem}
+.card h3{font-size:1.35rem;margin:14px 0 6px;letter-spacing:-.02em}
+.card .ver{display:inline-block;font-size:.75rem;font-weight:800;color:#d1385c;background:rgba(255,77,109,.1);
+  padding:4px 12px;border-radius:999px;margin-bottom:12px}
+.card p{font-size:.93rem;color:var(--muted);line-height:1.6;margin-bottom:22px;min-height:66px}
+.card .btn{width:100%;justify-content:center}
+.badge-pop{position:absolute;top:16px;right:16px;font-size:.72rem;font-weight:800;color:#fff;
+  background:linear-gradient(135deg,var(--ai-a),var(--ai-b));padding:6px 14px;border-radius:999px}
+
+/* features */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.feat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:30px 26px;box-shadow:var(--shadow-sm)}
+.feat .ic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:24px;margin-bottom:16px;
+  background:linear-gradient(135deg,rgba(255,138,61,.15),rgba(255,77,109,.15))}
+.feat h3{font-size:1.1rem;margin-bottom:8px;letter-spacing:-.01em}
+.feat p{font-size:.92rem;color:var(--muted);line-height:1.6}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;counter-reset:step}
+.step{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:30px 26px;position:relative}
+.step::before{counter-increment:step;content:"0" counter(step);font-size:2.6rem;font-weight:900;letter-spacing:-.04em;
+  background:linear-gradient(135deg,var(--fox-a),var(--fox-b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.step h3{margin:10px 0 8px}.step p{color:var(--muted);font-size:.92rem;line-height:1.6}
+
+/* footer */
+footer{position:relative;z-index:1;border-top:1px solid var(--line);margin-top:40px;
+  padding:34px 24px 60px;text-align:center;color:var(--muted);font-size:.88rem}
+
+/* ---------- tanıtım: video benzeri otomatik demo ---------- */
+.demo-wrap{display:grid;grid-template-columns:.85fr 1.15fr;gap:38px;align-items:center}
+.demo-copy p{margin:16px 0 22px;color:var(--muted);line-height:1.65;font-size:1.05rem}
+.demo-points{display:flex;flex-direction:column;gap:12px;margin-bottom:24px}
+.demo-points .dp{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);
+  border-radius:16px;padding:13px 16px;font-size:.94rem;box-shadow:var(--shadow-sm)}
+.demo-points .dp b{display:block;font-size:.95rem}
+.demo-points .dp span{color:var(--muted)}
+.player{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow-lg);overflow:hidden}
+.player-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line);background:#fff}
+.tl{width:11px;height:11px;border-radius:50%}
+.tl.r{background:#FF5F57}.tl.y{background:#FEBC2E}.tl.g{background:#28C840}
+.url{flex:1;margin-left:8px;font-size:.78rem;color:var(--muted);background:var(--paper);
+  border:1px solid var(--line);border-radius:999px;padding:6px 14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.player-screen{position:relative;min-height:360px;background:
+  radial-gradient(420px 200px at 85% -40px,rgba(139,92,246,.12),transparent 70%),
+  radial-gradient(420px 220px at 10% 110%,rgba(255,77,109,.1),transparent 70%),#fff}
+.scene{position:absolute;inset:0;padding:24px;opacity:0;transform:translateY(16px) scale(.985);
+  transition:opacity .5s var(--ease),transform .5s var(--ease);pointer-events:none}
+.scene.on{opacity:1;transform:none;pointer-events:auto}
+.scene h4{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:#d1385c;margin-bottom:14px}
+.shield-big{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.shield-ic{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;font-size:28px;color:#fff;
+  background:linear-gradient(135deg,var(--fox-a),var(--fox-b));box-shadow:var(--shadow-md)}
+.counter{font-size:2.6rem;font-weight:900;letter-spacing:-.03em}
+.counter small{display:block;font-size:.8rem;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.track-list{display:flex;flex-direction:column;gap:8px}
+.track{display:flex;align-items:center;gap:10px;background:var(--paper);border:1px solid var(--line);
+  border-radius:12px;padding:9px 12px;font-size:.85rem;font-family:ui-monospace,Menlo,Consolas,monospace;
+  opacity:0;transform:translateX(-12px);transition:opacity .4s var(--ease),transform .4s var(--ease)}
+.track.show{opacity:1;transform:none}
+.track.blocked{opacity:.45;text-decoration:line-through}
+.track .x{margin-left:auto;font-weight:800;color:#d1385c;background:rgba(255,77,109,.12);
+  border-radius:8px;padding:2px 9px;font-size:.75rem}
+.chat{display:flex;flex-direction:column;gap:10px}
+.bubble{max-width:88%;padding:12px 15px;border-radius:16px;font-size:.92rem;line-height:1.55}
+.bubble.user{align-self:flex-end;background:linear-gradient(135deg,var(--fox-a),var(--fox-b));color:#fff;
+  border-bottom-right-radius:6px;min-height:48px}
+.bubble.ai{align-self:flex-start;background:var(--paper);border:1px solid var(--line);
+  border-bottom-left-radius:6px;min-height:96px}
+.caret{display:inline-block;width:2px;height:1em;background:var(--fox-b);vertical-align:-2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.local-badge{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:.78rem;font-weight:700;
+  color:#2f9e44;background:rgba(40,200,64,.12);border:1px solid rgba(40,200,64,.3);padding:7px 13px;border-radius:999px;
+  opacity:0;transform:translateY(8px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.local-badge.show{opacity:1;transform:none}
+.tor-row{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.toggle{width:64px;height:34px;border-radius:999px;background:#e5e0da;position:relative;transition:background .4s;flex:none}
+.toggle .knob{position:absolute;top:4px;left:4px;width:26px;height:26px;border-radius:50%;background:#fff;
+  box-shadow:0 2px 6px rgba(0,0,0,.25);transition:left .35s var(--ease)}
+.toggle.on{background:linear-gradient(135deg,var(--ai-a),var(--ai-b))}
+.toggle.on .knob{left:34px}
+.tor-state{font-weight:800;font-size:1.02rem}
+.tor-state small{display:block;font-weight:600;color:var(--muted);font-size:.8rem}
+.route{display:flex;align-items:center;gap:0;margin:6px 0 16px}
+.node{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:15px;flex:none;
+  background:var(--paper);border:1.5px solid var(--line);transition:all .4s}
+.node.lit{background:linear-gradient(135deg,var(--ai-a),var(--ai-b));color:#fff;border-color:transparent;
+  box-shadow:0 6px 18px -4px rgba(139,92,246,.55)}
+.wire{flex:1;height:2px;background:repeating-linear-gradient(90deg,var(--line) 0 6px,transparent 6px 12px);position:relative;overflow:hidden}
+.wire.flow::after{content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(90deg,var(--ai-a) 0 8px,transparent 8px 16px);animation:flow .7s linear infinite}
+@keyframes flow{to{transform:translateX(16px)}}
+.ip-pill{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.85rem;background:var(--paper);
+  border:1px solid var(--line);border-radius:12px;padding:10px 14px;display:flex;gap:10px;align-items:center}
+.ip-pill b{color:#d1385c}
+.player-foot{display:flex;align-items:center;gap:12px;padding:12px 16px;border-top:1px solid var(--line);background:#fff}
+.pdots{display:flex;gap:8px;flex:1}
+.pdot{height:6px;flex:1;max-width:56px;border-radius:99px;background:#eee2d6;overflow:hidden;position:relative}
+.pdot i{position:absolute;inset:0;background:linear-gradient(90deg,var(--fox-a),var(--fox-b));
+  transform:scaleX(0);transform-origin:left}
+.pdot.done i{transform:scaleX(1)}
+.pdot.live i{animation:fill var(--fill,4.2s) linear forwards}
+@keyframes fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.pp{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);background:#fff;cursor:pointer;
+  display:grid;place-items:center;font-size:13px;color:var(--ink);flex:none}
+.scene-tag{font-size:.8rem;font-weight:700;color:var(--muted);min-width:170px;text-align:right}
+/* ---------- SSS akordiyon ---------- */
+.faq{max-width:780px;margin:6px auto 0}
+.qa{background:var(--card);border:1px solid var(--line);border-radius:16px;margin-bottom:12px;
+  overflow:hidden;box-shadow:var(--shadow-sm);transition:box-shadow .3s var(--ease)}
+.qa.open{box-shadow:var(--shadow-md)}
+.qa>button{width:100%;display:flex;align-items:center;gap:14px;background:none;border:0;cursor:pointer;
+  padding:18px 20px;font:inherit;font-weight:800;font-size:1rem;color:var(--ink);text-align:left}
+.qa .q-ic{width:32px;height:32px;flex:none;border-radius:10px;display:grid;place-items:center;color:#fff;font-size:15px;
+  background:linear-gradient(135deg,var(--fox-a),var(--fox-b))}
+.qa .chev{margin-left:auto;font-size:1.1rem;color:var(--muted);transition:transform .35s var(--ease);flex:none}
+.qa.open .chev{transform:rotate(180deg)}
+.qa .a{max-height:0;overflow:hidden;transition:max-height .45s var(--ease)}
+.qa .a p{padding:0 20px 20px 66px;color:var(--muted);line-height:1.65;font-size:.95rem}
+.qa .a code{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:1px 7px;font-size:.85em}
+@media(max-width:900px){
+  .demo-wrap{grid-template-columns:1fr}
+  .scene-tag{display:none}
+  .player-screen{min-height:380px}
+}
+
+/* reveal defaults (JS animates) */
+/* karşılaştırma: yükleme yarışı */
+.race{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:26px;margin-bottom:8px}
+.racer{border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:14px;background:var(--paper)}
+.racer.fox{border-color:rgba(139,92,246,.45);background:linear-gradient(180deg,#f6f1ff,#fff)}
+.racer-head{display:flex;align-items:center;gap:10px;font-weight:800}
+.rdot{width:10px;height:10px;border-radius:50%;background:#d1385c;flex:none}
+.racer.fox .rdot{background:linear-gradient(120deg,var(--ai-a),var(--ai-b))}
+.rstat{margin-left:auto;font-size:.82rem;color:var(--muted);font-weight:600}
+.rbar{height:14px;border-radius:99px;background:#ece4d9;overflow:hidden;margin-top:10px}
+.rbar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#d1385c,var(--fox-a))}
+.racer.fox .rbar i{background:linear-gradient(90deg,var(--ai-a),var(--ai-b))}
+.rlog{margin-top:10px;min-height:72px;font-size:.82rem;color:var(--muted);line-height:1.75}
+.rlog div{opacity:0;transform:translateY(4px);transition:opacity .3s,transform .3s}
+.rlog div.show{opacity:1;transform:none}
+.rlog .no{color:#16a34a;font-weight:700}
+.rlog .yes{color:#d1385c;font-weight:700}
+.race-foot{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.race-tag{font-size:.88rem;color:var(--muted)}
+.race-jab{display:flex;gap:10px;align-items:flex-start;margin:2px 2px 12px;padding:12px 16px;border:1px dashed var(--line);
+  border-radius:14px;background:color-mix(in srgb,var(--card) 70%,transparent);font-size:15px;min-height:52px}
+.race-jab .mic{flex:0 0 auto;font-size:20px;animation:bob 1.6s ease-in-out infinite}
+html.reduced .race-jab .mic{animation:none}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+#raceJabTxt b{color:var(--fox-b)}
+.rbar i.loading{animation:struggle .5s ease-in-out infinite}
+@keyframes struggle{0%,100%{filter:none}50%{filter:brightness(1.25) saturate(1.3)}}
+html.reduced .rbar i.loading{animation:none}
+.rlog .zapped{animation:zap .45s var(--ease)}
+@keyframes zap{0%{transform:scale(.92);background:color-mix(in srgb,#8B5CF6 22%,transparent)}100%{transform:scale(1)}}
+html.reduced .rlog .zapped{animation:none}
+/* karşılaştırma tablosu */
+.cmp{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden;overflow-x:auto}
+.cmp table{width:100%;border-collapse:collapse;min-width:660px;font-size:.93rem}
+.cmp th,.cmp td{padding:13px 14px;text-align:center;border-bottom:1px solid var(--line)}
+.cmp th:first-child,.cmp td:first-child{text-align:left}
+.cmp thead th{background:var(--paper);font-size:.82rem;letter-spacing:.03em;text-transform:uppercase;color:var(--muted)}
+.cmp th.foxcol{background:linear-gradient(120deg,rgba(139,92,246,.16),rgba(96,165,250,.16));color:#6d28d9}
+.cmp td.foxcol{background:rgba(139,92,246,.06);font-weight:800}
+.cmp tbody tr{opacity:0;transform:translateY(8px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.cmp.in tbody tr{opacity:1;transform:none}
+.cmp.in tbody tr:nth-child(1){transition-delay:.05s}.cmp.in tbody tr:nth-child(2){transition-delay:.13s}
+.cmp.in tbody tr:nth-child(3){transition-delay:.21s}.cmp.in tbody tr:nth-child(4){transition-delay:.29s}
+.cmp.in tbody tr:nth-child(5){transition-delay:.37s}.cmp.in tbody tr:nth-child(6){transition-delay:.45s}
+.cmp small{display:block;font-size:.72rem;color:var(--muted);font-weight:600}
+.yes{color:#16a34a;font-weight:800;font-size:1.15rem}
+.no{color:#d8d2c8;font-weight:800;font-size:1.15rem}
+.part{color:#d97706;font-weight:800;font-size:1.15rem}
+.legend{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;font-size:.82rem;color:var(--muted);margin-top:12px}
+/* stat barları */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:26px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-sm)}
+.stat b{font-size:2.1rem;letter-spacing:-.03em;display:block}
+.sbar{height:10px;border-radius:99px;background:#ece4d9;margin-top:12px;overflow:hidden}
+.sbar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--fox-a),var(--fox-b));transition:width 1.4s var(--ease)}
+.stat:nth-child(2) .sbar i{background:linear-gradient(90deg,var(--ai-a),var(--ai-b))}
+.stat p{font-size:.88rem;color:var(--muted);margin-top:10px;line-height:1.55}
+.fine{text-align:center;font-size:.78rem;color:var(--muted);margin-top:18px;line-height:1.6}
+@media(max-width:860px){.stats{grid-template-columns:1fr}}
+.reveal{opacity:0}
+
+/* confetti canvas */
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:9999}
+
+/* toast */
+#toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);opacity:0;
+  background:#1c1a17;color:#fff;font-weight:600;font-size:.92rem;padding:14px 24px;border-radius:14px;
+  box-shadow:0 20px 50px rgba(0,0,0,.3);transition:all .4s var(--ease);z-index:9998;pointer-events:none;max-width:90vw}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;text-align:center;padding-top:60px}
+  .sub{margin-inline:auto}.cta-row,.meta-row{justify-content:center}
+  .stage{min-height:380px}
+  .cards,.feat-grid,.steps{grid-template-columns:1fr}
+  nav .links{display:none}
+}
+
+/* ---------- reduced motion ---------- */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s!important;transition-duration:.001s!important}
+  .reveal{opacity:1!important;transform:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<canvas id="confetti"></canvas>
+<div id="progress" aria-hidden="true"></div>
+<div id="toast" role="status"></div>
+<div class="blob b1" data-parallax="0.12"></div>
+<div class="blob b2" data-parallax="-0.08"></div>
+<div class="blob b3" data-parallax="0.06"></div>
+
+<nav>
+  <div class="brand"><span class="dot" id="logoDot" title="🦊">🦊</span> FoxAI Browser</div>
+  <div class="links"><a href="#tanitim">Tanıtım</a><a href="#karsilastirma">Karşılaştır</a><a href="#indir">İndir</a><a href="#ozellikler">Özellikler</a><a href="#kurulum">Kurulum</a><a href="#sss">SSS</a></div>
+  <button class="theme-btn" id="themeToggle" aria-label="Koyu modu aç/kapat">🌙</button>
+  <a class="btn small magnetic" href="#indir">Hemen İndir</a>
+</nav>
+
+<header class="hero">
+  <div>
+    <span class="eyebrow reveal">🦊 v3.0 "FoxAI One" — Gizlilik + Yapay Zekâ</span>
+    <h1 class="reveal">Tarayıcın kadar <span class="grad">özgür</span> hisset.</h1>
+    <p class="sub reveal">FoxAI Browser: izleyici yok, telemetri yok. Yerleşik yerel yapay zekâ, Tor modu ve şimşek hızında Firefox tabanı — hepsi tek tıkla.</p>
+    <div class="cta-row reveal">
+      <a class="btn magnetic" href="#indir" data-dl="auto">⬇ Hemen İndir</a>
+      <a class="btn ghost magnetic" href="#ozellikler">Özellikleri Gör</a>
+    </div>
+    <div class="meta-row reveal">
+      <div class="meta"><b>100%</b>ücretsiz &amp; açık kaynak</div>
+      <div class="meta"><b>0</b>izleyici / telemetri</div>
+      <div class="meta"><b>2+</b>platform, macOS yakında</div>
+    </div>
+  </div>
+  <div class="stage">
+    <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
+    <div id="foxWrap" aria-hidden="true">
+      <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="foxg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#FF8A3D"/><stop offset="1" stop-color="#FF4D6D"/>
+          </linearGradient>
+          <linearGradient id="aig" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#8B5CF6"/><stop offset="1" stop-color="#60A5FA"/>
+          </linearGradient>
+        </defs>
+        <path d="M256 48 L420 150 L392 330 L256 464 L120 330 L92 150 Z" fill="url(#foxg)"/>
+        <path d="M256 48 L420 150 L340 190 L256 150 L172 190 L92 150 Z" fill="#fff" opacity=".22"/>
+        <path d="M150 210 L150 300 L220 260 Z" fill="#fff"/>
+        <path d="M362 210 L362 300 L292 260 Z" fill="#fff"/>
+        <g class="pupil" id="pupilL"><circle cx="178" cy="258" r="26" fill="#1c1a17"/><circle cx="186" cy="250" r="8" fill="#fff"/></g>
+        <g class="pupil" id="pupilR"><circle cx="334" cy="258" r="26" fill="#1c1a17"/><circle cx="342" cy="250" r="8" fill="#fff"/></g>
+        <path d="M256 310 L232 340 L280 340 Z" fill="#1c1a17"/>
+        <path d="M170 380 Q256 430 342 380" stroke="#fff" stroke-width="14" stroke-linecap="round" fill="none" opacity=".7"/>
+        <circle cx="392" cy="120" r="26" fill="url(#aig)"/>
+        <text x="392" y="130" text-anchor="middle" font-size="26" font-weight="bold" fill="#fff">AI</text>
+      </svg>
+    </div>
+    <div class="chip c1 float-chip">🛡️ 0 izleyici</div>
+    <div class="chip c2 float-chip">⚡ Yerel AI</div>
+    <div class="chip c3 float-chip">🧅 Tor modu</div>
+  </div>
+</header>
+
+<div class="ticker" aria-hidden="true"><div class="ticker-track"><span>🦊 47 izleyici engellendi&nbsp;&nbsp;✦&nbsp;&nbsp;🤖 %100 cihazda AI&nbsp;&nbsp;✦&nbsp;&nbsp;🧅 Tek tıkla Tor&nbsp;&nbsp;✦&nbsp;&nbsp;⚡ 2,1× daha hızlı&nbsp;&nbsp;✦&nbsp;&nbsp;🛡️ Sıfır telemetri&nbsp;&nbsp;✦&nbsp;&nbsp;💸 Tamamen ücretsiz&nbsp;&nbsp;✦&nbsp;&nbsp;</span><span>🦊 47 izleyici engellendi&nbsp;&nbsp;✦&nbsp;&nbsp;🤖 %100 cihazda AI&nbsp;&nbsp;✦&nbsp;&nbsp;🧅 Tek tıkla Tor&nbsp;&nbsp;✦&nbsp;&nbsp;⚡ 2,1× daha hızlı&nbsp;&nbsp;✦&nbsp;&nbsp;🛡️ Sıfır telemetri&nbsp;&nbsp;✦&nbsp;&nbsp;💸 Tamamen ücretsiz&nbsp;&nbsp;✦&nbsp;&nbsp;</span></div></div>
+
+<section class="block" id="tanitim">
+  <div class="demo-wrap">
+    <div class="demo-copy">
+      <h2 class="reveal">FoxAI'ı <span style="background:linear-gradient(120deg,var(--ai-a),var(--ai-b));-webkit-background-clip:text;background-clip:text;color:transparent">40 saniyede</span> tanı</h2>
+      <p class="reveal">Video izlemene gerek yok — bu mini demo, tarayıcının içinde FoxAI'ın neler yaptığını otomatik ve döngülü olarak gösteriyor. Chrome'un tanıtım klipleri gibi: hızlı, sessiz, tekrarlı. <a class="xref" href="#karsilastirma">Rakamlarla karşılaştır <span class="arr">→</span></a></p>
+      <div class="demo-points">
+        <div class="dp reveal"><div>🛡️</div><div><b>İzleyiciler anında ölür</b><span>Sayfa açılırken 47 izleyici engellendi — sayaç canlı artar.</span></div></div>
+        <div class="dp reveal"><div>🧠</div><div><b>AI cevabı cihazında üretilir</b><span>Sorunu yaz, özet anında gelsin. Buluta tek bayt gitmez.</span></div></div>
+        <div class="dp reveal"><div>🧅</div><div><b>Tor tek dokunuşla açılır</b><span>IP'n onion ağında zıplar, konumun kaybolur.</span></div></div>
+      </div>
+      <div class="reveal"><a class="btn magnetic" href="#indir" data-dl="auto">⬇ Hemen Dene</a></div>
+    </div>
+    <div class="player reveal" id="player" aria-label="FoxAI otomatik tanıtım demosu">
+      <div class="player-bar"><span class="tl r"></span><span class="tl y"></span><span class="tl g"></span><span class="url">🔒 foxai://start — güvenli bağlantı</span></div>
+      <div class="player-screen">
+        <div class="scene" data-scene="0">
+          <h4>🛡️ Canlı koruma — izleyici engelleme</h4>
+          <div class="shield-big"><div class="shield-ic">🛡️</div><div class="counter"><span id="trackCount">0</span><small>izleyici engellendi</small></div></div>
+          <div class="track-list" id="trackList">
+            <div class="track"><span>📊 google-analytics.com</span><span class="x">ENGELLENDİ</span></div>
+            <div class="track"><span>📢 doubleclick.net</span><span class="x">ENGELLENDİ</span></div>
+            <div class="track"><span>👁️ facebook-pixel.js</span><span class="x">ENGELLENDİ</span></div>
+            <div class="track"><span>🍪 fingerprint.js</span><span class="x">ENGELLENDİ</span></div>
+          </div>
+        </div>
+        <div class="scene" data-scene="1">
+          <h4>🧠 Yerel yapay zekâ — sayfa özeti</h4>
+          <div class="chat">
+            <div class="bubble user"><span id="typeTarget"></span><span class="caret" id="typeCaret"></span></div>
+            <div class="bubble ai"><span id="aiAnswer"></span><span class="caret" id="aiCaret" style="display:none"></span></div>
+          </div>
+          <div class="local-badge" id="localBadge">✅ %100 cihazda üretildi — buluta gitmedi</div>
+        </div>
+        <div class="scene" data-scene="2">
+          <h4>🧅 Tek tıkla Tor — konum gizleme</h4>
+          <div class="tor-row">
+            <div class="toggle" id="torToggle"><div class="knob"></div></div>
+            <div class="tor-state"><span id="torState">Tor kapalı</span><small id="torSub">IP'n görünür durumda</small></div>
+          </div>
+          <div class="route" id="torRoute">
+            <div class="node" data-node>💻</div><div class="wire"></div>
+            <div class="node" data-node>🧅</div><div class="wire"></div>
+            <div class="node" data-node>🧅</div><div class="wire"></div>
+            <div class="node" data-node>🌍</div>
+          </div>
+          <div class="ip-pill">🌐 IP: <b id="torIp">85.105.x.x (İstanbul, TR)</b></div>
+        </div>
+      </div>
+      <div class="player-foot">
+        <button class="pp" id="ppBtn" aria-label="Demoyu oynat / duraklat">⏸</button>
+        <div class="pdots" id="pdots"><div class="pdot"><i></i></div><div class="pdot"><i></i></div><div class="pdot"><i></i></div></div>
+        <div class="scene-tag" id="sceneTag">1/3 · İzleyici engelleme</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="karsilastirma">
+  <div class="sec-head">
+    <h2 class="reveal">Reklamlar sayfayı <span class="grad">yavaşlatır</span>. FoxAI onları hiç indirmez.</h2>
+    <p class="reveal">Aynı sayfa, iki tarayıcı, canlı yarış. Biri reklamları tek tek indirirken diğeri engelleyip geçer — farkı animasyonla izle, tabloyla doğrula.</p>
+  </div>
+  <div class="race reveal" id="race" aria-label="Chrome ve FoxAI arasında canlı sayfa yükleme yarışı">
+    <div class="racer chrome">
+      <div class="racer-head"><span class="rdot"></span><b>Chrome</b><span class="rstat" id="chromeStat">0 KB · 0 reklam</span></div>
+      <div class="rbar"><i id="chromeBar"></i></div>
+      <div class="rlog" id="chromeLog"></div>
+    </div>
+    <div class="racer fox">
+      <div class="racer-head"><span class="rdot"></span><b>🦊 FoxAI</b><span class="rstat" id="foxStat">0 izleyici · 0 reklam</span></div>
+      <div class="rbar"><i id="foxBar"></i></div>
+      <div class="rlog" id="foxLog"></div>
+    </div>
+    <div class="race-jab" aria-live="polite"><span class="mic" aria-hidden="true">🎙️</span><span id="raceJabTxt">Spiker hazır… sayfa kaydırılınca yarış ve anlatım başlar.</span></div>
+    <div class="race-foot">
+      <button class="btn small magnetic" id="raceReplay">↻ Tekrar oynat</button>
+      <span class="race-tag" id="raceTag">Sayfa kaydırılınca yarış başlar…</span>
+    </div>
+  </div>
+  <div class="sec-head reveal" style="margin-top:64px">
+    <h2>Küçük tablo, <span class="grad">büyük farklar</span></h2>
+    <p>Safari'nin kendi sitesindeki gibi: satır satır, dürüstçe. Kısmi olanları da gizlemedik.</p>
+  </div>
+  <div class="cmp reveal" id="cmp">
+    <table aria-label="Tarayıcı gizlilik karşılaştırması">
+      <thead><tr><th>Özellik</th><th class="foxcol">🦊 FoxAI</th><th>Chrome</th><th>Safari</th><th>Firefox</th></tr></thead>
+      <tbody>
+        <tr><td>Üçüncü taraf çerezleri otomatik engelleme</td><td class="foxcol"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+        <tr><td>Yapay zekâyla izleyici avı (ML koruması)</td><td class="foxcol"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span></td><td><span class="no">—</span></td></tr>
+        <tr><td>URL'deki izleyici parametrelerini temizleme</td><td class="foxcol"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+        <tr><td>Yerleşik IP gizleme<small>Tor / Relay / VPN</small></td><td class="foxcol"><span class="yes">✓</span><small>Tor, ücretsiz</small></td><td><span class="no">—</span></td><td><span class="part">◐</span><small>Relay, ücretli</small></td><td><span class="part">◐</span><small>VPN, ücretli</small></td></tr>
+        <tr><td>Telemetri / kullanım verisi göndermeme</td><td class="foxcol"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span></td><td><span class="part">◐</span><small>ayar ister</small></td></tr>
+        <tr><td>Yapay zekâ %100 cihazda (bulutsuz)</td><td class="foxcol"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="part">◐</span><small>kısmi</small></td><td><span class="no">—</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="legend reveal"><span><span class="yes">✓</span> varsayılan</span><span><span class="part">◐</span> kısmi / ücretli</span><span><span class="no">—</span> yok</span></div>
+  <div class="stats">
+    <div class="stat reveal"><b><span class="count" data-count="68" data-suffix="%">%0</span></b><div class="sbar"><i data-w="68"></i></div><p>daha az indirilen veri — ağır bir haber sayfasında reklam ve izleyiciler hiç inmez.</p></div>
+    <div class="stat reveal"><b><span class="count" data-count="2.1" data-decimals="1" data-suffix="×">2,0×</span></b><div class="sbar"><i data-w="84"></i></div><p>daha hızlı yükleme — engellenen her istek, beklemediğin milisaniyeler demek.</p></div>
+    <div class="stat reveal"><b><span class="count" data-count="47">0</span></b><div class="sbar"><i data-w="94"></i></div><p>engellenen izleyici — tek bir sayfa açılışında sayaç canlı artar.</p></div>
+  </div>
+  <p class="fine reveal">* Karşılaştırma basitleştirilmiştir; animasyonlardaki sayılar temsili demo verileridir — gerçek sonuçlar siteye ve sürüme göre değişir. <a class="xref" href="#indir">Kazananı dene <span class="arr">→</span></a></p>
+</section>
+
+<section class="block" id="indir">
+  <div class="sec-head">
+    <h2 class="reveal">Platformunu seç, <span style="background:linear-gradient(120deg,var(--fox-a),var(--fox-b));-webkit-background-clip:text;background-clip:text;color:transparent">tek tıkla indir</span></h2>
+    <p class="reveal">Tüm sürümler ücretsiz, imzasız telemetri içermez. Linux'ta RPM + AppImage, Windows'ta taşınabilir ZIP. <a class="xref" href="#sss">Aklında soru mu kaldı? <span class="arr">→</span></a></p>
+  </div>
+  <div class="cards" id="cards">
+    <article class="card tilt reveal">
+      <div class="os">🐧</div>
+      <h3>Linux</h3><span class="ver">v2.0.0.8 · RPM / AppImage</span>
+      <p>Fedora, Ubuntu, Arch ve tüm dağıtımlar. RPM ile tek komutla kur, ya da AppImage'ı çalıştır — kurulum yok.</p>
+      <button class="btn magnetic" data-dl="linux" data-tag="v2.0.0.8" data-file="foxai-browser-2.0.0.8-1.x86_64.rpm">⬇ Linux için İndir</button>
+    </article>
+    <article class="card featured tilt reveal">
+      <span class="badge-pop">ÖNERİLEN</span>
+      <div class="os">🪟</div>
+      <h3>Windows</h3><span class="ver">v3.0.0 · 64-bit ZIP · FoxAI One</span>
+      <p>Windows 10/11. Taşınabilir — ZIP'ten çıkar, çalıştır. Parmak izi koruması ve Tor Modu ile.</p>
+      <button class="btn magnetic" data-dl="windows" data-tag="v3.0.0" data-file="FoxAI-Browser-v3.0.0.zip">⬇ Windows için İndir</button>
+    </article>
+    <article class="card tilt reveal">
+      <div class="os">🍎</div>
+      <h3>macOS</h3><span class="ver">yakında</span>
+      <p>M1/M2/M3 ve Intel Mac'ler için DMG paketi hazırlanıyor. Haberdar olmak için indirme sayfasını takip et.</p>
+      <button class="btn magnetic" data-dl="soon" disabled style="opacity:.65;cursor:not-allowed">🍎 Yakında</button>
+    </article>
+  </div>
+</section>
+
+<section class="block" id="ozellikler">
+  <div class="sec-head">
+    <h2 class="reveal">Neden FoxAI?</h2>
+    <p class="reveal">Chrome hızını al, gözetimi bırak. Her şey cihazında çalışır.</p>
+  </div>
+  <div class="feat-grid">
+    <div class="feat reveal"><div class="ic">🛡️</div><h3>Sıfır İzleyici</h3><p>Telemetri, reklam kimliği, kullanım raporu — hepsi kaynakta kapalı. Ağ trafiğini kendin denetleyebilirsin.</p></div>
+    <div class="feat reveal"><div class="ic">🧠</div><h3>Yerel Yapay Zekâ</h3><p>KoboldCpp + Qwen 2.5 tamamen cihazında. Özetle, çevir, sor — verin asla buluta gitmez.</p></div>
+    <div class="feat reveal"><div class="ic">🧅</div><h3>Tek Tıkla Tor</h3><p>Tor modu ile IP'ni gizle, engelleri aş. SOCKS5 proxy yerleşik, kurulum yok.</p></div>
+    <div class="feat reveal"><div class="ic">⚡</div><h3>Şimşek Hızı</h3><p>Sertleştirilmiş Firefox tabanı, agresif reklam engelleme, hafif profil. Açılış &lt; 1 saniye.</p></div>
+    <div class="feat reveal"><div class="ic">🔒</div><h3>DDoS Kalkanı</h3><p>Cloudflare Worker tabanlı FoxAI Shield: bot filtresi, risk skoru, 7 WAF imzası.</p></div>
+    <div class="feat reveal"><div class="ic">💜</div><h3>%100 Açık Kaynak</h3><p>GPL lisanslı. Kodu denetle, katkıda bulun, kendi derlemeni yap. Kapalı kutu yok.</p></div>
+  </div>
+</section>
+
+<section class="block" id="kurulum">
+  <div class="sec-head">
+    <h2 class="reveal">3 adımda kur</h2>
+    <p class="reveal">Ortalama kurulum süresi: 40 saniye.</p>
+  </div>
+  <div class="steps">
+    <div class="step reveal"><h3>İndir</h3><p>Yukarıdan platformunu seç ve dosyayı indir. İmza doğrulaması için SHA256 sum dosyasını kullan.</p></div>
+    <div class="step reveal"><h3>Çalıştır</h3><p>Linux: <code>sudo dnf install ./foxai-*.rpm</code> · Windows/macOS: arşivi çıkar, uygulamayı aç.</p></div>
+    <div class="step reveal"><h3>Uç</h3><p>İlk açılışta profil oluşur, AI modeli arka planda iner. Hepsi bu — iyi gezinmeler! 🦊</p></div>
+  </div>
+</section>
+
+<section class="block" id="sss">
+  <div class="sec-head">
+    <h2 class="reveal">Sık sorulan sorular</h2>
+    <p class="reveal">Aklında başka bir şey mi var? GitHub'da issue aç — genelde 24 saatte cevap veriyoruz.</p>
+  </div>
+  <div class="faq">
+    <div class="qa reveal"><button aria-expanded="false"><span class="q-ic">💸</span>FoxAI Browser tamamen ücretsiz mi?<span class="chev">▾</span></button><div class="a"><p>Evet — %100 ücretsiz ve öyle kalacak. Gizli premium katman, hesap zorunluluğu, reklam yok. Geliştirme topluluk katkılarıyla yürüyor; istersen GitHub Sponsors üzerinden destek olabilirsin.</p></div></div>
+    <div class="qa reveal"><button aria-expanded="false"><span class="q-ic">☁️</span>Verilerim buluta gönderiliyor mu?<span class="chev">▾</span></button><div class="a"><p>Hayır. Telemetri kaynakta kapalı, AI modeli (KoboldCpp + Qwen 2.5) tamamen cihazında çalışıyor. Özet, çeviri, soru-cevap — hiçbiri sunucuya gitmez. Ağ trafiğini Wireshark ile kendin denetleyebilirsin.</p></div></div>
+    <div class="qa reveal"><button aria-expanded="false"><span class="q-ic">📥</span>Chrome'daki sekmelerim ve şifrelerim taşınır mı?<span class="chev">▾</span></button><div class="a"><p>Evet. İlk açılışta içe aktarma sihirbazı Chrome, Firefox ve Edge'den yer imlerini, geçmişi, şifreleri ve çerezleri taşır. Şifreler işletim sisteminin anahtar zincirinde saklanır.</p></div></div>
+    <div class="qa reveal"><button aria-expanded="false"><span class="q-ic">💻</span>Hangi platformlarda çalışır?<span class="chev">▾</span></button><div class="a"><p>Windows 10/11 (64-bit ZIP), macOS (Apple Silicon + Intel DMG) ve Linux (RPM + AppImage: Fedora, Ubuntu, Arch dahil tüm dağıtımlar). Sistem gereksinimi: 4 GB RAM, 500 MB disk.</p></div></div>
+    <div class="qa reveal"><button aria-expanded="false"><span class="q-ic">🧅</span>Tor modu ne işe yarar, yavaşlatır mı?<span class="chev">▾</span></button><div class="a"><p>Tor modu trafiğini onion ağından geçirir: IP'n gizlenir, bölgesel engeller aşılır. Evet, biraz yavaşlatır (genelde 2-3 kat) — o yüzden varsayılan kapalıdır; bankacılık gibi hız istediğin işlerde kapalı tut, hassas gezinmede tek tıkla aç.</p></div></div>
+    <div class="qa reveal"><button aria-expanded="false"><span class="q-ic">💜</span>Gerçekten açık kaynak mı?<span class="chev">▾</span></button><div class="a"><p>Evet, GPL lisanslı: <code>github.com/Can-5/foxai-browser</code>. Kodu denetle, derle, katkıda bulun. Kapalı ikili blob yok — reproducible build yakında. <a class="xref" href="#indir">Hemen indir <span class="arr">→</span></a></p></div></div>
+  </div>
+</section>
+
+<footer>
+  FoxAI Browser · GPL açık kaynak · <a href="https://github.com/Can-5/foxai-browser" style="color:inherit">GitHub</a> · Gizliliğin senin hakkın 💜
+</footer>
+<button id="toTop" aria-label="Başa dön">↑</button>
+
+<script src="https://unpkg.com/framer-motion@11/dist/framer-motion.js"></script>
+<script>
+(function(){
+"use strict";
+var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var hasFM = (typeof window.Motion !== "undefined");
+var animate = hasFM ? window.Motion.animate : null;
+var inView = hasFM ? window.Motion.inView : null;
+
+/* ---------- toast ---------- */
+var toastEl = document.getElementById("toast"), toastT = null;
+function toast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add("show");
+  clearTimeout(toastT);
+  toastT = setTimeout(function(){ toastEl.classList.remove("show"); }, 3200);
+}
+
+/* ---------- 1) staggered scroll reveal ---------- */
+var reveals = Array.prototype.slice.call(document.querySelectorAll(".reveal"));
+if(reduced || !inView){
+  reveals.forEach(function(el){ el.style.opacity = 1; });
+}else{
+  reveals.forEach(function(el, i){
+    // grup içindeki sıraya göre kademeli gecikme
+    var sibs = el.parentElement ? Array.prototype.slice.call(el.parentElement.querySelectorAll(".reveal")) : [el];
+    var idx = sibs.indexOf(el);
+    inView(el, function(){
+      animate(el, {opacity:[0,1], y:[34,0], scale:[.97,1]},
+        {duration:.7, delay:Math.min(idx*.12, .48), easing:[.22,1,.36,1]});
+    }, {amount:.25, once:true});
+  });
+}
+
+/* ---------- 2) fox: yüzme + nefes alma ---------- */
+var fox = document.getElementById("foxWrap");
+if(!reduced && animate && fox){
+  animate(fox, {y:[0,-16,0]}, {duration:4.5, repeat:Infinity, easing:"ease-in-out"});
+  animate(fox, {scale:[1,1.035,1]}, {duration:3.2, repeat:Infinity, easing:"ease-in-out"});
+}
+
+/* ---------- 3) göz takibi ---------- */
+var pupils = [document.getElementById("pupilL"), document.getElementById("pupilR")];
+if(!reduced){
+  document.addEventListener("pointermove", function(e){
+    var r = fox.getBoundingClientRect();
+    var cx = r.left + r.width/2, cy = r.top + r.height/2;
+    var dx = (e.clientX - cx)/window.innerWidth, dy = (e.clientY - cy)/window.innerHeight;
+    var mx = Math.max(-10, Math.min(10, dx*46)), my = Math.max(-8, Math.min(8, dy*40));
+    pupils.forEach(function(p){
+      if(animate) animate(p, {x:mx, y:my}, {duration:.18, easing:"ease-out"});
+      else p.style.transform = "translate("+mx+"px,"+my+"px)";
+    });
+  }, {passive:true});
+}
+
+/* ---------- 4) paralaks (blob + chip + hero) ---------- */
+var plx = Array.prototype.slice.call(document.querySelectorAll("[data-parallax]"))
+  .concat(Array.prototype.slice.call(document.querySelectorAll(".float-chip")));
+if(!reduced){
+  var ticking = false;
+  window.addEventListener("scroll", function(){
+    if(ticking) return; ticking = true;
+    requestAnimationFrame(function(){
+      var y = window.scrollY;
+      document.querySelectorAll("[data-parallax]").forEach(function(el){
+        var f = parseFloat(el.getAttribute("data-parallax")) || .1;
+        el.style.transform = "translate3d(0,"+(y*f)+"px,0)";
+      });
+      document.querySelectorAll(".float-chip").forEach(function(el,i){
+        el.style.transform = "translate3d(0,"+((y*.05)*(i%2?1:-1))+"px,0)";
+      });
+      ticking = false;
+    });
+  }, {passive:true});
+}
+
+/* ---------- 5) manyetik butonlar + 3D tilt kartlar ---------- */
+function magnetic(el, strength){
+  if(reduced) return;
+  el.addEventListener("pointermove", function(e){
+    var r = el.getBoundingClientRect();
+    var x = e.clientX - r.left - r.width/2, y = e.clientY - r.top - r.height/2;
+    var tx = (x/(r.width/2))*strength, ty = (y/(r.height/2))*strength;
+    if(animate) animate(el, {x:tx, y:ty}, {duration:.25, easing:[.22,1,.36,1]});
+    else el.style.transform = "translate("+tx+"px,"+ty+"px)";
+  });
+  el.addEventListener("pointerleave", function(){
+    if(animate) animate(el, {x:0, y:0}, {duration:.5, easing:[.22,1,.36,1]});
+    else el.style.transform = "";
+  });
+}
+document.querySelectorAll(".magnetic").forEach(function(b){ magnetic(b, 8); });
+
+if(!reduced){
+  document.querySelectorAll(".tilt").forEach(function(card){
+    card.addEventListener("pointermove", function(e){
+      var r = card.getBoundingClientRect();
+      var rx = ((e.clientY - r.top)/r.height - .5) * -10;
+      var ry = ((e.clientX - r.left)/r.width - .5) * 12;
+      card.style.transform = "perspective(900px) rotateX("+rx+"deg) rotateY("+ry+"deg) translateY(-4px)";
+    });
+    card.addEventListener("pointerleave", function(){
+      card.style.transition = "transform .5s cubic-bezier(.22,1,.36,1)";
+      card.style.transform = "";
+      setTimeout(function(){ card.style.transition = ""; }, 500);
+    });
+  });
+}
+
+/* ---------- 6) konfeti ---------- */
+var cv = document.getElementById("confetti"), ctx = cv.getContext("2d"), parts = [];
+function sizeCanvas(){ cv.width = innerWidth; cv.height = innerHeight; }
+sizeCanvas(); addEventListener("resize", sizeCanvas);
+var COLORS = ["#FF8A3D","#FF4D6D","#8B5CF6","#60A5FA","#FFD166","#ffffff"];
+function boom(x, y, n){
+  if(reduced) return;
+  for(var i=0;i<(n||120);i++){
+    var a = Math.random()*Math.PI*2, s = 4+Math.random()*9;
+    parts.push({x:x, y:y, vx:Math.cos(a)*s, vy:Math.sin(a)*s-4,
+      g:.28+Math.random()*.12, life:70+Math.random()*50, age:0,
+      c:COLORS[(Math.random()*COLORS.length)|0],
+      w:4+Math.random()*6, h:6+Math.random()*8, rot:Math.random()*Math.PI, vr:(Math.random()-.5)*.3});
+  }
+  if(!boom.raf) tick();
+}
+function tick(){
+  boom.raf = true;
+  ctx.clearRect(0,0,cv.width,cv.height);
+  parts = parts.filter(function(p){ return p.age < p.life; });
+  parts.forEach(function(p){
+    p.age++; p.x+=p.vx; p.y+=p.vy; p.vy+=p.g; p.vx*=.985; p.rot+=p.vr;
+    ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot);
+    ctx.globalAlpha = Math.max(0, 1 - p.age/p.life);
+    ctx.fillStyle = p.c; ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h); ctx.restore();
+  });
+  if(parts.length) requestAnimationFrame(tick); else { boom.raf=false; ctx.clearRect(0,0,cv.width,cv.height); }
+}
+
+/* ---------- 6b) SSS akordiyon ---------- */
+document.querySelectorAll(".qa").forEach(function(qa){
+  var btn = qa.querySelector("button"), panel = qa.querySelector(".a");
+  btn.addEventListener("click", function(){
+    var open = qa.classList.contains("open");
+    document.querySelectorAll(".qa.open").forEach(function(o){
+      o.classList.remove("open");
+      o.querySelector(".a").style.maxHeight = "0px";
+      o.querySelector("button").setAttribute("aria-expanded", "false");
+    });
+    if(!open){
+      qa.classList.add("open");
+      panel.style.maxHeight = panel.scrollHeight + "px";
+      btn.setAttribute("aria-expanded", "true");
+    }
+  });
+});
+
+/* ---------- 6c) tanıtım demo motoru (otomatik döngü) ---------- */
+(function demo(){
+  var player = document.getElementById("player");
+  if(!player) return;
+  var scenes = Array.prototype.slice.call(player.querySelectorAll(".scene"));
+  var dots = Array.prototype.slice.call(document.getElementById("pdots").querySelectorAll(".pdot"));
+  var tag = document.getElementById("sceneTag"), pp = document.getElementById("ppBtn");
+  var names = ["1/3 · İzleyici engelleme", "2/3 · Yerel yapay zekâ", "3/3 · Tek tıkla Tor"];
+  var DURS = [4200, 5200, 4000];
+  var cur = -1, timer = null, playing = true, visible = true, timers = [];
+
+  function later(fn, ms){ var t = setTimeout(fn, ms); timers.push(t); return t; }
+  function clearTimers(){ timers.forEach(clearTimeout); timers = []; clearTimeout(timer); }
+
+  /* sahne 0: sayaç + izleyici satırları */
+  var countEl = document.getElementById("trackCount");
+  var tracks = Array.prototype.slice.call(document.getElementById("trackList").querySelectorAll(".track"));
+  function playScene0(){
+    tracks.forEach(function(t){ t.classList.remove("show","blocked"); });
+    countEl.textContent = "0";
+    var target = 47, t0 = null;
+    function step(ts){
+      if(!playing) return;
+      if(!t0) t0 = ts;
+      var p = Math.min(1, (ts - t0)/2600);
+      countEl.textContent = Math.round(target * (1 - Math.pow(1-p, 3)));
+      var showN = Math.min(tracks.length, Math.ceil(p * tracks.length));
+      tracks.forEach(function(t,i){
+        if(i < showN){ t.classList.add("show"); if(p > .55 + i*.1) t.classList.add("blocked"); }
+      });
+      if(p < 1 && playing) requestAnimationFrame(step);
+    }
+    if(reduced){ countEl.textContent = "47"; tracks.forEach(function(t){ t.classList.add("show","blocked"); }); }
+    else requestAnimationFrame(step);
+  }
+
+  /* sahne 1: yazma efekti + AI cevabı */
+  var Q = "Bu sayfayı 3 cümlede özetle…",
+      A = "FoxAI; izleyicileri otomatik engelleyen, yapay zekâyı cihazında çalıştıran ve tek tıkla Tor açan özgür bir tarayıcıdır. Verin asla buluta gitmez. Kurulumu 40 saniye sürer.";
+  var typeEl = document.getElementById("typeTarget"), aiEl = document.getElementById("aiAnswer"),
+      badge = document.getElementById("localBadge");
+  function typeInto(el, text, cps, done){
+    el.textContent = "";
+    if(reduced){ el.textContent = text; if(done) done(); return; }
+    var i = 0;
+    (function ch(){
+      if(!playing) return;
+      el.textContent = text.slice(0, ++i);
+      if(i < text.length) later(ch, 1000/cps);
+      else if(done) done();
+    })();
+  }
+  function playScene1(){
+    document.getElementById("aiCaret").style.display = "none";
+    badge.classList.remove("show");
+    aiEl.textContent = "";
+    typeInto(typeEl, Q, 26, function(){
+      if(!playing) return;
+      later(function(){
+        document.getElementById("aiCaret").style.display = "";
+        var words = A.split(" "), j = 0;
+        (function w(){
+          if(!playing) return;
+          aiEl.textContent = words.slice(0, ++j).join(" ");
+          if(j < words.length) later(w, 110);
+          else later(function(){
+            document.getElementById("aiCaret").style.display = "none";
+            badge.classList.add("show");
+          }, 250);
+        })();
+      }, 350);
+    });
+  }
+
+  /* sahne 2: Tor anahtarı + rota + IP */
+  var tog = document.getElementById("torToggle"),
+      nodes = Array.prototype.slice.call(document.getElementById("torRoute").querySelectorAll("[data-node]")),
+      wires = Array.prototype.slice.call(document.getElementById("torRoute").querySelectorAll(".wire")),
+      st = document.getElementById("torState"), sub = document.getElementById("torSub"),
+      ip = document.getElementById("torIp");
+  function playScene2(){
+    tog.classList.remove("on");
+    nodes.forEach(function(n){ n.classList.remove("lit"); });
+    wires.forEach(function(w){ w.classList.remove("flow"); });
+    st.textContent = "Tor kapalı"; sub.textContent = "IP'n görünür durumda";
+    ip.textContent = "85.105.x.x (İstanbul, TR)";
+    if(reduced){
+      tog.classList.add("on");
+      nodes.forEach(function(n){ n.classList.add("lit"); });
+      st.textContent = "Tor açık — konumun gizli"; sub.textContent = "3 onion katmanından geçiyor";
+      ip.textContent = "185.220.x.x (bilinmiyor 🌍)";
+      return;
+    }
+    later(function(){
+      if(!playing) return;
+      tog.classList.add("on");
+      st.textContent = "Tor açılıyor…"; sub.textContent = "onion devresi kuruluyor";
+      nodes.forEach(function(n,i){
+        later(function(){
+          if(!playing) return;
+          n.classList.add("lit");
+          if(wires[i]) wires[i].classList.add("flow");
+          if(i === nodes.length-1){
+            st.textContent = "Tor açık — konumun gizli"; sub.textContent = "3 onion katmanından geçiyor";
+            ip.textContent = "185.220.x.x (bilinmiyor 🌍)";
+          }
+        }, 400 + i*450);
+      });
+    }, 500);
+  }
+  var players = [playScene0, playScene1, playScene2];
+
+  function show(i){
+    clearTimers();
+    cur = i;
+    scenes.forEach(function(s,k){ s.classList.toggle("on", k===i); });
+    dots.forEach(function(d,k){
+      d.classList.remove("live","done");
+      d.querySelector("i").style.setProperty("--fill", (DURS[i]/1000)+"s");
+      if(k < i) d.classList.add("done");
+    });
+    tag.textContent = names[i];
+    players[i]();
+    if(!reduced && playing && visible){
+      var d = dots[i];
+      void d.offsetWidth;
+      d.classList.add("live");
+      timer = setTimeout(function(){
+        d.classList.remove("live"); d.classList.add("done");
+        show((i+1) % scenes.length);
+      }, DURS[i]);
+    } else {
+      dots.forEach(function(d,k){ if(k <= i) d.classList.add("done"); });
+    }
+  }
+  pp.addEventListener("click", function(){
+    playing = !playing;
+    pp.textContent = playing ? "⏸" : "▶";
+    if(playing) show((cur+1) % scenes.length);
+    else clearTimers();
+  });
+  if("IntersectionObserver" in window){
+    new IntersectionObserver(function(es){
+      visible = es[0].isIntersecting;
+      if(visible && playing && cur === -1) show(0);
+      else if(!visible) clearTimers();
+      else if(visible && playing) show(cur === -1 ? 0 : cur);
+    }, {threshold:.3}).observe(player);
+  } else show(0);
+})();
+
+/* ---------- 6d) karşılaştırma: yükleme yarışı ---------- */
+(function race(){
+  var box = document.getElementById("race");
+  if(!box) return;
+  var cBar = document.getElementById("chromeBar"), fBar = document.getElementById("foxBar"),
+      cStat = document.getElementById("chromeStat"), fStat = document.getElementById("foxStat"),
+      cLog = document.getElementById("chromeLog"), fLog = document.getElementById("foxLog"),
+      tag = document.getElementById("raceTag");
+  var timers = [], raf = null, playing = true, visible = true, started = false;
+  function later(fn, ms){ var t = setTimeout(fn, ms); timers.push(t); return t; }
+  function clearTimers(){ timers.forEach(clearTimeout); timers = []; if(raf) cancelAnimationFrame(raf); raf = null; }
+  var CLOG = [
+    ["📢 doubleclick.net indiriliyor… <b>240KB</b>", "240KB · 1 reklam"],
+    ["📊 google-analytics.com indiriliyor… <b>120KB</b>", "360KB · 2 reklam"],
+    ["👁️ facebook-pixel.js indiriliyor… <b>90KB</b>", "450KB · 3 reklam"],
+    ["🍪 <b>14 çerez</b> yazıldı", "1.1MB · 4 reklam"],
+    ["🖼️ 6 reklam görseli indiriliyor… <b>1.8MB</b>", "2.9MB · 6 reklam"]
+  ];
+  var FLOG = [
+    ["📢 doubleclick.net <span class='no'>ENGELLENDİ</span>", "3 izleyici · 0 reklam"],
+    ["📊 google-analytics.com <span class='no'>ENGELLENDİ</span>", "11 izleyici · 0 reklam"],
+    ["👁️ facebook-pixel.js <span class='no'>ENGELLENDİ</span>", "24 izleyici · 0 reklam"],
+    ["🍪 çerezler reddedildi <span class='no'>0 yazıldı</span>", "38 izleyici · 0 reklam"],
+    ["✅ sayfa hazır — <span class='no'>0 reklam</span>", "47 izleyici · 0 reklam"]
+  ];
+  function fill(log, lines, step){
+    log.innerHTML = "";
+    lines.forEach(function(l, i){
+      var d = document.createElement("div");
+      d.innerHTML = l[0];
+      log.appendChild(d);
+      later(function(){ if(playing){ d.classList.add("show"); if(log === fLog && step > 0){ d.classList.add("zapped"); } } }, 200 + i * step);
+    });
+  }
+  var jab = document.getElementById("raceJabTxt");
+  var JABS = [
+    "…ve yarış başladı! Chrome ilk reklamı indiriyor, FoxAI <b>çoktan engelledi bile</b> 👀",
+    "Chrome 2. izleyiciyi indirirken FoxAI <b>11 izleyiciyi çöpe attı</b> 🗑️",
+    "Bu arada Chrome <b>14 çerez</b> yazdı. Afiyet olsun 🍪 FoxAI'da sayaç: <b>0</b>.",
+    "Chrome 6 reklam görselini indiriyor… FoxAI çoktan <b>kahvesini içiyor</b> ☕",
+    "🏁 <b>FoxAI kazandı!</b> 47 izleyici engellendi, 0 reklam, 2.3MB daha az veri."
+  ];
+  function countUp(el, txt, stat){ later(function(){ if(playing){ el.innerHTML = txt; stat && stat(); } }); }
+  function run(){
+    clearTimers(); started = true;
+    cBar.style.width = "0"; fBar.style.width = "0";
+    cBar.classList.remove("loading");
+    cStat.textContent = "0 KB · 0 reklam"; fStat.textContent = "0 izleyici · 0 reklam";
+    tag.textContent = "Yarış başladı…";
+    if(reduced){
+      cBar.style.width = "100%"; fBar.style.width = "32%";
+      fill(cLog, CLOG, 0); fill(fLog, FLOG, 0);
+      cLog.querySelectorAll("div").forEach(function(d){ d.classList.add("show"); });
+      fLog.querySelectorAll("div").forEach(function(d){ d.classList.add("show"); });
+      cStat.textContent = "2.9MB · 6 reklam"; fStat.textContent = "47 izleyici · 0 reklam";
+      tag.textContent = "🏁 FoxAI kazandı — 2.1× daha hızlı, 2.3MB daha az veri";
+      jab.innerHTML = JABS[JABS.length - 1];
+      return;
+    }
+    cBar.classList.add("loading");
+    jab.innerHTML = JABS[0];
+    fill(cLog, CLOG, 950); fill(fLog, FLOG, 340);
+    CLOG.forEach(function(l, i){ later(function(){ if(playing) cStat.textContent = l[1]; }, 400 + i * 950); });
+    FLOG.forEach(function(l, i){ later(function(){ if(playing) fStat.textContent = l[1]; }, 400 + i * 340); });
+    [1300, 2300, 3300, 4300].forEach(function(ms, i){ later(function(){ if(playing) jab.innerHTML = JABS[i + 1]; }, ms); });
+    var t0 = null;
+    function step(ts){
+      if(!playing) return;
+      if(!t0) t0 = ts;
+      var p = Math.min(1, (ts - t0) / 5200);
+      var q = Math.min(1, (ts - t0) / 1900);
+      cBar.style.width = Math.round(p * 100) + "%";
+      fBar.style.width = Math.round((1 - Math.pow(1 - q, 3)) * 32) + "%";
+      if(p < 1 && playing) raf = requestAnimationFrame(step);
+      else if(playing){ cBar.classList.remove("loading"); tag.textContent = "🏁 FoxAI kazandı — 2.1× daha hızlı, 2.3MB daha az veri"; if(!reduced){ try{ var tr=tag.getBoundingClientRect(); boom(tr.left+tr.width/2, tr.top+30, 80); }catch(_e){} } }
+    }
+    raf = requestAnimationFrame(step);
+  }
+  document.getElementById("raceReplay").addEventListener("click", run);
+  if("IntersectionObserver" in window){
+    new IntersectionObserver(function(es){
+      visible = es[0].isIntersecting;
+      if(visible && playing && !started) run();
+      else if(!visible) clearTimers();
+    }, {threshold:.3}).observe(box);
+  } else run();
+})();
+
+/* ---------- 6e) karşılaştırma: tablo + stat barları ---------- */
+(function cmp(){
+  var table = document.getElementById("cmp");
+  if(table && "IntersectionObserver" in window){
+    new IntersectionObserver(function(es, o){
+      if(es[0].isIntersecting){ table.classList.add("in"); o.disconnect(); }
+    }, {threshold:.2}).observe(table);
+  } else if(table) table.classList.add("in");
+  var stats = document.querySelector(".stats");
+  if(!stats) return;
+  function fire(){
+    stats.querySelectorAll(".sbar i").forEach(function(b){
+      b.style.width = (reduced ? b.getAttribute("data-w") : "0");
+      if(!reduced) requestAnimationFrame(function(){ requestAnimationFrame(function(){ b.style.width = b.getAttribute("data-w") + "%"; }); });
+    });
+    stats.querySelectorAll(".count").forEach(function(el){
+      var target = parseFloat(el.getAttribute("data-count")), suf = el.getAttribute("data-suffix") || "",
+          dec = +(el.getAttribute("data-decimals") || 0);
+      function fmt(v){ return v.toFixed(dec).replace(".", ",") + suf; }
+      if(reduced){ el.textContent = fmt(target); return; }
+      var t0 = null;
+      (function step(ts){
+        if(!t0) t0 = ts;
+        var p = Math.min(1, (ts - t0) / 1400);
+        el.textContent = fmt(target * (1 - Math.pow(1 - p, 3)));
+        if(p < 1) requestAnimationFrame(step);
+      })(performance.now());
+    });
+  }
+  if("IntersectionObserver" in window){
+    new IntersectionObserver(function(es, o){
+      if(es[0].isIntersecting){ fire(); o.disconnect(); }
+    }, {threshold:.3}).observe(stats);
+  } else fire();
+})();
+
+/* ---------- 7) indirme tıklamaları ---------- */
+var GH = "https://github.com/Can-5/foxai-browser/releases/download/";
+function baseFor(tag){ return GH + (tag || "v2.0.0.8") + "/"; }
+document.querySelectorAll("[data-dl]").forEach(function(el){
+  el.addEventListener("click", function(e){
+    var kind = el.getAttribute("data-dl");
+    if(kind === "soon"){
+      e.preventDefault();
+      toast("macOS sürümü hazırlanıyor 🍎 — yakında burada");
+      return;
+    }
+    var r = el.getBoundingClientRect();
+    boom(r.left + r.width/2, r.top + (kind==="auto"? r.height/2 : 0), kind==="auto"? 90 : 140);
+    if(kind === "auto"){
+      e.preventDefault();
+      var ua = navigator.userAgent;
+      var target = document.querySelector('[data-dl="windows"]');
+      if(/Linux/i.test(ua)) target = document.querySelector('[data-dl="linux"]');
+      else if(/Mac/i.test(ua)){ toast("macOS sürümü hazırlanıyor 🍎 — yakında burada"); return; }
+      toast("Platformun algılandı — indirme başlıyor 🦊");
+      setTimeout(function(){ target.click(); }, 450);
+      return;
+    }
+    toast("İndirme başlıyor: " + el.getAttribute("data-file") + " 🎉");
+    // gerçek dosya 1sn gecikmeyle açılır (konfeti görünsün)
+    e.preventDefault();
+    var url = baseFor(el.getAttribute("data-tag")) + el.getAttribute("data-file");
+    setTimeout(function(){ window.location.href = url; }, 900);
+  });
+
+  /* ---------- tema (açık/koyu + #dark linki) ---------- */
+  var rootEl = document.documentElement, themeBtn = document.getElementById("themeToggle"),
+      themeMeta = document.getElementById("themeColor");
+  function applyTheme(t){
+    rootEl.setAttribute("data-theme", t);
+    try{ localStorage.setItem("foxai-theme", t); }catch(e){}
+    if(themeBtn) themeBtn.textContent = (t === "dark" ? "☀️" : "🌙");
+    if(themeMeta) themeMeta.setAttribute("content", (t === "dark" ? "#131009" : "#fffaf6"));
+  }
+  var savedTheme = null;
+  try{ savedTheme = localStorage.getItem("foxai-theme"); }catch(e){}
+  if(location.hash === "#dark") savedTheme = "dark";
+  applyTheme(savedTheme || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+  if(themeBtn) themeBtn.addEventListener("click", function(){
+    applyTheme(rootEl.getAttribute("data-theme") === "dark" ? "light" : "dark");
+  });
+
+  /* ---------- scroll progress + başa dön ---------- */
+  var prog = document.getElementById("progress"), toTop = document.getElementById("toTop"), ticking = false;
+  function onScroll(){
+    var h = document.documentElement;
+    var top = h.scrollTop || document.body.scrollTop;
+    var max = h.scrollHeight - h.clientHeight;
+    if(prog) prog.style.transform = "scaleX(" + (max > 0 ? top / max : 0) + ")";
+    if(toTop) toTop.classList.toggle("show", top > 600);
+    ticking = false;
+  }
+  window.addEventListener("scroll", function(){ if(!ticking){ ticking = true; requestAnimationFrame(onScroll); } }, {passive:true});
+  onScroll();
+  if(toTop) toTop.addEventListener("click", function(){ window.scrollTo({top:0, behavior:reduced ? "auto" : "smooth"}); });
+
+  /* ---------- spotlight hover ---------- */
+  if(!reduced){
+    document.querySelectorAll(".card,.feat,.step,.qa,.racer,.player").forEach(function(el){
+      el.setAttribute("data-spot", "");
+      el.addEventListener("pointermove", function(e){
+        var r = el.getBoundingClientRect();
+        el.style.setProperty("--mx", (e.clientX - r.left) + "px");
+        el.style.setProperty("--my", (e.clientY - r.top) + "px");
+      }, {passive:true});
+    });
+  }
+
+  /* ---------- fox göz kırpma ---------- */
+  if(!reduced && fox){
+    (function blink(){
+      setTimeout(function(){
+        if(!document.hidden){
+          fox.classList.add("blink");
+          setTimeout(function(){ fox.classList.remove("blink"); }, 140);
+        }
+        blink();
+      }, 3200 + Math.random() * 2800);
+    })();
+  }
+
+  /* ---------- logo easter egg ---------- */
+  var logo = document.getElementById("logoDot"), logoClicks = 0;
+  if(logo) logo.addEventListener("click", function(e){
+    logoClicks++;
+    logo.classList.remove("spin"); void logo.offsetWidth; logo.classList.add("spin");
+    if(!reduced) boom(e.clientX, e.clientY, 26);
+    if(logoClicks === 10) toast("🦊 FoxAI seni seviyor! 10. tıklama şerefine hızın 2 katına çıktı (şaka — zaten hızlı).");
+    else if(logoClicks === 25) toast("🦊 25! Tamam, tilkiyi rahat bırak — aşağıda indirecek bir tarayıcı var.");
+  });
+});
+})();
+</script>
+</body>
+</html>
