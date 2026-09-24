@@ -1,0 +1,158 @@
+# Release — hardened, pinned, SLSA/SBOM/Sigstore-ready skeleton.
+#
+# Template only: real Firefox build steps land later (mozconfig-based
+# reproducible build). Safe no-op until then — never blocks pushes to main.
+# Targets SLSA Build Level 3: hermetic-ish build, OIDC keyless signing,
+# attestations + SBOM published alongside artifacts.
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+
+# Top-level least privilege; each job narrows further below.
+permissions:
+  contents: read
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    permissions:
+      contents: read
+    steps:
+      - name: Harden runner
+        uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142ae # v2.10.2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node
+        uses: actions/setup-node@49933ea5288a3829a180ec48dd757bd0146c59840 # v4.4.0
+        with:
+          node-version: 20
+          cache: npm
+
+      # Reproducible mozconfig note: real build must export
+      # MOZILLA_OFFICIAL=1, BUILD_OFFICIAL=1 and SOURCE_DATE_EPOCH from the
+      # tag commit timestamp; keep flags identical across the 3 platforms.
+      - name: Skeleton build placeholder
+        run: |
+          mkdir -p dist
+          echo "foxai-browser skeleton ${{ github.ref_name }} (${{ matrix.os }})" > dist/BUILD-INFO.txt
+        shell: bash
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@65c4c4a6d09b9c087ad8525615ff02605c475e6e2b # v4.6.0
+        with:
+          name: foxai-${{ matrix.os }}-${{ github.ref_name }}
+          path: dist/
+          if-no-files-found: error
+          retention-days: 14
+
+  sbom:
+    name: SBOM (Syft via Anchore)
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Harden runner
+        uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142ae # v2.10.2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 1
+
+      # SBOM generated with Syft (anchore/sbom-action), SPDX-JSON format.
+      - name: Generate SBOM
+        uses: anchore/sbom-action@3f8d1ff2618ffeb994fcce7701009e61475a95901 # v0.20.0
+        with:
+          format: spdx-json
+          output-file: sbom.spdx.json
+
+      - name: Upload SBOM
+        uses: actions/upload-artifact@65c4c4a6d09b9c087ad8525615ff02605c475e6e2b # v4.6.0
+        with:
+          name: sbom-${{ github.ref_name }}
+          path: sbom.spdx.json
+          retention-days: 14
+
+  attest:
+    name: Attest build provenance (Sigstore keyless)
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # OIDC for Sigstore keyless signing
+      attestations: write
+    steps:
+      - name: Harden runner
+        uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142ae # v2.10.2
+        with:
+          egress-policy: audit
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@d3f86a106a0bac45b974a75728404ed64b3f149e0b # v4.3.4
+        with:
+          path: dist-all
+
+      # Sigstore keyless via GitHub OIDC — no long-lived keys to manage.
+      - name: Attest provenance
+        uses: actions/attest-build-provenance@9e0f87301e712af0b027afa011e604a2b0e600dc0 # v2.4.0
+        with:
+          subject-path: "dist-all/**/*"
+
+  release:
+    name: Publish GitHub Release
+    needs: [build, sbom, attest]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # create release + upload assets
+    steps:
+      - name: Harden runner
+        uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142ae # v2.10.2
+        with:
+          egress-policy: audit
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@d3f86a106a0bac45b974a75728404ed64b3f149e0b # v4.3.4
+        with:
+          path: dist-all
+
+      - name: Generate SHA256SUMS
+        run: |
+          cd dist-all
+          find . -type f -not -name 'SHA256SUMS.txt' -exec sha256sum {} + | sort -k2 > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+        shell: bash
+
+      # Optional: cosign keyless sign of the checksum file.
+      #   cosign sign-blob --yes SHA256SUMS.txt > SHA256SUMS.txt.sig
+      # Requires: id-token: write on this job + COSIGN_EXPERIMENTAL=1.
+      # Self-managed key alternative: add COSIGN_PRIVATE_KEY secret and
+      # `cosign sign-blob --key env://COSIGN_PRIVATE_KEY --yes`.
+
+      - name: Publish release
+        uses: softprops/action-gh-release@9d7c94cfd0b63f8f7d1630084b2b806844908a700 # v2.2.2
+        with:
+          files: |
+            dist-all/**/*
+          generate_release_notes: true
