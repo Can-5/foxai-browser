@@ -1,0 +1,41 @@
+# FoxAI Browser - Flatpak manifest skeleton
+# NOTE: Flathub submission requires a public repo + stable release tarball
+# and completed flatpak-builder build. Fill `url`/`sha256` after v3.0.0.
+# See: https://docs.flathub.org/docs/for-app-authors/submission
+app-id: io.github.Can5.foxai-browser
+runtime: org.freedesktop.Platform
+runtime-version: '23.08'
+sdk: org.freedesktop.Sdk
+command: foxai-browser
+finish-args:
+  - --share=ipc
+  - --socket=x11
+  - --socket=wayland
+  - --share=network
+  - --socket=pulseaudio
+  - --device=dri
+  - --talk-name=org.freedesktop.Notifications
+  - --filesystem=xdg-download
+metadata:
+  name: FoxAI Browser
+  summary: Privacy-first Firefox-based browser with built-in AI and Tor
+  description: FoxAI Browser is a privacy-first Firefox derivative with
+    built-in AI assistance and optional Tor routing.
+  license: MPL-2.0
+  homepage: https://github.com/Can-5/foxai-browser
+modules:
+  - name: foxai
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 foxai-browser /app/bin/foxai-browser
+      - install -Dm644 io.github.Can5.foxai-browser.desktop /app/share/applications/io.github.Can5.foxai-browser.desktop
+      - install -Dm644 io.github.Can5.foxai-browser.metainfo.xml /app/share/metainfo/io.github.Can5.foxai-browser.metainfo.xml
+    sources:
+      # TODO: replace with the real v3.0.0 linux tarball + sha256 after release.
+      - type: archive
+        url: https://github.com/Can-5/foxai-browser/releases/download/v3.0.0/FoxAI-Browser-v3.0.0-linux-x86_64.tar.xz
+        sha256: 0000000000000000000000000000000000000000000000000000000000000000
+      - type: file
+        path: io.github.Can5.foxai-browser.desktop
+      - type: file
+        path: io.github.Can5.foxai-browser.metainfo.xml

@@ -1,0 +1,43 @@
+# FoxAI Browser - Windows Package Manager (winget) manifest (singleton template)
+# Reference for AlternativeTo / winget-pkgs submission.
+# NOTE: Fill InstallerSha256 after the v3.0.0 release is published.
+# NOTE: After SignPath signing, add signed exe/msix entries alongside the zip.
+PackageIdentifier: Can5.FoxAIBrowser
+PackageVersion: 3.0.0
+PackageName: FoxAI Browser
+Publisher: Can5
+PublisherUrl: https://github.com/Can-5
+PublisherSupportUrl: https://github.com/Can-5/foxai-browser/issues
+PackageUrl: https://github.com/Can-5/foxai-browser
+License: MPL-2.0
+LicenseUrl: https://www.mozilla.org/en-US/MPL/2.0/
+Copyright: Copyright (c) Can5
+CopyrightUrl: https://github.com/Can-5/foxai-browser
+ShortDescription: Privacy-first Firefox-based browser with built-in AI and Tor support.
+Description: FoxAI Browser is a privacy-first Firefox derivative with built-in
+  AI assistance and optional Tor routing. Portable zip distribution for Windows x64.
+Moniker: foxai-browser
+Tags:
+  - browser
+  - privacy
+  - ai
+  - tor
+  - firefox
+ReleaseNotesUrl: https://github.com/Can-5/foxai-browser/releases/tag/v3.0.0
+InstallationNotes: Portable zip - extract and run. No admin rights required.
+ManifestType: singleton
+ManifestVersion: 1.6.0
+InstallerType: zip
+InstallModes:
+  - portable
+Installers:
+  - Architecture: x64
+    InstallerType: zip
+    InstallerUrl: https://github.com/Can-5/foxai-browser/releases/download/v3.0.0/FoxAI-Browser-v3.0.0.zip
+    # TODO: fill real SHA256 after release - run:
+    #   Get-FileHash FoxAI-Browser-v3.0.0.zip -Algorithm SHA256
+    InstallerSha256: 0000000000000000000000000000000000000000000000000000000000000000
+    NestedInstallerType: portable
+    NestedInstallerFiles:
+      - RelativeFilePath: FoxAI-Browser/foxai-browser.exe
+        PortableCommandAlias: foxai-browser

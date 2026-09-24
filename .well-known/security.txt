@@ -1,0 +1,7 @@
+Contact: mailto:security@foxai.dev
+Contact: mailto:kygszilkaycan@icloud.com
+Expires: 2027-09-24T00:00:00.000Z
+Acknowledgments: https://github.com/Can-5/foxai-browser/security/advisories
+Preferred-Languages: en, tr
+Canonical: https://can-5.github.io/foxai-browser/.well-known/security.txt
+Policy: https://github.com/Can-5/foxai-browser/blob/main/SECURITY.md
