@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.Can5.foxai-browser</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MPL-2.0</project_license>
+  <name>FoxAI Browser</name>
+  <summary>Privacy-first Firefox-based browser with built-in AI and Tor</summary>
+  <description>
+    <p>
+      FoxAI Browser is a privacy-first Firefox derivative with built-in
+      AI assistance and optional Tor routing. Trackers are blocked by
+      default and no telemetry leaves the device.
+    </p>
+  </description>
+  <launchable type="desktop-id">io.github.Can5.foxai-browser.desktop</launchable>
+  <url type="homepage">https://github.com/Can-5/foxai-browser</url>
+  <provides>
+    <id>io.github.Can5.foxai-browser.desktop</id>
+  </provides>
+  <recommends>
+    <control>pointing</control>
+    <control>keyboard</control>
+    <control>display_length</control>
+  </recommends>
+  <categories>
+    <category>Network</category>
+    <category>WebBrowser</category>
+  </categories>
+</component>
