@@ -36,7 +36,7 @@ Installers:
     InstallerUrl: https://github.com/Can-5/foxai-browser/releases/download/v3.0.0/FoxAI-Browser-v3.0.0.zip
     # TODO: fill real SHA256 after release - run:
     #   Get-FileHash FoxAI-Browser-v3.0.0.zip -Algorithm SHA256
-    InstallerSha256: 0000000000000000000000000000000000000000000000000000000000000000
+    InstallerSha256: "0000000000000000000000000000000000000000000000000000000000000000" # PLACEHOLDER - release sonrası doldur, tırnağı koru
     NestedInstallerType: portable
     NestedInstallerFiles:
       - RelativeFilePath: FoxAI-Browser/foxai-browser.exe

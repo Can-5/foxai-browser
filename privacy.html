@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FoxAI Browser Privacy Policy — no telemetry, no tracking. AI off by default, on-device mode first. Short version in English and Türkçe.">
+  <meta name="theme-color" content="#fbfbfd">
+  <meta name="color-scheme" content="light dark">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; font-src 'self' data: https://fonts.gstatic.com; base-uri 'none'; form-action 'self'; object-src 'none'">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>FoxAI Browser — Privacy Policy</title>
+  <link rel="icon" href="foxai-mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script>/* base-path helper for GH Pages /foxai-browser/ vs Cloudflare / */(function(){var b=document.createElement('base');var p=location.pathname;if(p.indexOf('/foxai-browser/')===0){b.href='/foxai-browser/';document.head.prepend(b);} })();</script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="nav" role="banner">
+    <a class="brand" href="index.html" aria-label="FoxAI Browser home">
+      <img src="foxai-mark.svg" alt="FoxAI" width="28" height="28" decoding="async">
+      <span>FoxAI <b>Browser</b></span>
+    </a>
+    <nav class="links" aria-label="Primary">
+      <a href="index.html#features">Features</a>
+      <a href="index.html#privacy">Privacy</a>
+      <a href="index.html#download">Download</a>
+      <a href="index.html#faq">FAQ</a>
+      <a href="privacy.html" aria-current="page"><b>Privacy Policy</b></a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="section">
+      <h2>Privacy Policy</h2>
+      <p class="sub">Short version, in plain language — English first, Türkçe özet altında. Last updated: 2026-09-25.</p>
+
+      <h3>1. No data collection — no telemetry</h3>
+      <p class="sub">FoxAI Browser collects nothing: no telemetry, no crash reports, no analytics SDKs, no experiment pings. Referrer, beacon, ping, prefetch and studies/phone-home endpoints are disabled in the build (<code>config/user.js</code>, <code>foxai.cfg</code>). The project website is static: no cookies, no trackers, no third-party scripts (only Google Fonts CSS).</p>
+      <p class="sub"><b>Türkçe:</b> FoxAI Browser hiçbir veri toplamaz: telemetri, çökme raporu, analiz SDK'sı yok. Site statiktir: çerez yok, izleyici yok.</p>
+
+      <h3>2. AI is opt-in, on-device first</h3>
+      <p class="sub">AI is <b>off by default</b>. The default mode runs on-device (KoboldCpp + Qwen) — nothing leaves your computer. If you choose an external provider (ChatGPT, Claude, Gemini, Ollama), only that action's data is sent, only after you explicitly click "Allow page access" — one action at a time, revocable. API keys are stored locally on your device.</p>
+      <p class="sub"><b>Türkçe:</b> Yapay zekâ varsayılan <b>kapalıdır</b>; varsayılan mod cihaz-içidir (KoboldCpp + Qwen) — veri cihazdan çıkmaz. Harici sağlayıcı seçersen yalnızca o işlemin verisi, "İzin Ver"e basmanla gönderilir; anahtarlar yerelde saklanır.</p>
+
+      <h3>3. Location, camera, microphone</h3>
+      <p class="sub">Weather is opt-in (no location by default). Camera, microphone, geolocation and autoplay are default-deny — the browser asks only when you allow. WebRTC is disabled, so no IP leaks; HTTPS-only is on.</p>
+      <p class="sub"><b>Türkçe:</b> Konum (hava durumu) isteğe bağlıdır; kamera, mikrofon, konum varsayılan kapalıdır. WebRTC kapalı — IP sızıntısı yok.</p>
+
+      <h3>4. Tor mode (opt-in)</h3>
+      <p class="sub">Optional Tor routing sends all traffic + DNS via local SOCKS5 (<code>127.0.0.1:9050</code>) with WebRTC dead. Off by default; normal and Tor profiles are separate.</p>
+      <p class="sub"><b>Türkçe:</b> Tor modu isteğe bağlıdır; tüm trafik + DNS yerel SOCKS5 üzerinden gider. Varsayılan kapalıdır.</p>
+
+      <h3>5. What never happens</h3>
+      <div class="cols">
+        <ul class="check">
+          <li>No account, no sign-in — nothing to link to you</li>
+          <li>No cookies or storage on the project website</li>
+          <li>Only sites you visit are ever contacted</li>
+          <li>Fingerprint: deterministic 100/100 similarity, per-session canvas noise</li>
+        </ul>
+      </div>
+
+      <h3>6. Vulnerability disclosure</h3>
+      <p class="sub">Found a privacy or security issue? Please report it privately per our <a href="https://github.com/Can-5/foxai-browser/blob/main/SECURITY.md">security policy (SECURITY.md)</a>: acknowledgement within 48 hours, assessment within 7 days, 90-day coordinated disclosure.</p>
+      <p class="sub"><b>Türkçe:</b> Güvenlik açığı bulursan <a href="https://github.com/Can-5/foxai-browser/blob/main/SECURITY.md">SECURITY.md</a>'deki süreçle gizli bildir: 48 saatte dönüş, 7 günde değerlendirme, 90 gün koordineli açıklama.</p>
+
+      <h3>7. Contact</h3>
+      <p class="sub"><a href="mailto:foxaibrowsersuppport@outlook.com">foxaibrowsersuppport@outlook.com</a> · <a href="https://github.com/Can-5/foxai-browser/issues">GitHub Issues</a></p>
+    </section>
+  </main>
+
+  <footer>
+    <img src="foxai-mark.svg" alt="" width="24" height="24" decoding="async">
+    <div>
+      <p>FoxAI Browser · Firefox ESR base · MPL-2.0 (uBlock Origin: GPLv3)</p>
+      <p class="made-by">Made by İlkay Can, in Türkiye · © <span class="year"></span> · <a href="https://github.com/Can-5/foxai-browser" rel="noopener">GitHub</a> · <a href="index.html#privacy">Privacy</a> · <a href="privacy.html" aria-current="page">Privacy Policy</a> · <a href="download.html">Download</a></p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

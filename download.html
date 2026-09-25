@@ -397,7 +397,7 @@ html.reduced .rlog .zapped{animation:none}
   <div>
     <span class="eyebrow reveal">🦊 v3.0 "FoxAI One" — Gizlilik + Yapay Zekâ</span>
     <h1 class="reveal">Tarayıcın kadar <span class="grad">özgür</span> hisset.</h1>
-    <p class="sub reveal">FoxAI Browser: izleyici yok, telemetri yok. Yerleşik yerel yapay zekâ, Tor modu ve şimşek hızında Firefox tabanı — hepsi tek tıkla.</p>
+    <p class="sub reveal">FoxAI Browser: izleyici yok, telemetri yok. Yapay zekâ varsayılan kapalı — varsayılan mod cihaz-içi (KoboldCpp + Qwen), Tor modu ve şimşek hızında Firefox tabanı — hepsi tek tıkla.</p>
     <div class="cta-row reveal">
       <a class="btn magnetic" href="#indir" data-dl="auto">⬇ Hemen İndir</a>
       <a class="btn ghost magnetic" href="#ozellikler">Özellikleri Gör</a>
@@ -438,7 +438,7 @@ html.reduced .rlog .zapped{animation:none}
   </div>
 </header>
 
-<div class="ticker" aria-hidden="true"><div class="ticker-track"><span>🦊 47 izleyici engellendi&nbsp;&nbsp;✦&nbsp;&nbsp;🤖 %100 cihazda AI&nbsp;&nbsp;✦&nbsp;&nbsp;🧅 Tek tıkla Tor&nbsp;&nbsp;✦&nbsp;&nbsp;⚡ 2,1× daha hızlı&nbsp;&nbsp;✦&nbsp;&nbsp;🛡️ Sıfır telemetri&nbsp;&nbsp;✦&nbsp;&nbsp;💸 Tamamen ücretsiz&nbsp;&nbsp;✦&nbsp;&nbsp;</span><span>🦊 47 izleyici engellendi&nbsp;&nbsp;✦&nbsp;&nbsp;🤖 %100 cihazda AI&nbsp;&nbsp;✦&nbsp;&nbsp;🧅 Tek tıkla Tor&nbsp;&nbsp;✦&nbsp;&nbsp;⚡ 2,1× daha hızlı&nbsp;&nbsp;✦&nbsp;&nbsp;🛡️ Sıfır telemetri&nbsp;&nbsp;✦&nbsp;&nbsp;💸 Tamamen ücretsiz&nbsp;&nbsp;✦&nbsp;&nbsp;</span></div></div>
+<div class="ticker" aria-hidden="true"><div class="ticker-track"><span>🦊 47 izleyici engellendi&nbsp;&nbsp;✦&nbsp;&nbsp;🤖 AI varsayılan kapalı · cihaz-içi mod&nbsp;&nbsp;✦&nbsp;&nbsp;🧅 Tek tıkla Tor&nbsp;&nbsp;✦&nbsp;&nbsp;⚡ 2,1× daha hızlı&nbsp;&nbsp;✦&nbsp;&nbsp;🛡️ Sıfır telemetri&nbsp;&nbsp;✦&nbsp;&nbsp;💸 Tamamen ücretsiz&nbsp;&nbsp;✦&nbsp;&nbsp;</span><span>🦊 47 izleyici engellendi&nbsp;&nbsp;✦&nbsp;&nbsp;🤖 AI varsayılan kapalı · cihaz-içi mod&nbsp;&nbsp;✦&nbsp;&nbsp;🧅 Tek tıkla Tor&nbsp;&nbsp;✦&nbsp;&nbsp;⚡ 2,1× daha hızlı&nbsp;&nbsp;✦&nbsp;&nbsp;🛡️ Sıfır telemetri&nbsp;&nbsp;✦&nbsp;&nbsp;💸 Tamamen ücretsiz&nbsp;&nbsp;✦&nbsp;&nbsp;</span></div></div>
 
 <section class="block" id="tanitim">
   <div class="demo-wrap">
@@ -447,7 +447,7 @@ html.reduced .rlog .zapped{animation:none}
       <p class="reveal">Video izlemene gerek yok — bu mini demo, tarayıcının içinde FoxAI'ın neler yaptığını otomatik ve döngülü olarak gösteriyor. Chrome'un tanıtım klipleri gibi: hızlı, sessiz, tekrarlı. <a class="xref" href="#karsilastirma">Rakamlarla karşılaştır <span class="arr">→</span></a></p>
       <div class="demo-points">
         <div class="dp reveal"><div>🛡️</div><div><b>İzleyiciler anında ölür</b><span>Sayfa açılırken 47 izleyici engellendi — sayaç canlı artar.</span></div></div>
-        <div class="dp reveal"><div>🧠</div><div><b>AI cevabı cihazında üretilir</b><span>Sorunu yaz, özet anında gelsin. Buluta tek bayt gitmez.</span></div></div>
+        <div class="dp reveal"><div>🧠</div><div><b>AI varsayılan kapalı, cihaz-içi mod hazır</b><span>İstersen aç: özet cihazında üretilir. Harici sağlayıcı seçersen veri, her seferinde İzin Ver'e basmanla gider.</span></div></div>
         <div class="dp reveal"><div>🧅</div><div><b>Tor tek dokunuşla açılır</b><span>IP'n onion ağında zıplar, konumun kaybolur.</span></div></div>
       </div>
       <div class="reveal"><a class="btn magnetic" href="#indir" data-dl="auto">⬇ Hemen Dene</a></div>
@@ -466,12 +466,12 @@ html.reduced .rlog .zapped{animation:none}
           </div>
         </div>
         <div class="scene" data-scene="1">
-          <h4>🧠 Yerel yapay zekâ — sayfa özeti</h4>
+          <h4>🧠 Yapay zekâ (cihaz-içi mod) — sayfa özeti</h4>
           <div class="chat">
             <div class="bubble user"><span id="typeTarget"></span><span class="caret" id="typeCaret"></span></div>
             <div class="bubble ai"><span id="aiAnswer"></span><span class="caret" id="aiCaret" style="display:none"></span></div>
           </div>
-          <div class="local-badge" id="localBadge">✅ %100 cihazda üretildi — buluta gitmedi</div>
+          <div class="local-badge" id="localBadge">✅ Cihaz-içi modda üretildi — buluta gitmedi</div>
         </div>
         <div class="scene" data-scene="2">
           <h4>🧅 Tek tıkla Tor — konum gizleme</h4>
@@ -532,7 +532,7 @@ html.reduced .rlog .zapped{animation:none}
         <tr><td>URL'deki izleyici parametrelerini temizleme</td><td class="foxcol"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
         <tr><td>Yerleşik IP gizleme<small>Tor / Relay / VPN</small></td><td class="foxcol"><span class="yes">✓</span><small>Tor, ücretsiz</small></td><td><span class="no">—</span></td><td><span class="part">◐</span><small>Relay, ücretli</small></td><td><span class="part">◐</span><small>VPN, ücretli</small></td></tr>
         <tr><td>Telemetri / kullanım verisi göndermeme</td><td class="foxcol"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span></td><td><span class="part">◐</span><small>ayar ister</small></td></tr>
-        <tr><td>Yapay zekâ %100 cihazda (bulutsuz)</td><td class="foxcol"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="part">◐</span><small>kısmi</small></td><td><span class="no">—</span></td></tr>
+        <tr><td>Yapay zekâ varsayılan kapalı, cihaz-içi mod<small>KoboldCpp + Qwen; harici sağlayıcıda işlem başına Allow</small></td><td class="foxcol"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="part">◐</span><small>kısmi</small></td><td><span class="no">—</span></td></tr>
       </tbody>
     </table>
   </div>
@@ -580,7 +580,7 @@ html.reduced .rlog .zapped{animation:none}
   </div>
   <div class="feat-grid">
     <div class="feat reveal"><div class="ic">🛡️</div><h3>Sıfır İzleyici</h3><p>Telemetri, reklam kimliği, kullanım raporu — hepsi kaynakta kapalı. Ağ trafiğini kendin denetleyebilirsin.</p></div>
-    <div class="feat reveal"><div class="ic">🧠</div><h3>Yerel Yapay Zekâ</h3><p>KoboldCpp + Qwen 2.5 tamamen cihazında. Özetle, çevir, sor — verin asla buluta gitmez.</p></div>
+    <div class="feat reveal"><div class="ic">🧠</div><h3>Yapay Zekâ (Varsayılan Kapalı)</h3><p>Varsayılan mod cihaz-içi: KoboldCpp + Qwen 2.5 ile özetle, çevir, sor — veri cihazından çıkmaz. Harici sağlayıcı (ChatGPT, Claude, Gemini, Ollama) istersen her işlemde İzin Ver'e basarsın; anahtarların yerelde saklanır.</p></div>
     <div class="feat reveal"><div class="ic">🧅</div><h3>Tek Tıkla Tor</h3><p>Tor modu ile IP'ni gizle, engelleri aş. SOCKS5 proxy yerleşik, kurulum yok.</p></div>
     <div class="feat reveal"><div class="ic">⚡</div><h3>Şimşek Hızı</h3><p>Sertleştirilmiş Firefox tabanı, agresif reklam engelleme, hafif profil. Açılış &lt; 1 saniye.</p></div>
     <div class="feat reveal"><div class="ic">🔒</div><h3>DDoS Kalkanı</h3><p>Cloudflare Worker tabanlı FoxAI Shield: bot filtresi, risk skoru, 7 WAF imzası.</p></div>
@@ -607,7 +607,7 @@ html.reduced .rlog .zapped{animation:none}
   </div>
   <div class="faq">
     <div class="qa reveal"><button aria-expanded="false"><span class="q-ic">💸</span>FoxAI Browser tamamen ücretsiz mi?<span class="chev">▾</span></button><div class="a"><p>Evet — %100 ücretsiz ve öyle kalacak. Gizli premium katman, hesap zorunluluğu, reklam yok. Geliştirme topluluk katkılarıyla yürüyor; istersen GitHub Sponsors üzerinden destek olabilirsin.</p></div></div>
-    <div class="qa reveal"><button aria-expanded="false"><span class="q-ic">☁️</span>Verilerim buluta gönderiliyor mu?<span class="chev">▾</span></button><div class="a"><p>Hayır. Telemetri kaynakta kapalı, AI modeli (KoboldCpp + Qwen 2.5) tamamen cihazında çalışıyor. Özet, çeviri, soru-cevap — hiçbiri sunucuya gitmez. Ağ trafiğini Wireshark ile kendin denetleyebilirsin.</p></div></div>
+    <div class="qa reveal"><button aria-expanded="false"><span class="q-ic">☁️</span>Verilerim buluta gönderiliyor mu?<span class="chev">▾</span></button><div class="a"><p>Varsayılan olarak hayır. Telemetri kaynakta kapalı; yapay zekâ varsayılan kapalı ve varsayılan mod cihaz-içi (KoboldCpp + Qwen 2.5). Harici bir sağlayıcı seçersen, yalnızca o işlemin verisi İzin Ver'e bastığında seçili sağlayıcıya gider; API anahtarların cihazında saklanır. Ağ trafiğini Wireshark ile kendin denetleyebilirsin.</p></div></div>
     <div class="qa reveal"><button aria-expanded="false"><span class="q-ic">📥</span>Chrome'daki sekmelerim ve şifrelerim taşınır mı?<span class="chev">▾</span></button><div class="a"><p>Evet. İlk açılışta içe aktarma sihirbazı Chrome, Firefox ve Edge'den yer imlerini, geçmişi, şifreleri ve çerezleri taşır. Şifreler işletim sisteminin anahtar zincirinde saklanır.</p></div></div>
     <div class="qa reveal"><button aria-expanded="false"><span class="q-ic">💻</span>Hangi platformlarda çalışır?<span class="chev">▾</span></button><div class="a"><p>Windows 10/11 (64-bit ZIP), macOS (Apple Silicon + Intel DMG) ve Linux (RPM + AppImage: Fedora, Ubuntu, Arch dahil tüm dağıtımlar). Sistem gereksinimi: 4 GB RAM, 500 MB disk.</p></div></div>
     <div class="qa reveal"><button aria-expanded="false"><span class="q-ic">🧅</span>Tor modu ne işe yarar, yavaşlatır mı?<span class="chev">▾</span></button><div class="a"><p>Tor modu trafiğini onion ağından geçirir: IP'n gizlenir, bölgesel engeller aşılır. Evet, biraz yavaşlatır (genelde 2-3 kat) — o yüzden varsayılan kapalıdır; bankacılık gibi hız istediğin işlerde kapalı tut, hassas gezinmede tek tıkla aç.</p></div></div>
@@ -616,7 +616,7 @@ html.reduced .rlog .zapped{animation:none}
 </section>
 
 <footer>
-  FoxAI Browser · MPL-2.0 açık kaynak · <a href="https://github.com/Can-5/foxai-browser" style="color:inherit">GitHub</a> · Gizliliğin senin hakkın 💜
+  FoxAI Browser · MPL-2.0 açık kaynak · <a href="https://github.com/Can-5/foxai-browser" style="color:inherit">GitHub</a> · <a href="privacy.html" style="color:inherit">Gizlilik Politikası (Privacy Policy)</a> · Gizliliğin senin hakkın 💜
 </footer>
 <button id="toTop" aria-label="Başa dön">↑</button>
 
@@ -815,7 +815,7 @@ document.querySelectorAll(".qa").forEach(function(qa){
 
   /* sahne 1: yazma efekti + AI cevabı */
   var Q = "Bu sayfayı 3 cümlede özetle…",
-      A = "FoxAI; izleyicileri otomatik engelleyen, yapay zekâyı cihazında çalıştıran ve tek tıkla Tor açan özgür bir tarayıcıdır. Verin asla buluta gitmez. Kurulumu 40 saniye sürer.";
+      A = "FoxAI; izleyicileri otomatik engelleyen, yapay zekâyı varsayılan kapalı tutup cihaz-içi modda (KoboldCpp + Qwen) çalıştıran ve tek tıkla Tor açan özgür bir tarayıcıdır. Cihaz-içi modda verin buluta gitmez. Kurulumu 40 saniye sürer.";
   var typeEl = document.getElementById("typeTarget"), aiEl = document.getElementById("aiAnswer"),
       badge = document.getElementById("localBadge");
   function typeInto(el, text, cps, done){
