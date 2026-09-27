@@ -31,9 +31,9 @@ modules:
       - install -Dm644 io.github.Can5.foxai-browser.desktop /app/share/applications/io.github.Can5.foxai-browser.desktop
       - install -Dm644 io.github.Can5.foxai-browser.metainfo.xml /app/share/metainfo/io.github.Can5.foxai-browser.metainfo.xml
     sources:
-      # TODO: replace with the real v3.0.0 linux tarball + sha256 after release.
+      # TODO: replace with the real v3.2.0 linux tarball + sha256 after release.
       - type: archive
-        url: https://github.com/Can-5/foxai-browser/releases/download/v3.0.0/FoxAI-Browser-v3.0.0-linux-x86_64.tar.xz
+        url: https://github.com/Can-5/foxai-browser/releases/download/v3.2.0/foxai-browser-v3.2.0-linux-x86_64.tar.xz
         sha256: "0000000000000000000000000000000000000000000000000000000000000000" # PLACEHOLDER - release sonrası doldur, tırnağı koru
       - type: file
         path: io.github.Can5.foxai-browser.desktop

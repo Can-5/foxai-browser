@@ -1,0 +1,21 @@
+# Installer manifest for FoxAI Browser v3.2.0 (winget-pkgs submission layout)
+# NOTE: fill InstallerSha256 after the v3.2.0 release is published:
+#   $f = Invoke-WebRequest -Uri https://github.com/Can-5/foxai-browser/releases/download/v3.2.0/FoxAI-Browser-v3.2.0.zip -OutFile foxai.zip
+#   (Get-FileHash foxai.zip -Algorithm SHA256).Hash
+# NOTE: after SignPath approval, add signed exe/msix entries alongside the zip.
+PackageIdentifier: Can5.FoxAIBrowser
+PackageVersion: 3.2.0
+InstallerType: zip
+InstallModes:
+  - portable
+Installers:
+  - Architecture: x64
+    InstallerType: zip
+    InstallerUrl: https://github.com/Can-5/foxai-browser/releases/download/v3.2.0/FoxAI-Browser-v3.2.0.zip
+    InstallerSha256: "0000000000000000000000000000000000000000000000000000000000000000" # PLACEHOLDER - release sonrasi doldur, tirnagi koru
+    NestedInstallerType: portable
+    NestedInstallerFiles:
+      - RelativeFilePath: FoxAI-Browser/foxai-browser.exe
+        PortableCommandAlias: foxai-browser
+ManifestType: installer
+ManifestVersion: 1.6.0

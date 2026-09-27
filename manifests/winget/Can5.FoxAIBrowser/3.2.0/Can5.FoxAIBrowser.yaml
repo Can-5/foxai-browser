@@ -1,0 +1,7 @@
+# Version manifest for FoxAI Browser v3.2.0 (winget-pkgs submission layout)
+# Part of the 3-file split: version + installer + defaultLocale.
+PackageIdentifier: Can5.FoxAIBrowser
+PackageVersion: 3.2.0
+DefaultLocale: en-US
+ManifestType: version
+ManifestVersion: 1.6.0

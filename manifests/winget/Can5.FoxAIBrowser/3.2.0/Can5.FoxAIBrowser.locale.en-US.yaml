@@ -1,0 +1,29 @@
+# Default locale for FoxAI Browser (winget-pkgs submission layout)
+# Copy these 3 files to microsoft/winget-pkgs PR:
+#   manifests/c/Can5/FoxAIBrowser/3.2.0/
+PackageIdentifier: Can5.FoxAIBrowser
+PackageVersion: 3.2.0
+PackageLocale: en-US
+Publisher: Can5
+PublisherUrl: https://github.com/Can-5
+PublisherSupportUrl: https://github.com/Can-5/foxai-browser/issues
+PackageName: FoxAI Browser
+PackageUrl: https://github.com/Can-5/foxai-browser
+License: MPL-2.0
+LicenseUrl: https://www.mozilla.org/en-US/MPL/2.0/
+Copyright: Copyright (c) Can5
+CopyrightUrl: https://github.com/Can-5/foxai-browser
+ShortDescription: Privacy-first Firefox-based browser with built-in AI and Tor support.
+Description: FoxAI Browser is a privacy-first Firefox derivative with built-in
+  AI assistance and optional Tor routing. Portable zip distribution for Windows x64.
+Moniker: foxai-browser
+Tags:
+  - browser
+  - privacy
+  - ai
+  - tor
+  - firefox
+ReleaseNotesUrl: https://github.com/Can-5/foxai-browser/releases/tag/v3.2.0
+InstallationNotes: Portable zip - extract and run. No admin rights required.
+ManifestType: defaultLocale
+ManifestVersion: 1.6.0

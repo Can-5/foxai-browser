@@ -56,6 +56,30 @@ jobs:
           echo "foxai-browser skeleton ${{ github.ref_name }} (${{ matrix.os }})" > dist/BUILD-INFO.txt
         shell: bash
 
+      # Package into user-facing names consumed by manifests + download page:
+      #   windows-latest -> FoxAI-Browser-<tag>.zip            (portable ZIP, matches existing v3.0.0 pattern)
+      #   ubuntu-latest  -> foxai-browser-<tag>-linux-x86_64.tar.xz
+      #   macos-latest   -> FoxAI-Browser-<tag>-macos.zip   (yakinda)
+      # Real builds: replace the cp below with the actual staged output dir.
+      - name: Package release archive
+        run: |
+          TAG="${{ github.ref_name }}"
+          case "${{ matrix.os }}" in
+            windows-latest)
+              mkdir -p pkg && cp dist/BUILD-INFO.txt pkg/
+              (cd pkg && 7z a "../FoxAI-Browser-${TAG}.zip" . || powershell -NoProfile -Command "Compress-Archive -Path ./* -DestinationPath ..\\FoxAI-Browser-${TAG}.zip")
+              ;;
+            ubuntu-latest)
+              tar -cJf "foxai-browser-${TAG}-linux-x86_64.tar.xz" -C dist .
+              ;;
+            macos-latest)
+              mkdir -p pkg && cp dist/BUILD-INFO.txt pkg/
+              (cd pkg && zip -qr "../FoxAI-Browser-${TAG}-macos.zip" .)
+              ;;
+          esac
+          ls -la ./*.zip ./*.tar.xz 2>/dev/null || true
+        shell: bash
+
       - name: Upload artifact
         uses: actions/upload-artifact@65c4c4a6d09b9c087ad8525615ff02605c475e6e2b # v4.6.0
         with:
@@ -126,6 +150,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write # create release + upload assets
+      id-token: write # OIDC for cosign keyless signing
     steps:
       - name: Harden runner
         uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142ae # v2.10.2
@@ -144,11 +169,31 @@ jobs:
           cat SHA256SUMS.txt
         shell: bash
 
-      # Optional: cosign keyless sign of the checksum file.
-      #   cosign sign-blob --yes SHA256SUMS.txt > SHA256SUMS.txt.sig
-      # Requires: id-token: write on this job + COSIGN_EXPERIMENTAL=1.
-      # Self-managed key alternative: add COSIGN_PRIVATE_KEY secret and
-      # `cosign sign-blob --key env://COSIGN_PRIVATE_KEY --yes`.
+      # cosign keyless signs SHA256SUMS.txt via GitHub OIDC (Fulcio).
+      # Verify: cosign verify-blob --cert-chain ... (see SECURITY.md).
+      - name: Install cosign
+        uses: sigstore/cosign-installer@faadad0cce49287aee09b3a48701e75088a2fdad6c1 # v3.8.2
+        with:
+          cosign-release: v2.4.1
+
+      - name: Sign checksums (cosign keyless)
+        run: |
+          cd dist-all
+          COSIGN_EXPERIMENTAL=1 cosign sign-blob --yes SHA256SUMS.txt > SHA256SUMS.txt.sig
+          COSIGN_EXPERIMENTAL=1 cosign sign-blob --yes SHA256SUMS.txt --bundle SHA256SUMS.txt.sigstore 2>/dev/null || true
+        shell: bash
+
+      # SignPath (Windows SmartScreen reputation): requires SIGNPATH_API_TOKEN
+      # secret + an approved open-source project. Disabled until onboarding
+      # completes — flip `if:` when the token exists.
+      - name: Sign Windows ZIP (SignPath)
+        if: ${{ env.SIGNPATH_API_TOKEN != '' }}
+        env:
+          SIGNPATH_API_TOKEN: ${{ secrets.SIGNPATH_API_TOKEN }}
+        run: |
+          echo "SignPath: submit dist-all/**/FoxAI-Browser-*-win64.zip for signing"
+          echo "(wire to SignPath operator once the OSS project is approved)"
+        shell: bash
 
       - name: Publish release
         uses: softprops/action-gh-release@9d7c94cfd0b63f8f7d1630084b2b806844908a700 # v2.2.2
