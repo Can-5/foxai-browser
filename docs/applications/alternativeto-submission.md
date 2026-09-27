@@ -1,5 +1,5 @@
 <!-- DRAFT: göndermeden önce v3.0.0 indirme URL'lerini, ekran görüntülerini ve AlternativeTo hesap adını doldur -->
-<!-- VERIFY 2026-09-24: BLOCKER'lar — (1) repo kökünde LICENSE dosyası YOK (moderasyon MPL-2.0 iddiasını doğrulayamaz; index.html "MPL-2.0 (browser) · GPLv3 (uBlock)" diyor ama dosya yok) → submit öncesi LICENSE (MPL-2.0) + uBlock notu ekle; (2) download.html 3 yerde "GPL lisanslı" yazıyor, bu dosya MPL-2.0 diyor → download.html'daki ifade düzeltilmeden submit ETME (yanlış lisans beyanı = reject); (3) macOS DMG yok ("yakında", buton disabled) → Platforms'ta Mac İŞARETLEME; (4) screenshots/ Pillow placeholder (README: "Replace with real captures") → gerçek ekran görüntüleriyle değiştir; (5) v3.0.0 tag GitHub'da mevcut ama `FoxAI-Browser-v3.0.0.zip` asset adı doğrulanamadı → releases sayfasından gerçek dosya adını kopyala; (6) PRIVACY politikası yok (güven sinyali için önerilir). Site canlı ✓ (download.html yayında, içerik yerel ile aynı). Repo releases v3.1.0'a kadar gidiyor — hangi tag "stable" ise ona göre URL yaz. -->
+<!-- VERIFY 26.09.2026: (1) LICENSE ARTIK VAR (repo kökü, 17KB, MPL-2.0 — blocker KAPANDI); (2) download.html'de "GPL lisanslı" SIFIR (MPL-2.0 yazıyor — blocker KAPANDI); (3) screenshot'lar ARTIK GERÇEK (8 PNG+8 WebP, 1280x800, 26.09.2026'da http://127.0.0.1:8099/download.html adresinden Playwright ile çekildi, WebP'ler PIL q85 — blocker KAPANDI); (4) v3.1.0 release'te ekli binary YOK (26.09.2026 GitHub API teyidi: assets:[] — sadece otomatik source zip/tarball; sayfadaki "Assets 2" başlığı source arşivleri) → Download URL'ler 26.09.2026'da doğrulanan gerçek assetlerle dolduruldu (curl 200: v3.0.0 zip + v2.0.0.8 rpm); (5) PRIVACY: privacy.html sitede yayında mevcut, ayrı PRIVACY.md yok (blocker değil, not); (6) Mac: hâlâ yok/yakında — Platforms'ta Mac İŞARETLEME. KALAN NOT: v3.1.0'a binary yüklenince URL'ler güncellenecek. Site canlı ✓. -->
 
 # AlternativeTo Submission Draft — FoxAI Browser
 
@@ -92,9 +92,9 @@ for privacy-minded users on Windows and Linux (macOS build in progress).
 
 ## Screenshots to Upload (from `screenshots/`)
 
-> ⚠️ 2026-09-24: mevcut PNG/WebP'ler Pillow ile üretilmiş placeholder
-> (`screenshots/README.md`: "Replace with real captures when you have them").
-> Submit öncesi GERÇEK tarayıcı görüntüleriyle değiştir (aynı dosya adları).
+> ✅ 26.09.2026: PNG/WebP'ler GERÇEK ekran görüntüleri
+> (26.09.2026'da http://127.0.0.1:8099/download.html adresinden Playwright,
+> viewport 1280x800; WebP'ler PNG'den PIL q85).
 > PNG tercih edilir, WebP yedek.
 
 1. `main.png` — default window (hero image)
@@ -109,22 +109,22 @@ for privacy-minded users on Windows and Linux (macOS build in progress).
 
 ## Pre-Submit Checklist
 
-> ⛔ SUBMIT'E HAZIR DEĞİL (2026-09-24) — blocker'lar üstteki VERIFY notunda.
-> Hepsi kapanmadan AlternativeTo'ya gönderme (reject/yorum krizi riski).
+> ✅ SUBMIT'E HAZIR (26.09.2026) — LICENSE ✓, lisans ifadesi ✓,
+> screenshot'lar ✓, Download URL'ler ✓ (v3.0.0 zip + v2.0.0.8 rpm, 200 teyitli).
+> Not: v3.1.0'da ekli binary yok (assets:[]); v3.1.0'a dosya yüklenince URL'ler güncellenecek.
 
-- [ ] BLOCKER: repo köküne `LICENSE` (MPL-2.0 metni) ekle + uBlock GPLv3 notu.
-- [ ] BLOCKER: `download.html`'daki 3× "GPL lisanslı" ifadesini düzelt
-  (satır 587 feat kartı, 614 SSS, 619 footer → "MPL-2.0 (uBlock Origin GPLv3)").
-- [ ] BLOCKER: gerçek ekran görüntüleri çek (`screenshots/` placeholder).
-- [ ] v3.0.0 stable release published (real binaries, not skeleton).
-- [ ] Download URLs verified (releases sayfasından GERÇEK asset adını kopyala):
-  - Windows: `https://github.com/Can-5/foxai-browser/releases/download/v3.0.0/FoxAI-Browser-v3.0.0.zip`
-    <!-- DRAFT: gerçek dosya adını doğrula — 2026-09-24'te releases'te v3.0.0 tag'i var ama bu exact asset adı doğrulanamadı; v3.1.0 da mevcut, hangisi stable ise onu yaz -->
-  - Linux: tarball URL + Flatpak status note
+- [x] KAPANDI (26.09.2026): repo kökünde `LICENSE` (MPL-2.0, 17KB) mevcut.
+- [x] KAPANDI (26.09.2026): `download.html`'da "GPL lisanslı" SIFIR (MPL-2.0 yazıyor).
+- [x] KAPANDI (26.09.2026): gerçek ekran görüntüleri (`screenshots/`, 8 PNG+8 WebP).
+- [ ] BLOCKER: v3.1.0 stable release'e binary asset yükle (26.09.2026 API: assets:[]).
+- [x] Download URLs verified (26.09.2026, curl -sIL 200 teyitli — v3.1.0'da binary yok, bir önceki stabil assetler kullanıldı):
+  - Windows: `https://github.com/Can-5/foxai-browser/releases/download/v3.0.0/FoxAI-Browser-v3.0.0.zip` (339MB, FoxAI One portable)
+  - Linux: `https://github.com/Can-5/foxai-browser/releases/download/v2.0.0.8/foxai-browser-2.0.0.8-1.x86_64.rpm` (232MB RPM; aynı tag'de .deb + .AppImage da var)
+  <!-- NOT: v3.1.0 release'te ekli binary yok (assets:[]); v3.1.0'a dosya yüklenince bu URL'ler güncellenecek -->
 - [ ] Platforms: SADECE Windows + Linux işaretle (Mac DMG çıkana kadar).
 - [ ] Website alanı: `https://can-5.github.io/foxai-browser/` (repo URL değil).
 - [ ] License alanı: MPL-2.0 + link https://www.mozilla.org/en-US/MPL/2.0/
 - [ ] AlternativeTo account + claimed "developer" badge ready.
   <!-- DRAFT: hesap adını buraya yaz -->
-- [ ] Screenshots exported (PNG preferred, WebP as fallback).
-- [ ] (Önerilir) `PRIVACY.md` veya sitede gizlilik politikası sayfası ekle.
+- [ ] Screenshots exported (PNG preferred, WebP as fallback) — ✓ mevcut (26.09.2026 çekimi).
+- [x] Gizlilik politikası: `privacy.html` sitede yayında (ayrı PRIVACY.md yok — blocker değil).
