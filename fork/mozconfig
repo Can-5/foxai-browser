@@ -1,33 +1,33 @@
-# FoxAI Browser — mozconfig (official-build flags)
+# FoxAI Browser — mozconfig (local development entry file)
 #
-# Copy to the mozilla-central (or ESR) checkout as `mozconfig` before
-# `./mach build`. These flags mirror a Mozilla official build plus
-# reproducible-build hardening. They do NOT change product behaviour —
-# behaviour comes from fork/user.js + fork/policies.json + fork/patches/.
+# Two-layer layout mirrored from BrowserWorks/waterfox: this file only
+# selects the dev profile, the real flags live in
+# fork/build/mozconfig.common. Behaviour comes from fork/user.js +
+# fork/policies.json + fork/patches/ — flags here do NOT change product
+# behaviour.
+#
+# Copy this file to the Waterfox checkout as `mozconfig` (see
+# fork/BUILD.md step 1 — fork/ goes into the tree as foxai/ first).
 #
 # License: MPL-2.0 (repo root LICENSE).
 
-# --- build type: optimized, no tests ---
-ac_add_options --enable-application=browser
-ac_add_options --enable-optimize
-ac_add_options --disable-debug
-ac_add_options --disable-tests
+# --- dev profile acknowledgement (required by mozconfig.common) ---
+fx_dev=1
+
+# --- the shared fragment does the real work ---
+. "$topsrcdir/foxai/build/mozconfig.common"
 
 # --- branding: official branding stays OFF (default) ---
 # Do NOT pass --enable-official-branding: FoxAI ships its own artwork
-# from fork/branding/ instead of Mozilla trademarks.
+# from fork/branding/ instead of Mozilla/Waterfox trademarks.
 
-# --- official + reproducible build flags (match release.yml attestation) ---
-export MOZILLA_OFFICIAL=1
-export BUILD_OFFICIAL=1
-# SOURCE_DATE_EPOCH is injected by CI (.github/workflows/release.yml);
-# for local builds set it to the release tag date, e.g.:
+# --- reproducible builds: SOURCE_DATE_EPOCH is injected by CI ---
+# (.github/workflows/release.yml); for local builds set it to the
+# release tag date, e.g.:
 #   export SOURCE_DATE_EPOCH=$(git log -1 --format=%ct)
-mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/obj-foxai
-
-# --- updater / crash reporter: keep updater, drop crash submission ---
-ac_add_options --enable-updater
-ac_add_options --disable-crashreporter
+#
+# (Optimise/LTO/PGO/updater/crashreporter/objdir choices all live in
+# fork/build/mozconfig.common — do not duplicate them here.)
 
 # --- Windows (MSVC): keep default toolchain via bootstrap ---
 # ./mach bootstrap --application=browser  (accepts MSVC + Win SDK install)
