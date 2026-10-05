@@ -1,0 +1,40 @@
+# FoxAI Browser — mozconfig (official-build flags)
+#
+# Copy to the mozilla-central (or ESR) checkout as `mozconfig` before
+# `./mach build`. These flags mirror a Mozilla official build plus
+# reproducible-build hardening. They do NOT change product behaviour —
+# behaviour comes from fork/user.js + fork/policies.json + fork/patches/.
+#
+# License: MPL-2.0 (repo root LICENSE).
+
+# --- build type: optimized, no tests ---
+ac_add_options --enable-application=browser
+ac_add_options --enable-optimize
+ac_add_options --disable-debug
+ac_add_options --disable-tests
+
+# --- branding: official branding stays OFF (default) ---
+# Do NOT pass --enable-official-branding: FoxAI ships its own artwork
+# from fork/branding/ instead of Mozilla trademarks.
+
+# --- official + reproducible build flags (match release.yml attestation) ---
+export MOZILLA_OFFICIAL=1
+export BUILD_OFFICIAL=1
+# SOURCE_DATE_EPOCH is injected by CI (.github/workflows/release.yml);
+# for local builds set it to the release tag date, e.g.:
+#   export SOURCE_DATE_EPOCH=$(git log -1 --format=%ct)
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/obj-foxai
+
+# --- updater / crash reporter: keep updater, drop crash submission ---
+ac_add_options --enable-updater
+ac_add_options --disable-crashreporter
+
+# --- Windows (MSVC): keep default toolchain via bootstrap ---
+# ./mach bootstrap --application=browser  (accepts MSVC + Win SDK install)
+#
+# --- Linux (Fedora): system toolchain is fine ---
+# sudo dnf builddep firefox  # then ./mach build
+#
+# --- macOS ---
+# Xcode CLT + `ac_add_options --target=x86_64-apple-darwin` /
+# `--target=aarch64-apple-darwin` per arch (lipo in packaging step).
