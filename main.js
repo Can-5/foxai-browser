@@ -1,12 +1,13 @@
 ﻿// FoxAI Browser site — v3.1.0 FoxAI One | bilingual EN/TR, configurable releases
 const VERSION = "3.1.0";
+const DL_VERSION = "3.0.0"; // newest release WITH binaries (v3.1.0 is source-only)
 const LANG_KEY = "fxweb:lang";
 // Central release config — change only here for future versions
 const RELEASE = {
   version: VERSION,
-  tag: "v" + VERSION,
+  tag: "v" + DL_VERSION,
   base: "https://github.com/Can-5/foxai-browser/releases/download",
-  file: "FoxAI-Browser-v" + VERSION + ".zip",
+  file: "FoxAI-Browser-v" + DL_VERSION + ".zip",
   get url(){ return this.base + "/" + this.tag + "/" + this.file; }
 };
 
@@ -68,9 +69,9 @@ const DICT = {
     os_h:"Open source", os_sub:"No black box. Every commit public, every build reproducible.", os_btn:"View Source on GitHub", os_hint:"MPL-2.0 (browser) · GPLv3 (uBlock Origin) · issues and PRs welcome.",
     dl_h:"Get FoxAI Browser", dl_sub:"Pick your platform — same profile, same privacy. Windows is prebuilt now; Linux &amp; macOS ship as CI artifacts and upcoming release assets.",
     dl_rec:"Recommended", dl_ci:"CI artifact", dl_ci2:"CI artifact", dl_win_d:"Windows 10 · 11 · 12 auto (windows-latest)", dl_win_btn:"Download for Windows", dl_upd:"for updates", dl_lin_d:"Universal tar.gz — all distros (Ubuntu, Fedora, Arch, Debian)", dl_lin_btn:"Get Linux build (Actions)", dl_lin_hint:"All Linux · or from source: <code>build-linux/build.sh</code>.", dl_mac_d:"Universal .app — macOS auto (Sonoma → Tahoe 26 → 27)", dl_mac_btn:"Get macOS build (Actions)", dl_mac_hint:"Intel + Apple Silicon · or <code>build-macos/build.sh</code>.",
-    dl_win:"Recommended · Portable zip", dl_btn:"Download v" + VERSION, dl_hint:"~324 MB · Firefox ESR base · unzip &amp; run FoxAI Browser.cmd",
+    dl_win:"Recommended · Portable zip", dl_btn:"Download v" + DL_VERSION, dl_hint:"~339 MB · Firefox ESR base · unzip &amp; run FoxAI Browser.cmd",
     dl_all:"All releases", dl_src:"View on GitHub", dl_linux:"Build from source", dl_linux_hint:"Use build-linux/ — no prebuilt zip yet.", dl_macos:"Not yet", dl_macos_hint:"Community build planned — source is public.", dl_src2:"View on GitHub",
-    step1:"Unzip <code>FoxAI-Browser-v" + VERSION + ".zip</code> anywhere", step2:"Run <code>FoxAI Browser.cmd</code> (normal) or <code>FoxAI Tor.cmd</code> (Tor mode, after <code>scripts/install-tor.ps1</code>)", step3:"Done — FoxAI Start, AI Sidebar, gestures & uBlock ready",
+    step1:"Unzip <code>FoxAI-Browser-v" + DL_VERSION + ".zip</code> anywhere", step2:"Run <code>FoxAI Browser.cmd</code> (normal) or <code>FoxAI Tor.cmd</code> (Tor mode, after <code>scripts/install-tor.ps1</code>)", step3:"Done — FoxAI Start, AI Sidebar, gestures & uBlock ready",
     dl_verify:"Verify: <code>tests/test-fingerprint-benchmark.ps1</code> → 100.0% + CANVAS ENTROPY PASS",
     faq_h:"FAQ", faq_hand:"got questions? I've got answers ↴",
     faq1_q:"What is FoxAI Browser?", faq1_a:"A portable, hardened Firefox ESR build with FoxAI Start new-tab, AI sidebar, gestures and uBlock Origin preinstalled. One folder, no installer.",
@@ -78,7 +79,7 @@ const DICT = {
     faq3_q:"What is it built with?", faq3_a:"Firefox ESR engine (Gecko), four WebExtensions (MV2) for new-tab/AI/search/gestures, React+Vite for the new-tab UI, PowerShell build pipeline, WebDriver BiDi tests.",
     faq4_q:"Which platforms are supported?", faq4_a:"Windows 10/11/12 auto (windows-latest CI). Linux: universal tar.gz for all distros (Ubuntu/Fedora/Arch/Debian) via build-linux/build.sh and ubuntu-latest CI. macOS: universal .app auto for Sonoma→Tahoe 26→27 via build-macos/build.sh and macos-latest CI.",
     faq5_q:"Is it free?", faq5_a:"Yes, free and open source. No premium, no telemetry, no ads of its own.",
-    faq6_q:"Where can I download it?", faq6_a:"Latest zip on GitHub Releases (v3.1.0, ~324 MB). Also “Build from source” in the repo.",
+    faq6_q:"Where can I download it?", faq6_a:"Latest Windows binary on GitHub Releases (v3.0.0, ~339 MB; v3.1.0 is source-only). Also “Build from source” in the repo.",
     faq7_q:"How can I contribute?", faq7_a:"Open an issue or PR on GitHub. See CHANGELOG.md for style and testing (BiDi suite).",
     faq8_q:"How does the AI work?", faq8_a:"The sidebar supports ChatGPT, Claude, Gemini or local Ollama. AI is off by default and the default mode runs on-device (KoboldCpp + Qwen). Page content is sent only after you click “Allow page access” — one action at a time, revocable, keys stored locally.",
     faq9_q:"Does FoxAI send my data anywhere?", faq9_a:"No. Telemetry, referrer, beacon and studies are off. Only sites you visit are contacted. Check config/user.js — nothing phones home.",
@@ -163,9 +164,9 @@ const DICT = {
     os_h:"Açık kaynak", os_sub:"Kara kutu yok. Her commit herkese açık, her derleme yeniden üretilebilir.", os_btn:"Kaynağı GitHub'da Gör", os_hint:"MPL-2.0 (tarayıcı) · GPLv3 (uBlock Origin) · issue ve PR'lar açık.",
     dl_h:"FoxAI Browser'ı indir", dl_sub:"Platformunu seç — aynı profil, aynı gizlilik. Windows hazır; Linux & macOS CI artifact'ı ve yakında release ekleri.",
     dl_rec:"Önerilen", dl_ci:"CI artifact", dl_ci2:"CI artifact", dl_win_d:"Windows 10 · 11 · 12 otomatik (windows-latest)", dl_win_btn:"Windows için indir", dl_upd:"güncellemeler için", dl_lin_d:"Evrensel tar.gz — tüm dağıtımlar (Ubuntu, Fedora, Arch, Debian)", dl_lin_btn:"Linux derlemesini al (Actions)", dl_lin_hint:"Tüm Linux · veya kaynaktan: <code>build-linux/build.sh</code>.", dl_mac_d:"Evrensel .app — macOS otomatik (Sonoma → Tahoe 26 → 27)", dl_mac_btn:"macOS derlemesini al (Actions)", dl_mac_hint:"Intel + Apple Silicon · veya <code>build-macos/build.sh</code>.",
-    dl_win:"Önerilen · Taşınabilir zip", dl_btn:"v" + VERSION + " İndir", dl_hint:"~324 MB · Firefox ESR taban · aç ve FoxAI Browser.cmd çalıştır",
+    dl_win:"Önerilen · Taşınabilir zip", dl_btn:"v" + DL_VERSION + " İndir", dl_hint:"~339 MB · Firefox ESR taban · aç ve FoxAI Browser.cmd çalıştır",
     dl_all:"Tüm sürümler", dl_src:"GitHub'da Gör", dl_linux:"Kaynaktan derle", dl_linux_hint:"build-linux/ kullan — henüz hazır zip yok.", dl_macos:"Henüz yok", dl_macos_hint:"Topluluk derlemesi planlanıyor — kaynak açık.", dl_src2:"GitHub'da Gör",
-    step1:"<code>FoxAI-Browser-v" + VERSION + ".zip</code> dosyasını istediğin yere aç", step2:"<code>FoxAI Browser.cmd</code> (normal) veya <code>FoxAI Tor.cmd</code> (Tor modu, önce <code>scripts/install-tor.ps1</code>) çalıştır", step3:"Bitti — FoxAI Start, AI Kenar Çubuğu, jestler ve uBlock hazır",
+    step1:"<code>FoxAI-Browser-v" + DL_VERSION + ".zip</code> dosyasını istediğin yere aç", step2:"<code>FoxAI Browser.cmd</code> (normal) veya <code>FoxAI Tor.cmd</code> (Tor modu, önce <code>scripts/install-tor.ps1</code>) çalıştır", step3:"Bitti — FoxAI Start, AI Kenar Çubuğu, jestler ve uBlock hazır",
     dl_verify:"Doğrula: <code>tests/test-fingerprint-benchmark.ps1</code> → %100 + CANVAS ENTROPY PASS",
     faq_h:"SSS", faq_hand:"sorun mu var? cevabı bende ↴",
     faq1_q:"FoxAI Browser nedir?", faq1_a:"FoxAI Start yeni sekmesi, AI kenar çubuğu, jestler ve uBlock Origin ile gelen taşınabilir, sıkılaştırılmış Firefox ESR derlemesi. Tek klasör, kurulum yok.",
@@ -173,7 +174,7 @@ const DICT = {
     faq3_q:"Neyle yapıldı?", faq3_a:"Firefox ESR motoru (Gecko), yeni sekme/AI/arama/jestler için dört WebExtension (MV2), yeni sekme UI için React+Vite, PowerShell derleme hattı, WebDriver BiDi testleri.",
     faq4_q:"Hangi platformlar destekleniyor?", faq4_a:"Windows 10/11/12 otomatik (windows-latest CI). Linux: tüm dağıtımlar için evrensel tar.gz (Ubuntu/Fedora/Arch/Debian) — build-linux/build.sh ve ubuntu-latest CI. macOS: Sonoma→Tahoe 26→27 otomatik evrensel .app — build-macos/build.sh ve macos-latest CI.",
     faq5_q:"Ücretli mi?", faq5_a:"Hayır, ücretsiz ve açık kaynak. Premium yok, telemetri yok, kendi reklamı yok.",
-    faq6_q:"Nereden indirebilirim?", faq6_a:"En son zip GitHub Releases'te (v3.1.0, ~324 MB). Ayrıca depoda “Kaynaktan derle”.",
+    faq6_q:"Nereden indirebilirim?", faq6_a:"En güncel Windows derlemesi GitHub Releases'te (v3.0.0, ~339 MB; v3.1.0 yalnızca kaynak kod). Ayrıca depoda “Kaynaktan derle”.",
     faq7_q:"Nasıl katkıda bulunurum?", faq7_a:"GitHub'da issue veya PR aç. Tarz ve test için CHANGELOG.md'ye bak (BiDi paketi).",
     faq8_q:"AI nasıl çalışıyor?", faq8_a:"Kenar çubuğu ChatGPT, Claude, Gemini veya yerel Ollama destekler. AI varsayılan kapalıdır ve varsayılan mod cihaz-içi çalışır (KoboldCpp + Qwen). Sayfa içeriği sadece “Sayfaya erişime izin ver”e tıklayınca gönderilir — tek seferlik, geri alınabilir, anahtarlar yerel saklanır.",
     faq9_q:"FoxAI verilerimi gönderiyor mu?", faq9_a:"Hayır. Telemetri, referrer, beacon ve studies kapalı. Sadece ziyaret ettiğin sitelerle bağlantı kurulur. config/user.js'ye bak — hiçbir şey eve telefon etmez.",
@@ -245,7 +246,7 @@ document.addEventListener("DOMContentLoaded",()=>{
   const chip=document.getElementById("verChip");
   if(chip) chip.textContent="v"+VERSION+" · FoxAI One";
   const dl=document.getElementById("dlBtn");
-  if(dl){ dl.href=RELEASE.url; dl.setAttribute("download", RELEASE.file); dl.textContent=(lang==="tr"?"v":"Download v")+VERSION; if(DICT[lang].dl_btn) dl.textContent=DICT[lang].dl_btn; }
+  if(dl){ dl.href=RELEASE.url; dl.setAttribute("download", RELEASE.file); dl.textContent=(lang==="tr"?"v":"Download v")+DL_VERSION; if(DICT[lang].dl_btn) dl.textContent=DICT[lang].dl_btn; }
   const year=document.querySelector("footer .year");
   if(year) year.textContent=String(new Date().getFullYear());
   // update OG url to current
