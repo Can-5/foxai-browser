@@ -102,3 +102,52 @@ user_pref("foxai.telemetry.enabled", false);
 user_pref("foxai.ai.sidebar.enabled", false); /* opt-in via UI, Allow per action */
 user_pref("foxai.tor.enabled", false); /* opt-in; socks tor:9050 when on */
 user_pref("foxai.firstRun.finished", true); /* skip onboarding pings */
+
+/*** 1000 — v3.2.0 Trust & Supply Chain: extra hardening [FOXAI] ***/
+/* first-party isolation of network state (defense in depth over cookieBehavior 5) */
+user_pref("privacy.partition.network_state", true);
+user_pref("privacy.partition.serviceWorkers", true);
+/* clear on shutdown: no session residue on disk */
+user_pref("privacy.sanitize.sanitizeOnShutdown", true);
+user_pref("privacy.clearOnShutdown.cache", true);
+user_pref("privacy.clearOnShutdown.cookies", false); /* keep logins; clear only on demand */
+user_pref("privacy.clearOnShutdown.history", false);
+user_pref("privacy.clearOnShutdown.formdata", true);
+user_pref("privacy.clearOnShutdown.sessions", true);
+user_pref("privacy.clearOnShutdown.siteSettings", false);
+/* password manager: off by default (use a dedicated manager) */
+user_pref("signon.rememberSignons", false);
+user_pref("signon.autofillForms", false);
+user_pref("signon.formlessCapture.enabled", false);
+/* form autofill / address book off */
+user_pref("browser.formfill.enable", false);
+user_pref("extensions.formautofill.addresses.enabled", false);
+user_pref("extensions.formautofill.creditCards.enabled", false);
+/* disable non-essential APIs that leak device identity */
+user_pref("dom.battery.enabled", false);
+user_pref("device.sensors.enabled", false);
+user_pref("geo.enabled", false);
+user_pref("media.navigator.enabled", false);
+user_pref("dom.webnotifications.enabled", false);
+/* strict referrer policy */
+user_pref("network.http.referer.defaultPolicy", 2); /* strict-origin-when-cross-origin */
+user_pref("network.http.referer.defaultPolicy.pbmode", 2);
+/* no link prefetch / speculative connections */
+user_pref("network.prefetch-next", false);
+user_pref("network.dns.disablePrefetch", true);
+user_pref("browser.send_pings", false);
+/* disk cache: memory-only (no residue on disk) */
+user_pref("browser.cache.disk.enable", false);
+user_pref("browser.cache.memory.enable", true);
+/* session restore: minimal (no full session on disk) */
+user_pref("browser.sessionstore.privacy_level", 2);
+user_pref("browser.sessionstore.resume_from_crash", false);
+/* disable speculative preconnect + predictor */
+user_pref("network.predictor.enabled", false);
+user_pref("network.http.speculative-parallel-limit", 0);
+/* disable media autoplay (fingerprint + annoyance) */
+user_pref("media.autoplay.default", 5);
+user_pref("media.autoplay.blocking.policy", 2);
+/* disable WebRTC IP leak beyond peerconnection off */
+user_pref("media.peerconnection.ice.default_address_only", true);
+user_pref("media.peerconnection.ice.no_host", true);

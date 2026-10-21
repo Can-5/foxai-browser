@@ -1,6 +1,6 @@
 ﻿// FoxAI Browser site — v3.1.0 FoxAI One | bilingual EN/TR, configurable releases
-const VERSION = "3.1.0";
-const DL_VERSION = "3.0.0"; // newest release WITH binaries (v3.1.0 is source-only)
+const VERSION = "3.2.0";
+const DL_VERSION = "3.0.0"; // newest release WITH binaries (v3.1.0/v3.2.0 are source-only)
 const LANG_KEY = "fxweb:lang";
 // Central release config — change only here for future versions
 const RELEASE = {

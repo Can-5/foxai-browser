@@ -4,7 +4,7 @@
     "DisableFirefoxStudies": true,
     "DisablePocket": true,
     "DisableFirefoxAccounts": true,
-    "DisableFirefoxScreenshots": false,
+    "DisableFirefoxScreenshots": true,
     "DontCheckDefaultBrowser": true,
     "NoDefaultBookmarks": true,
     "OfferToSaveLogins": false,
