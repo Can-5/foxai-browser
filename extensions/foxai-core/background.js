@@ -87,3 +87,32 @@ function proxyHandler() {
 browser.proxy.onRequest.addListener(proxyHandler, { urls: ["<all_urls>"] });
 
 loadProxy();
+
+// --- Download Shield (virus/malware) -----------------------------------------
+const DANGEROUS_EXT = new Set([
+  "exe", "msi", "bat", "cmd", "com", "scr", "pif", "vbs", "js", "jse",
+  "wsf", "wsh", "ps1", "psm1", "reg", "dll", "drv", "sys", "apk", "dex",
+]);
+
+browser.downloads.onCreated.addListener(async (item) => {
+  try {
+    const name = (item.filename || "").toLowerCase();
+    const ext = name.split(".").pop();
+    if (DANGEROUS_EXT.has(ext)) {
+      try { await browser.downloads.cancel(item.id); } catch (e) {}
+      try { await browser.downloads.erase({ id: item.id }); } catch (e) {}
+      try {
+        browser.notifications.create({
+          type: "basic",
+          iconUrl: "icons/foxai-32.png",
+          title: "FoxAI Download Shield",
+          message: "Blocked potentially dangerous file: " + (item.filename || "unknown"),
+        });
+      } catch (e) {}
+      return;
+    }
+    // Optional ClamAV scan (Linux/macOS) if available.
+    // (Best-effort: WebExtensions cannot spawn processes; rely on OS-level
+    //  safe-browsing + user.js prefs. This hook documents the intent.)
+  } catch (e) {}
+});

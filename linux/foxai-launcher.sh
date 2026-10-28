@@ -119,6 +119,11 @@ sync_profile_config() {
   if [[ -f "$ROOT/config/user.js" ]]; then
     cp "$ROOT/config/user.js" "$PROFILE_DIR/user.js"
   fi
+  # DNS over HTTPS selection via FOXAI_DNS env var (cloudflare|quad9|nextdns|mullvad|off)
+  local dns="${FOXAI_DNS:-cloudflare}"
+  if [[ -f "$ROOT/config/dns/${dns}.js" ]]; then
+    cat "$ROOT/config/dns/${dns}.js" >> "$PROFILE_DIR/user.js"
+  fi
   if [[ -f "$ROOT/config/user-tor.js" ]]; then
     cp "$ROOT/config/user-tor.js" "$PROFILE_DIR/user-tor.js"
   fi
