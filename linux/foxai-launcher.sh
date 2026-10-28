@@ -12,68 +12,71 @@ VERSION_FILE="$ROOT/version.txt"
 REPO="Can-5/foxai-browser"
 RELEASE_API="https://api.github.com/repos/$REPO/releases/latest"
 
-# KoboldCpp
 KB_EXE="$ROOT/koboldcpp/koboldcpp"
 KB_MODEL="$ROOT/koboldcpp/qwen2.5-3b-instruct-q4_k_m.gguf"
 KB_PORT=5001
 MODEL_URL="https://huggingface.co/Qwen/Qwen2.5-3B-Instruct-GGUF/resolve/main/qwen2.5-3b-instruct-q4_k_m.gguf"
 MODEL_NAME="qwen2.5-3b-instruct-q4_k_m.gguf"
 
-# Colors
-RED='"'"'\033[0;31m'"'"'
-GREEN='"'"'\033[0;32m'"'"'
-YELLOW='"'"'\033[1;33m'"'"'
-NC='"'"'\033[0m'"'"'
+RED=$'\033[0;31m'
+GREEN=$'\033[0;32m'
+YELLOW=$'\033[1;33m'
+NC=$'\033[0m'
 
-log() { echo -e "${GREEN}[+]${NC} $*"; }
-warn() { echo -e "${YELLOW}[!]${NC} $*"; }
-err() { echo -e "${RED}[-]${NC} $*"; }
+log()  { printf '%s[+]%s %s\n' "$GREEN" "$NC" "$*"; }
+warn() { printf '%s[!]%s %s\n' "$YELLOW" "$NC" "$*"; }
+err()  { printf '%s[-]%s %s\n' "$RED" "$NC" "$*"; }
 
 get_local_version() {
   if [[ -f "$VERSION_FILE" ]]; then
-    cat "$VERSION_FILE" | tr -d '"'"'\n\r'"'"'
+    tr -d '\n\r' < "$VERSION_FILE"
   else
     echo "0.0.0"
   fi
 }
 
 compare_version() {
+  # returns 0 equal, 1 a>b, 2 a<b
   local a=(${1//./ }) b=(${2//./ })
-  for i in {0..3}; do
-    local av=${a[i]:-0} bv=${b[i]:-0}
-    (( av > bv )) && return 1
-    (( av < bv )) && return 2
+  for i in 0 1 2 3; do
+    local av=${a[$i]:-0} bv=${b[$i]:-0}
+    if (( av > bv )); then return 1; fi
+    if (( av < bv )); then return 2; fi
   done
   return 0
 }
 
 get_latest_release() {
-  local rel
+  local rel tag asset_url asset_name
   rel=$(curl -sSL -H "User-Agent: foxai-launcher" "$RELEASE_API" --max-time 30)
-  local tag asset_url asset_name
-  tag=$(echo "$rel" | grep -o '"'"'"tag_name": *"[^"]*"'"'"' | cut -d'"'"'"'"'"'"' -f4)
+  tag=$(printf '%s' "$rel" | grep -o '"tag_name": *"[^"]*"' | head -1 | cut -d'"' -f4)
   tag=${tag#v}
-  asset_url=$(echo "$rel" | grep -o '"'"'"browser_download_url": *"[^"]*"'"'"' | cut -d'"'"'"'"'"'"' -f4 | grep -E '"'"'\.AppImage$'"'"' | head -1)
-  asset_name=$(echo "$rel" | grep -o '"'"'"name": *"[^"]*"'"'"' | cut -d'"'"'"'"'"'"' -f4 | grep -E '"'"'\.AppImage$'"'"' | head -1)
+  asset_url=$(printf '%s' "$rel" | grep -o '"browser_download_url": *"[^"]*"' | cut -d'"' -f4 | grep -E '\.AppImage$' | head -1)
+  asset_name=$(printf '%s' "$rel" | grep -o '"name": *"[^"]*"' | cut -d'"' -f4 | grep -E '\.AppImage$' | head -1)
   if [[ -z "$asset_url" ]]; then
     err "No AppImage asset found on GitHub"
     return 1
   fi
-  echo "$tag|$asset_url|$asset_name"
+  printf '%s|%s|%s\n' "$tag" "$asset_url" "$asset_name"
 }
 
 launch_browser() {
+  local mode="${1:-launch}"
   local args=("-profile" "$PROFILE_DIR" "-no-remote")
-  [[ "$1" == "private" ]] && args+=("-private-window")
-  [[ "$1" == "tor" ]] && args+=("-tor")
-  [[ "$1" == "offline" ]] && args+=("http://127.0.0.1:$KB_PORT")
-  [[ "$1" == "launch" || -z "${1:-}" ]] && args+=("about:blank")
-  
-  export MOZ_DISABLE_CONTENT_SANDBOX=1
-  export MOZ_DISABLE_GMP_SANDBOX=1
-  export MOZ_DISABLE_RDD_SANDBOX=1
-  export MOZ_DISABLE_SOCKET_PROCESS=1
-  
+  case "$mode" in
+    private) args+=("-private-window") ;;
+    tor)     args+=("-tor") ;;
+    offline) args+=("http://127.0.0.1:$KB_PORT") ;;
+    *)       args+=("about:blank") ;;
+  esac
+
+  # Keep Linux sandboxes enabled; only disable if explicitly requested.
+  if [[ "${FOXAI_DISABLE_SANDBOX:-0}" == "1" ]]; then
+    export MOZ_DISABLE_CONTENT_SANDBOX=1
+    export MOZ_DISABLE_GMP_SANDBOX=1
+    export MOZ_DISABLE_RDD_SANDBOX=1
+  fi
+
   exec "$FIREFOX" "${args[@]}"
 }
 
@@ -94,13 +97,12 @@ start_offline_ai() {
   if [[ ! -f "$KB_MODEL" ]]; then
     download_model || return 1
   fi
-  
-  if ! nc -z 127.0.0.1 "$KB_PORT" 2>/dev/null; then
+  if ! (command -v nc >/dev/null 2>&1 && nc -z 127.0.0.1 "$KB_PORT" 2>/dev/null); then
     log "Starting Offline AI (127.0.0.1:$KB_PORT)..."
-    "$KB_EXE" -m "$KB_MODEL" --host 127.0.0.1 --port "$KB_PORT" --usecublas normal --contextsize 2048 > /dev/null 2>&1 &
+    "$KB_EXE" -m "$KB_MODEL" --host 127.0.0.1 --port "$KB_PORT" --usecublas normal --contextsize 2048 >/dev/null 2>&1 &
     local pid=$!
     local wait=60
-    while (( wait > 0 )) && ! nc -z 127.0.0.1 "$KB_PORT" 2>/dev/null; do
+    while (( wait > 0 )) && ! (command -v nc >/dev/null 2>&1 && nc -z 127.0.0.1 "$KB_PORT" 2>/dev/null); do
       sleep 2
       (( wait -= 2 ))
     done
@@ -119,7 +121,6 @@ sync_profile_config() {
   if [[ -f "$ROOT/config/user.js" ]]; then
     cp "$ROOT/config/user.js" "$PROFILE_DIR/user.js"
   fi
-  # DNS over HTTPS selection via FOXAI_DNS env var (cloudflare|quad9|nextdns|mullvad|off)
   local dns="${FOXAI_DNS:-cloudflare}"
   if [[ -f "$ROOT/config/dns/${dns}.js" ]]; then
     cat "$ROOT/config/dns/${dns}.js" >> "$PROFILE_DIR/user.js"
@@ -129,7 +130,6 @@ sync_profile_config() {
   fi
 }
 
-# Main
 MODE="${1:-launch}"
 
 case "$MODE" in
@@ -138,7 +138,7 @@ case "$MODE" in
     ;;
   check)
     rel=$(get_latest_release) || exit 1
-    IFS='"'"'|'"'"'" read -r latest tag url name <<< "$rel"
+    IFS='|' read -r latest _url _name <<< "$rel"
     local_ver=$(get_local_version)
     compare_version "$local_ver" "$latest"
     case $? in
@@ -149,7 +149,7 @@ case "$MODE" in
     ;;
   update)
     rel=$(get_latest_release) || exit 1
-    IFS='"'"'|'"'"'" read -r latest url name <<< "$rel"
+    IFS='|' read -r latest url _name <<< "$rel"
     local_ver=$(get_local_version)
     compare_version "$local_ver" "$latest"
     if (( $? == 1 )); then
@@ -157,7 +157,7 @@ case "$MODE" in
       curl -sSL -o "$APPIMAGE.new" "$url" --max-time 300
       chmod +x "$APPIMAGE.new"
       mv "$APPIMAGE.new" "$APPIMAGE"
-      echo "$latest" > "$VERSION_FILE"
+      printf '%s\n' "$latest" > "$VERSION_FILE"
       log "Updated to $latest. Restart to apply."
     else
       log "Already up to date ($local_ver)"
