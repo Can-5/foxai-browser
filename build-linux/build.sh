@@ -7,7 +7,7 @@ set -euo pipefail
 # Configuration
 VERSION="3.1.0"
 ESR_VERSION="140.13.0esr"
-ESR_URL="https://ftp.mozilla.org/pub/firefox/releases/140.13.0esr/linux-x86_64/en-US/firefox-140.13.0esr.tar.bz2"
+ESR_URL="https://ftp.mozilla.org/pub/firefox/releases/140.13.0esr/linux-x86_64/en-US/firefox-140.13.0esr.tar.xz"
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BUILD_DIR="${ROOT_DIR}/build-linux/work"
 DIST_DIR="${ROOT_DIR}/release-linux"
@@ -90,7 +90,7 @@ setup_dirs() {
 # Download and extract Firefox ESR
 fetch_firefox() {
     log_step "Downloading Firefox ESR ${ESR_VERSION}"
-    local installer="${BUILD_DIR}/firefox.tar.bz2"
+    local installer="${BUILD_DIR}/firefox.tar.xz"
     
     if [[ ! -f "${ROOT_DIR}/firefox-foxai/runtime/firefox" ]] || [[ ! -f "${BUILD_DIR}/firefox-extracted" ]]; then
         wget -q --show-progress -O "${installer}" "${ESR_URL}" || {
@@ -99,7 +99,7 @@ fetch_firefox() {
         }
         
         log_step "Extracting Firefox ESR"
-        tar -xjf "${installer}" -C "${ROOT_DIR}/firefox-foxai/runtime" --strip-components=1
+        tar -xJf "${installer}" -C "${ROOT_DIR}/firefox-foxai/runtime" --strip-components=1
         touch "${BUILD_DIR}/firefox-extracted"
         log_success "Firefox ESR ready"
     else
