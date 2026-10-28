@@ -10,12 +10,12 @@
 param(
   [switch]$SkipProfile,
   [switch]$Reproducible,
-  [string]$ESR_VERSION = "153.0esr",
-  [string]$ESR_URL = "https://ftp.mozilla.org/pub/firefox/releases/153.0esr/win64/en-US/Firefox%20Setup%20153.0esr.exe"
+  [string]$ESR_VERSION = "140.0esr",
+  [string]$ESR_URL = "https://ftp.mozilla.org/pub/firefox/releases/140.0esr/win64/en-US/Firefox%20Setup%20140.0esr.exe"
 )
 $ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
-$Version = "2.6.0"
+$Version = "3.1.0"
 $Runtime = "$Root\firefox-foxai\runtime"
 $Dist = "$Root\release"
 $ExtDir = "$Root\extensions"
