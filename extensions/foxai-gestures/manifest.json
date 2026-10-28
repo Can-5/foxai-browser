@@ -9,7 +9,7 @@
       "strict_min_version": "115.0"
     }
   },
-  "permissions": ["tabs", "<all_urls>"],
+  "permissions": ["tabs", "sessions", "<all_urls>"],
   "background": {
     "scripts": ["background.js"]
   },

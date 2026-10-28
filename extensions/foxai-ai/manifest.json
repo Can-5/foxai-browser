@@ -16,13 +16,17 @@
     "http://localhost:11434/*",
     "https://api.openai.com/*",
     "https://api.anthropic.com/*",
-    "https://generativelanguage.googleapis.com/*"
+    "https://generativelanguage.googleapis.com/*",
+    "https://api.deepseek.com/*",
+    "https://api.groq.com/*",
+    "https://openrouter.ai/*",
+    "https://api.mistral.ai/*"
   ],
   "optional_permissions": ["<all_urls>"],
   "background": {
     "scripts": ["lib/providers.js", "background.js"]
   },
-  "content_security_policy": "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openai.com https://api.anthropic.com https://generativelanguage.googleapis.com http://localhost:11434; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+  "content_security_policy": "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.openai.com https://api.anthropic.com https://generativelanguage.googleapis.com https://api.deepseek.com https://api.groq.com https://openrouter.ai https://api.mistral.ai http://localhost:11434; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
   "sidebar_action": {
     "default_title": "FoxAI AI",
     "default_panel": "sidebar/foxai-ai.html",

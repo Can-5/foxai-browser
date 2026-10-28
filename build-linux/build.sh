@@ -5,9 +5,9 @@
 set -euo pipefail
 
 # Configuration
-VERSION="2.2.0"
-ESR_VERSION="128.3.0esr"
-ESR_URL="https://ftp.mozilla.org/pub/firefox/releases/128.3.0esr/linux-x86_64/en-US/firefox-128.3.0esr.tar.bz2"
+VERSION="3.1.0"
+ESR_VERSION="140.13.0esr"
+ESR_URL="https://ftp.mozilla.org/pub/firefox/releases/140.13.0esr/linux-x86_64/en-US/firefox-140.13.0esr.tar.bz2"
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BUILD_DIR="${ROOT_DIR}/build-linux/work"
 DIST_DIR="${ROOT_DIR}/release-linux"

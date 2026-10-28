@@ -190,5 +190,23 @@ async function callProvider(p, msg, prompt) {
     return j.message ? j.message.content : JSON.stringify(j);
   }
 
+  // Generic OpenAI-compatible providers (DeepSeek, Groq, OpenRouter, Mistral).
+  if (p.id === "deepseek" || p.id === "groq" || p.id === "openrouter" || p.id === "mistral") {
+    const headers = { "Content-Type": "application/json", Authorization: "Bearer " + msg.apiKey };
+    if (p.id === "openrouter") {
+      headers["HTTP-Referer"] = "https://foxai.browser";
+      headers["X-Title"] = "FoxAI Browser";
+    }
+    const res = await fetch(p.endpoint, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ model, messages, max_tokens: 2048 }),
+    });
+    if (!res.ok) throw new Error(p.label + " HTTP " + res.status + ": " + (await res.text()).slice(0, 220));
+    const j = await res.json();
+    if (!j.choices || !j.choices[0]) throw new Error(p.label + ": empty response");
+    return j.choices[0].message.content;
+  }
+
   throw new Error("Unsupported provider: " + p.id);
 }

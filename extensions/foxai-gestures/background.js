@@ -1,5 +1,17 @@
 // FoxAI Gestures - background.
-const GESTURE_ACTIONS = new Set(["back", "forward", "reload", "newtab", "closetab"]);
+const GESTURE_ACTIONS = new Set([
+  "back", "forward", "reload", "newtab", "closetab",
+  "reopenClosedTab", "closeOtherTabs", "previousTab", "nextTab",
+]);
+
+// Track recently closed tabs for reopenClosedTab (best-effort, in-memory).
+const closedStack = [];
+
+browser.tabs.onRemoved.addListener((tabId, info) => {
+  // store minimal info; reopen uses sessions API if available
+  closedStack.push({ tabId, windowId: info.windowId });
+  if (closedStack.length > 25) closedStack.shift();
+});
 
 browser.runtime.onMessage.addListener((msg, sender) => {
   if (!msg || msg.type !== "foxai:gesture") return;
@@ -7,9 +19,6 @@ browser.runtime.onMessage.addListener((msg, sender) => {
   return handleGesture(msg.action);
 });
 
-// Only accept gestures from our own content script (sender.id is the
-// extension id for same-extension content scripts). Other extensions
-// must not be able to navigate or close the user's active tab.
 function isTrustedSender(sender) {
   return !!(sender && sender.id === browser.runtime.id);
 }
@@ -36,6 +45,34 @@ async function handleGesture(action) {
       case "closetab":
         await browser.tabs.remove(tab.id);
         break;
+      case "reopenClosedTab":
+        if (browser.sessions && browser.sessions.restore) {
+          await browser.sessions.restore();
+        } else {
+          // fallback: open a new tab
+          await browser.tabs.create({});
+        }
+        break;
+      case "closeOtherTabs": {
+        const all = await browser.tabs.query({ currentWindow: true });
+        const toClose = all.filter((t) => t.id !== tab.id).map((t) => t.id);
+        if (toClose.length) await browser.tabs.remove(toClose);
+        break;
+      }
+      case "previousTab": {
+        const all = await browser.tabs.query({ currentWindow: true });
+        const idx = all.findIndex((t) => t.id === tab.id);
+        const prev = all[(idx - 1 + all.length) % all.length];
+        if (prev && prev.id !== tab.id) await browser.tabs.update(prev.id, { active: true });
+        break;
+      }
+      case "nextTab": {
+        const all = await browser.tabs.query({ currentWindow: true });
+        const idx = all.findIndex((t) => t.id === tab.id);
+        const next = all[(idx + 1) % all.length];
+        if (next && next.id !== tab.id) await browser.tabs.update(next.id, { active: true });
+        break;
+      }
     }
   } catch (e) {
     return { ok: false, error: e.message };
