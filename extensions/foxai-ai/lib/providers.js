@@ -97,6 +97,7 @@ const FOXAI_QUICK_ACTIONS = [
   { id: "translate", label: "🌍 Türkçeye çevir" },
   { id: "code", label: "🧩 Kodu açıkla" },
   { id: "factcheck", label: "✅ Doğrula" },
+  { id: "rewrite", label: "✏️ Yeniden yaz" },
 ];
 
 if (typeof module !== "undefined") {
