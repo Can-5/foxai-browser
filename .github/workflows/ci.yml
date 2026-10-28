@@ -13,8 +13,8 @@ permissions:
 
 env:
   NODE_VERSION: '20'
-  ESR_VERSION: '153.0esr'
-  ESR_URL: 'https://ftp.mozilla.org/pub/firefox/releases/153.0esr/win64/en-US/Firefox%20Setup%20153.0esr.exe'
+  ESR_VERSION: '140.0esr'
+  ESR_URL: 'https://ftp.mozilla.org/pub/firefox/releases/140.0esr/win64/en-US/Firefox%20Setup%20140.0esr.exe'
 
 jobs:
   build-and-test:

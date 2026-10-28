@@ -36,11 +36,11 @@ jobs:
           chmod +x /usr/local/bin/appimagetool
           appimagetool --version
 
-      - name: Download Firefox ESR 128
+      - name: Download Firefox ESR 140
         run: |
           mkdir -p firefox
-          wget -q "https://archive.mozilla.org/pub/firefox/releases/128.0/linux-x86_64/en-US/firefox-128.0.tar.bz2" -O firefox-esr.tar.bz2
-          tar -xjf firefox-esr.tar.bz2 -C firefox --strip-components=1
+          wget -q "https://archive.mozilla.org/pub/firefox/releases/140.0esr/linux-x86_64/en-US/firefox-140.0esr.tar.xz" -O firefox-esr.tar.xz
+          tar -xJf firefox-esr.tar.xz -C firefox --strip-components=1
 
       - name: Download KoboldCpp Linux
         run: |
