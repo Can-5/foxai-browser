@@ -5,9 +5,9 @@
 set -euo pipefail
 
 # Configuration
-VERSION="2.2.0"
-ESR_VERSION="128.3.0esr"
-ESR_URL="https://ftp.mozilla.org/pub/firefox/releases/128.3.0esr/mac/en-US/Firefox%20128.3.0esr.dmg"
+VERSION="3.1.0"
+ESR_VERSION="140.0esr"
+ESR_URL="https://ftp.mozilla.org/pub/firefox/releases/140.0esr/mac/en-US/Firefox%20140.0esr.dmg"
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BUILD_DIR="${ROOT_DIR}/build-macos/work"
 DIST_DIR="${ROOT_DIR}/release-macos"
