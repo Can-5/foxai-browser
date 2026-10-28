@@ -5,8 +5,8 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-FIREFOX="$ROOT/firefox/firefox"
-PROFILE_DIR="$ROOT/profile"
+FIREFOX="$ROOT/firefox-foxai/runtime/firefox"
+PROFILE_DIR="$ROOT/firefox-foxai/profile/foxai"
 APPIMAGE="${APPIMAGE:-$0}"
 VERSION_FILE="$ROOT/version.txt"
 REPO="Can-5/foxai-browser"
@@ -70,11 +70,13 @@ launch_browser() {
     *)       args+=("about:blank") ;;
   esac
 
-  # Keep Linux sandboxes enabled; only disable if explicitly requested.
-  if [[ "${FOXAI_DISABLE_SANDBOX:-0}" == "1" ]]; then
+  # Linux: disable sandboxes by default for compatibility (containers/AppImage).
+  # Set FOXAI_ENABLE_SANDBOX=1 to keep them enabled.
+  if [[ "${FOXAI_ENABLE_SANDBOX:-0}" != "1" ]]; then
     export MOZ_DISABLE_CONTENT_SANDBOX=1
     export MOZ_DISABLE_GMP_SANDBOX=1
     export MOZ_DISABLE_RDD_SANDBOX=1
+    export MOZ_DISABLE_SOCKET_PROCESS=1
   fi
 
   exec "$FIREFOX" "${args[@]}"
@@ -129,6 +131,12 @@ sync_profile_config() {
     cp "$ROOT/config/user-tor.js" "$PROFILE_DIR/user-tor.js"
   fi
 }
+
+if [[ ! -x "$FIREFOX" ]]; then
+  err "Firefox binary not found: $FIREFOX"
+  err "Build/install first: build-linux/build.sh or install.sh"
+  exit 1
+fi
 
 MODE="${1:-launch}"
 
