@@ -55,7 +55,7 @@
       "all_frames": false
     }
   ],
-  "content_security_policy": "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: moz-extension:; font-src 'self'; connect-src 'self' https://api.open-meteo.com; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+  "content_security_policy": "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: moz-extension:; font-src 'self'; connect-src 'self' https://api.open-meteo.com http://127.0.0.1:8765; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
   "permissions": [
     "storage",
     "search",
