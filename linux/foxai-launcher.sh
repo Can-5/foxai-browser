@@ -69,6 +69,9 @@ launch_browser() {
     offline) args+=("http://127.0.0.1:$KB_PORT") ;;
     *)       args+=("about:blank") ;;
   esac
+  if [[ "${SAFE_MODE:-false}" == "true" ]]; then
+    args+=("-safe-mode")
+  fi
 
   # Linux: disable sandboxes by default for compatibility (containers/AppImage).
   # Set FOXAI_ENABLE_SANDBOX=1 to keep them enabled.
@@ -139,6 +142,7 @@ if [[ ! -x "$FIREFOX" ]]; then
 fi
 
 MODE="${1:-launch}"
+SAFE_MODE=false
 
 case "$MODE" in
   version)
@@ -185,6 +189,10 @@ case "$MODE" in
     launch_browser private
     ;;
   launch|*)
+    if [[ "$MODE" == "--safe-mode" ]]; then
+      SAFE_MODE=true
+      MODE="launch"
+    fi
     sync_profile_config
     launch_browser launch
     ;;
