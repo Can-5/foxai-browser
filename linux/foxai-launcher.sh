@@ -6,7 +6,7 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FIREFOX="$ROOT/firefox/firefox"
-PROFILE_DIR="$ROOT/firefox-foxai/profile/foxai"
+PROFILE_DIR="${FOXAI_PROFILE_DIR:-${HOME}/.config/foxai-browser/profile/foxai}"
 APPIMAGE="${APPIMAGE:-$0}"
 VERSION_FILE="$ROOT/version.txt"
 REPO="Can-5/foxai-browser"
