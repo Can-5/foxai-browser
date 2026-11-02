@@ -213,10 +213,12 @@ install_extensions() {
     log_success "Extensions installed"
     # Extract FoxAI Start newtab page directly into AppImage for file:// access
     mkdir -p "${ROOT_DIR}/firefox-foxai/runtime/foxai-start"
-    7z x -so "${DIST_DIR}/foxai-core.xpi" newtab/index.html > "${ROOT_DIR}/firefox-foxai/runtime/foxai-start/index.html" 2>/dev/null || true
-    7z x -so "${DIST_DIR}/foxai-core.xpi" newtab/favicon.svg > "${ROOT_DIR}/firefox-foxai/runtime/foxai-start/favicon.svg" 2>/dev/null || true
-    mkdir -p "${ROOT_DIR}/firefox-foxai/runtime/foxai-start/assets"
-    7z x "${DIST_DIR}/foxai-core.xpi" newtab/assets -o"${ROOT_DIR}/firefox-foxai/runtime/foxai-start/assets" -y 2>/dev/null || true
+    TMP_XPI_DIR=$(mktemp -d)
+    7z x "${DIST_DIR}/foxai-core.xpi" -o"${TMP_XPI_DIR}" -y > /dev/null 2>&1 || true
+    if [[ -d "${TMP_XPI_DIR}/newtab" ]]; then
+        cp -r "${TMP_XPI_DIR}/newtab/"* "${ROOT_DIR}/firefox-foxai/runtime/foxai-start/" 2>/dev/null || true
+    fi
+    rm -rf "${TMP_XPI_DIR}"
     log_success "FoxAI Start newtab page extracted to AppImage"
 }
 
