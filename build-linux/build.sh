@@ -213,10 +213,8 @@ install_extensions() {
     log_success "Extensions installed"
     # Copy FoxAI Start newtab page directly into AppImage for file:// access
     mkdir -p "${ROOT_DIR}/firefox-foxai/runtime/foxai-start"
-    if [[ -d "${EXT_DIR}/foxai-core/newtab" ]]; then
-        cp -r "${EXT_DIR}/foxai-core/newtab/"* "${ROOT_DIR}/firefox-foxai/runtime/foxai-start/" 2>/dev/null || true
-    fi
-    log_success "FoxAI Start newtab page extracted to AppImage"
+    cp -r "${EXT_DIR}/foxai-core/newtab/." "${ROOT_DIR}/firefox-foxai/runtime/foxai-start/" 2>/dev/null || true
+    log_success "FoxAI Start newtab page copied to AppImage"
 }
 
 # Install config

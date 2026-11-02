@@ -4,7 +4,7 @@
 # Source is fetched from the GitHub release matching $pkgver.
 
 pkgname=foxai-browser
-pkgver=3.3.3
+pkgver=3.3.4
 pkgrel=1
 pkgdesc="Privacy-hardened Firefox fork with offline AI (qwen2.5-3b via koboldcpp on localhost:5001)"
 arch=('x86_64')
