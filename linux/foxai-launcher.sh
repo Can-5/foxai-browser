@@ -80,7 +80,7 @@ launch_browser() {
     private) args+=("-private-window") ;;
     tor)     args+=("-tor") ;;
     offline) args+=("http://127.0.0.1:$KB_PORT") ;;
-    *)       args+=("${custom_url:-file://$ROOT/foxai-start/index.html}") ;;
+    *)       args+=("${custom_url:-file://$ROOT/firefox-foxai/runtime/foxai-start/index.html}") ;;
   esac
   if [[ "${SAFE_MODE:-false}" == "true" ]]; then
     args+=("-safe-mode")
