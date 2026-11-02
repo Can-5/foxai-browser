@@ -60,6 +60,18 @@ get_latest_release() {
   printf '%s|%s|%s\n' "$tag" "$asset_url" "$asset_name"
 }
 
+scan_downloads() {
+  if command -v clamscan >/dev/null 2>&1; then
+    local dl_dir="${HOME}/Downloads"
+    if [[ -d "$dl_dir" ]]; then
+      log "Scanning downloads directory for threats..."
+      mkdir -p "${HOME}/.config/foxai-browser/quarantine"
+      clamscan -r --move="${HOME}/.config/foxai-browser/quarantine" "$dl_dir" 2>/dev/null || true
+      log "Virus scan complete."
+    fi
+  fi
+}
+
 launch_browser() {
   local mode="${1:-launch}"
   local args=("-profile" "$PROFILE_DIR" "-no-remote")
@@ -87,6 +99,7 @@ launch_browser() {
   export GDK_BACKEND=x11
   export MOZ_ACCELERATED=0
 
+  scan_downloads
   exec "$FIREFOX" "${args[@]}"
 }
 
@@ -192,6 +205,30 @@ case "$MODE" in
   private)
     sync_profile_config
     launch_browser private
+    ;;
+  kiwix)
+    sync_profile_config
+    ZIM_DIR="${FOXAI_KIWIX_DIR:-${HOME}/.config/foxai-browser/zim}"
+    ZIM_FILE=""
+    if [[ -d "$ZIM_DIR" ]]; then
+      ZIM_FILE=$(find "$ZIM_DIR" -maxdepth 1 -name "*.zim" -type f 2>/dev/null | head -1)
+    fi
+    if [[ -z "$ZIM_FILE" ]]; then
+      err "No ZIM file found in $ZIM_DIR"
+      err "Download a .zim file from kiwix.org and place it in $ZIM_DIR"
+      exit 1
+    fi
+    if ! command -v kiwix-serve >/dev/null 2>&1; then
+      err "kiwix-serve not found. Install: sudo pacman -S kiwix-tools (Arch/CachyOS) or sudo apt install kiwix-tools (Debian/Ubuntu)"
+      exit 1
+    fi
+    log "Starting Kiwix offline server on http://127.0.0.1:8080"
+    log "ZIM file: $ZIM_FILE"
+    kiwix-serve --port=8080 "$ZIM_FILE" >/dev/null 2>&1 &
+    KIWIX_PID=$!
+    sleep 3
+    launch_browser "http://127.0.0.1:8080"
+    kill "$KIWIX_PID" 2>/dev/null || true
     ;;
   launch|*)
     if [[ "$MODE" == "--safe-mode" ]]; then
