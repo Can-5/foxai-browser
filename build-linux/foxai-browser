@@ -46,11 +46,21 @@ export MOZ_DISABLE_SPECULATIVE_CONNECT=1
 # Parse arguments
 LAUNCH_MODE="normal"
 PRIVATE_MODE=false
+TOR_MODE=false
+OFFLINE_MODE=false
 
 while [[ $# -gt 0 ]]; do
     case $1 in
         --private|-p)
             PRIVATE_MODE=true
+            shift
+            ;;
+        --tor)
+            TOR_MODE=true
+            shift
+            ;;
+        --offline)
+            OFFLINE_MODE=true
             shift
             ;;
         --profile)
@@ -61,6 +71,8 @@ while [[ $# -gt 0 ]]; do
             echo "FoxAI Browser Launcher"
             echo "Usage: $0 [options]"
             echo "  --private, -p     Start in private browsing mode"
+            echo "  --tor             Start in Tor mode"
+            echo "  --offline         Start in offline AI mode"
             echo "  --profile DIR     Use custom profile directory"
             echo "  --help, -h        Show this help"
             exit 0
@@ -84,10 +96,14 @@ FIREFOX_ARGS=("-profile" "${PROFILE_DIR}" "-no-remote")
 
 if [[ "${PRIVATE_MODE}" == "true" ]]; then
     FIREFOX_ARGS+=("-private-window")
+elif [[ "${TOR_MODE}" == "true" ]]; then
+    FIREFOX_ARGS+=("-tor")
+elif [[ "${OFFLINE_MODE}" == "true" ]]; then
+    FIREFOX_ARGS+=("http://127.0.0.1:5001")
 else
     FIREFOX_ARGS+=("about:blank")
 fi
 
 # Launch Firefox
 echo "Starting FoxAI Browser..."
-exec "${FIREFOX_BIN}" "${FIREFOX_ARGS[@]}" &
+exec "${FIREFOX_BIN}" "${FIREFOX_ARGS[@]}"

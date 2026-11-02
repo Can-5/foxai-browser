@@ -5,7 +5,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-FIREFOX="$ROOT/firefox-foxai/runtime/firefox"
+FIREFOX="$ROOT/firefox/firefox"
 PROFILE_DIR="$ROOT/firefox-foxai/profile/foxai"
 APPIMAGE="${APPIMAGE:-$0}"
 VERSION_FILE="$ROOT/version.txt"

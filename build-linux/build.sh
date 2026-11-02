@@ -5,10 +5,16 @@
 set -euo pipefail
 
 # Configuration
-VERSION="3.1.0"
-ESR_VERSION="140.13.0esr"
-ESR_URL="https://ftp.mozilla.org/pub/firefox/releases/140.13.0esr/linux-x86_64/en-US/firefox-140.13.0esr.tar.xz"
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+VERSION_FILE="${ROOT_DIR}/version.txt"
+if [[ -f "${VERSION_FILE}" ]]; then
+    VERSION=$(tr -d '\n\r' < "${VERSION_FILE}")
+else
+    echo "Error: version.txt not found at ${VERSION_FILE}" >&2
+    exit 1
+fi
+ESR_VERSION="140.0esr"
+ESR_URL="https://archive.mozilla.org/pub/firefox/releases/${ESR_VERSION}/linux-x86_64/en-US/firefox-${ESR_VERSION}.tar.xz"
 BUILD_DIR="${ROOT_DIR}/build-linux/work"
 DIST_DIR="${ROOT_DIR}/release-linux"
 EXT_DIR="${ROOT_DIR}/extensions"

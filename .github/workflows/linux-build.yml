@@ -113,6 +113,66 @@ jobs:
         run: |
           ARCH=x86_64 appimagetool FoxAI-Browser.AppDir FoxAI-Browser-${{ github.ref_name }}.AppImage
 
+      - name: Verify AppImage contents and version
+        run: |
+          APPVER="${GITHUB_REF_NAME#v}"
+          echo "=== Verifying AppImage ==="
+          # 1. AppImage exists
+          if [[ ! -f "FoxAI-Browser-${{ github.ref_name }}.AppImage" ]]; then
+            echo "ERROR: AppImage not found" >&2
+            exit 1
+          fi
+          chmod +x "FoxAI-Browser-${{ github.ref_name }}.AppImage"
+
+          # 2. Extract to temp dir for content checks
+          rm -rf appimage-check
+          mkdir appimage-check
+          ./FoxAI-Browser-${{ github.ref_name }}.AppImage --appimage-extract -o appimage-check > /dev/null 2>&1 || true
+          # appimagetool extracts to squashfs-root by default; handle both
+          EXTRACT_DIR="appimage-check/squashfs-root"
+          if [[ ! -d "$EXTRACT_DIR" ]]; then
+            EXTRACT_DIR="appimage-check/FoxAI-Browser.AppDir"
+          fi
+
+          # 3. Launcher executable
+          if [[ ! -x "$EXTRACT_DIR/foxai-launcher.sh" ]]; then
+            echo "ERROR: foxai-launcher.sh not executable" >&2
+            exit 1
+          fi
+          echo "OK: foxai-launcher.sh is executable"
+
+          # 4. Firefox binary exists
+          if [[ ! -x "$EXTRACT_DIR/firefox/firefox" ]]; then
+            echo "ERROR: Firefox binary not found at firefox/firefox" >&2
+            exit 1
+          fi
+          echo "OK: Firefox binary found at firefox/firefox"
+
+          # 5. Version file matches tag
+          PKGVER=$(tr -d '\n\r' < "$EXTRACT_DIR/version.txt")
+          if [[ "$PKGVER" != "$APPVER" ]]; then
+            echo "ERROR: version.txt=$PKGVER does not match tag=$APPVER" >&2
+            exit 1
+          fi
+          echo "OK: version.txt=$PKGVER matches tag=$APPVER"
+
+          # 6. AppRun executable
+          if [[ ! -x "$EXTRACT_DIR/AppRun" ]]; then
+            echo "ERROR: AppRun not executable" >&2
+            exit 1
+          fi
+          echo "OK: AppRun is executable"
+
+          # 7. Smoke test: launcher version output
+          LAUNCHER_VER=$("$EXTRACT_DIR/foxai-launcher.sh" version 2>/dev/null || true)
+          if [[ "$LAUNCHER_VER" != "$APPVER" ]]; then
+            echo "WARN: launcher version output='$LAUNCHER_VER', expected=$APPVER"
+          else
+            echo "OK: launcher version=$LAUNCHER_VER"
+          fi
+
+          echo "=== Verification complete ==="
+
       - name: Build RPM
         run: |
           APPVER="${GITHUB_REF_NAME#v}"

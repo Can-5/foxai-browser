@@ -14,12 +14,12 @@ Actions=PrivateWindow;TorWindow;OfflineMode;
 
 [Desktop Action PrivateWindow]
 Name=New Private Window
-Exec=foxai-browser -private-window %U
+Exec=foxai-browser --private %U
 
 [Desktop Action TorWindow]
 Name=New Tor Window
-Exec=foxai-browser -tor %U
+Exec=foxai-browser --tor %U
 
 [Desktop Action OfflineMode]
 Name=Offline AI Mode
-Exec=foxai-browser -offline %U
+Exec=foxai-browser --offline %U

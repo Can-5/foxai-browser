@@ -1,5 +1,10 @@
 ﻿$Root = (Get-Location).Path
-$Version = '3.0.0'
+$VersionFile = Join-Path $Root "version.txt"
+if (Test-Path $VersionFile) {
+    $Version = (Get-Content $VersionFile | Out-String).Trim()
+} else {
+    throw "version.txt not found at $VersionFile"
+}
 $Runtime = "$Root\firefox-foxai\runtime\"
 $Dist = "$Root\release\"
 $ExtDir = "$Root\extensions\"
