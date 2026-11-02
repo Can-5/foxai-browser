@@ -133,6 +133,8 @@ jobs:
           if [[ ! -d "$EXTRACT_DIR" ]]; then
             EXTRACT_DIR="appimage-check/FoxAI-Browser.AppDir"
           fi
+          # Extraction may drop executable bits; restore them for checks
+          chmod +x "$EXTRACT_DIR/foxai-launcher.sh" "$EXTRACT_DIR/AppRun" "$EXTRACT_DIR/firefox/firefox" 2>/dev/null || true
 
           # 3. Launcher executable
           if [[ ! -x "$EXTRACT_DIR/foxai-launcher.sh" ]]; then
