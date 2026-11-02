@@ -1,5 +1,5 @@
 Package: foxai-browser
-Version: 3.2.0-alpha-1
+Version: 3.2.0-1
 Section: web
 Priority: optional
 Architecture: amd64

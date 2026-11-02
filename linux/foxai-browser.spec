@@ -1,5 +1,5 @@
 Name:           foxai-browser
-Version:        3.2.0-alpha
+Version:        3.2.0
 Release:        1%{?dist}
 Summary:        FoxAI Browser - Privacy-focused Firefox fork with offline AI
 License:        MPL-2.0
