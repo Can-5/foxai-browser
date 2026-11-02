@@ -82,6 +82,10 @@ jobs:
           mkdir -p FoxAI-Browser.AppDir/profile
           cp -r config FoxAI-Browser.AppDir/config
 
+          # Copy FoxAI Start newtab page into AppImage for file:// access
+          mkdir -p FoxAI-Browser.AppDir/firefox-foxai/runtime/foxai-start
+          cp -r extensions/foxai-core/newtab/. FoxAI-Browser.AppDir/firefox-foxai/runtime/foxai-start/ 2>/dev/null || true
+
           # KoboldCpp (model NOT bundled - downloaded on first --offline run)
           cp -r koboldcpp FoxAI-Browser.AppDir/
           rm -f FoxAI-Browser.AppDir/koboldcpp/*.gguf
