@@ -82,6 +82,11 @@ launch_browser() {
     export MOZ_DISABLE_SOCKET_PROCESS=1
   fi
 
+  # Force X11 backend to avoid Wayland/GPU render blank-screen issues
+  export MOZ_X11_BACKEND=1
+  export GDK_BACKEND=x11
+  export MOZ_ACCELERATED=0
+
   exec "$FIREFOX" "${args[@]}"
 }
 
