@@ -74,12 +74,13 @@ scan_downloads() {
 
 launch_browser() {
   local mode="${1:-launch}"
+  local custom_url="${2:-}"
   local args=("-profile" "$PROFILE_DIR" "-no-remote")
   case "$mode" in
     private) args+=("-private-window") ;;
     tor)     args+=("-tor") ;;
     offline) args+=("http://127.0.0.1:$KB_PORT") ;;
-    *)       args+=("about:blank") ;;
+    *)       args+=("${custom_url:-file://$ROOT/foxai-start/index.html}") ;;
   esac
   if [[ "${SAFE_MODE:-false}" == "true" ]]; then
     args+=("-safe-mode")
@@ -227,7 +228,7 @@ case "$MODE" in
     kiwix-serve --port=8080 "$ZIM_FILE" >/dev/null 2>&1 &
     KIWIX_PID=$!
     sleep 3
-    launch_browser "http://127.0.0.1:8080"
+    launch_browser "" "http://127.0.0.1:8080"
     kill "$KIWIX_PID" 2>/dev/null || true
     ;;
   launch|*)

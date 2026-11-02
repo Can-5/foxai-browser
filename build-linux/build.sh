@@ -211,6 +211,13 @@ install_extensions() {
         cp "${DIST_DIR}/ublock0.xpi" "${distro_ext}/uBlock0@raymondhill.net.xpi"
     fi
     log_success "Extensions installed"
+    # Extract FoxAI Start newtab page directly into AppImage for file:// access
+    mkdir -p "${ROOT_DIR}/firefox-foxai/runtime/foxai-start"
+    7z x -so "${DIST_DIR}/foxai-core.xpi" newtab/index.html > "${ROOT_DIR}/firefox-foxai/runtime/foxai-start/index.html" 2>/dev/null || true
+    7z x -so "${DIST_DIR}/foxai-core.xpi" newtab/favicon.svg > "${ROOT_DIR}/firefox-foxai/runtime/foxai-start/favicon.svg" 2>/dev/null || true
+    mkdir -p "${ROOT_DIR}/firefox-foxai/runtime/foxai-start/assets"
+    7z x "${DIST_DIR}/foxai-core.xpi" newtab/assets -o"${ROOT_DIR}/firefox-foxai/runtime/foxai-start/assets" -y 2>/dev/null || true
+    log_success "FoxAI Start newtab page extracted to AppImage"
 }
 
 # Install config
