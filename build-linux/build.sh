@@ -211,14 +211,11 @@ install_extensions() {
         cp "${DIST_DIR}/ublock0.xpi" "${distro_ext}/uBlock0@raymondhill.net.xpi"
     fi
     log_success "Extensions installed"
-    # Extract FoxAI Start newtab page directly into AppImage for file:// access
+    # Copy FoxAI Start newtab page directly into AppImage for file:// access
     mkdir -p "${ROOT_DIR}/firefox-foxai/runtime/foxai-start"
-    TMP_XPI_DIR=$(mktemp -d)
-    7z x "${DIST_DIR}/foxai-core.xpi" -o"${TMP_XPI_DIR}" -y > /dev/null 2>&1 || true
-    if [[ -d "${TMP_XPI_DIR}/newtab" ]]; then
-        cp -r "${TMP_XPI_DIR}/newtab/"* "${ROOT_DIR}/firefox-foxai/runtime/foxai-start/" 2>/dev/null || true
+    if [[ -d "${EXT_DIR}/foxai-core/newtab" ]]; then
+        cp -r "${EXT_DIR}/foxai-core/newtab/"* "${ROOT_DIR}/firefox-foxai/runtime/foxai-start/" 2>/dev/null || true
     fi
-    rm -rf "${TMP_XPI_DIR}"
     log_success "FoxAI Start newtab page extracted to AppImage"
 }
 

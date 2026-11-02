@@ -24,7 +24,7 @@ Requirements: Windows, Node.js, PowerShell 5.1+.
 .\build.ps1
 ```
 
-This: builds the new-tab React app, packages all extensions into `.xpi` files (forward-slash entries), downloads uBlock Origin, installs everything into the runtime `distribution`, renders `policies.json` (no BOM), brands `firefox.exe`, creates a fresh profile, and produces `release\FoxAI-Browser-v3.3.2.zip` (with the launcher `FoxAI-Launcher.ps1`, `FoxAI Browser.cmd`, `FoxAI Update.cmd` and `version.txt` at the zip root).
+This: builds the new-tab React app, packages all extensions into `.xpi` files (forward-slash entries), downloads uBlock Origin, installs everything into the runtime `distribution`, renders `policies.json` (no BOM), brands `firefox.exe`, creates a fresh profile, and produces `release\FoxAI-Browser-v3.3.3.zip` (with the launcher `FoxAI-Launcher.ps1`, `FoxAI Browser.cmd`, `FoxAI Update.cmd` and `version.txt` at the zip root).
 
 ## Test
 
@@ -46,7 +46,7 @@ Launches the branded browser headless and runs 5 BiDi tests against `firefox-fox
 firefox-foxai\runtime\firefox.exe -profile "firefox-foxai\profile\foxai" -no-remote
 ```
 
-Or extract `release\FoxAI-Browser-v3.3.2.zip` and run `firefox.exe`.
+Or extract `release\FoxAI-Browser-v3.3.3.zip` and run `firefox.exe`.
 
 ## Install (Linux)
 
