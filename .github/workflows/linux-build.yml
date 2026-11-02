@@ -159,13 +159,13 @@ jobs:
       - name: Build RPM
         run: |
           APPVER="${GITHUB_REF_NAME#v}"
+          # RPM Version field does not allow hyphen; use tilde for pre-release
+          RPMVER=$(echo "$APPVER" | sed 's/-alpha/~alpha/')
           mkdir -p rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
           cp FoxAI-Browser-${{ github.ref_name }}.AppImage rpmbuild/SOURCES/FoxAI-Browser-$RPMVER.AppImage
           cp linux/foxai-browser.desktop rpmbuild/SOURCES/
           cp linux/resources/icons/hicolor/256x256/apps/foxai-browser.png rpmbuild/SOURCES/
           cp linux/foxai-browser.spec rpmbuild/SPECS/
-          # RPM Version field does not allow hyphen; use tilde for pre-release
-          RPMVER=$(echo "$APPVER" | sed 's/-alpha/~alpha/')
           sed -i "s|^Version:.*|Version: $RPMVER|" rpmbuild/SPECS/foxai-browser.spec
           rpmbuild -ba rpmbuild/SPECS/foxai-browser.spec --define "_topdir $(pwd)/rpmbuild"
 
