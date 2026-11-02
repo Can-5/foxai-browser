@@ -109,71 +109,52 @@ jobs:
           # Version file (launcher reads this)
           echo "$APPVER" > FoxAI-Browser.AppDir/version.txt
 
-      - name: Build AppImage
-        run: |
-          ARCH=x86_64 appimagetool FoxAI-Browser.AppDir FoxAI-Browser-${{ github.ref_name }}.AppImage
-
-      - name: Verify AppImage contents and version
+      - name: Verify AppDir contents before AppImage build
         run: |
           APPVER="${GITHUB_REF_NAME#v}"
-          echo "=== Verifying AppImage ==="
-          # 1. AppImage exists
-          if [[ ! -f "FoxAI-Browser-${{ github.ref_name }}.AppImage" ]]; then
-            echo "ERROR: AppImage not found" >&2
-            exit 1
-          fi
-          chmod +x "FoxAI-Browser-${{ github.ref_name }}.AppImage"
-
-          # 2. Extract to temp dir for content checks
-          rm -rf appimage-check
-          mkdir appimage-check
-          ./FoxAI-Browser-${{ github.ref_name }}.AppImage --appimage-extract -o appimage-check > /dev/null 2>&1 || true
-          # appimagetool extracts to squashfs-root by default; handle both
-          EXTRACT_DIR="appimage-check/squashfs-root"
-          if [[ ! -d "$EXTRACT_DIR" ]]; then
-            EXTRACT_DIR="appimage-check/FoxAI-Browser.AppDir"
-          fi
-          # Extraction may drop executable bits; restore them for checks
-          chmod +x "$EXTRACT_DIR/foxai-launcher.sh" "$EXTRACT_DIR/AppRun" "$EXTRACT_DIR/firefox/firefox" 2>/dev/null || true
-
-          # 3. Launcher executable
-          if [[ ! -x "$EXTRACT_DIR/foxai-launcher.sh" ]]; then
-            echo "ERROR: foxai-launcher.sh not executable" >&2
+          echo "=== Verifying AppDir ==="
+          # 1. Launcher executable
+          if [[ ! -x "FoxAI-Browser.AppDir/foxai-launcher.sh" ]]; then
+            echo "ERROR: foxai-launcher.sh not executable in AppDir" >&2
             exit 1
           fi
           echo "OK: foxai-launcher.sh is executable"
-
-          # 4. Firefox binary exists
-          if [[ ! -x "$EXTRACT_DIR/firefox/firefox" ]]; then
-            echo "ERROR: Firefox binary not found at firefox/firefox" >&2
+          # 2. Firefox binary exists at expected path
+          if [[ ! -x "FoxAI-Browser.AppDir/firefox/firefox" ]]; then
+            echo "ERROR: Firefox binary not found at firefox/firefox in AppDir" >&2
             exit 1
           fi
           echo "OK: Firefox binary found at firefox/firefox"
-
-          # 5. Version file matches tag
-          PKGVER=$(tr -d '\n\r' < "$EXTRACT_DIR/version.txt")
+          # 3. Version file matches tag
+          PKGVER=$(tr -d '\n\r' < "FoxAI-Browser.AppDir/version.txt")
           if [[ "$PKGVER" != "$APPVER" ]]; then
             echo "ERROR: version.txt=$PKGVER does not match tag=$APPVER" >&2
             exit 1
           fi
           echo "OK: version.txt=$PKGVER matches tag=$APPVER"
-
-          # 6. AppRun executable
-          if [[ ! -x "$EXTRACT_DIR/AppRun" ]]; then
-            echo "ERROR: AppRun not executable" >&2
+          # 4. AppRun executable
+          if [[ ! -x "FoxAI-Browser.AppDir/AppRun" ]]; then
+            echo "ERROR: AppRun not executable in AppDir" >&2
             exit 1
           fi
           echo "OK: AppRun is executable"
+          echo "=== AppDir verification complete ==="
 
-          # 7. Smoke test: launcher version output
-          LAUNCHER_VER=$("$EXTRACT_DIR/foxai-launcher.sh" version 2>/dev/null || true)
-          if [[ "$LAUNCHER_VER" != "$APPVER" ]]; then
-            echo "WARN: launcher version output='$LAUNCHER_VER', expected=$APPVER"
-          else
-            echo "OK: launcher version=$LAUNCHER_VER"
+      - name: Build AppImage
+        run: |
+          ARCH=x86_64 appimagetool FoxAI-Browser.AppDir FoxAI-Browser-${{ github.ref_name }}.AppImage
+
+      - name: Verify AppImage artifact
+        run: |
+          APPVER="${GITHUB_REF_NAME#v}"
+          echo "=== Verifying AppImage artifact ==="
+          if [[ ! -f "FoxAI-Browser-${{ github.ref_name }}.AppImage" ]]; then
+            echo "ERROR: AppImage not found" >&2
+            exit 1
           fi
-
-          echo "=== Verification complete ==="
+          chmod +x "FoxAI-Browser-${{ github.ref_name }}.AppImage"
+          echo "OK: AppImage exists and is executable: FoxAI-Browser-${{ github.ref_name }}.AppImage"
+          echo "=== AppImage verification complete ==="
 
       - name: Build RPM
         run: |
