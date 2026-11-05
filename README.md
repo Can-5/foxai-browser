@@ -94,6 +94,7 @@ sudo dpkg -i foxai-browser-vX.Y.Z-amd64.deb   # sudo apt -f install if deps miss
 - XPIs must use forward-slash entry names (PowerShell `ZipFile.CreateFromDirectory` writes backslashes and Firefox 404s subdirectories).
 - `policies.json` must be UTF-8 **without BOM** (PowerShell `Set-Content -Encoding UTF8` adds one and Firefox silently ignores the file).
 - Extensions are installed via policy `force_installed` + `install_url` `file://` (absolute path rendered at build time), plus `extensions.installDistroAddons` as a fallback.
+- Linux packages use `extensions.installDistroAddons` with the bundled `distribution/extensions` directory so extension installation keeps working after the package is moved.
 - Firefox allows only one active WebDriver BiDi session; tests call `session.end` after each test.
 
 ## License

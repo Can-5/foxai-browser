@@ -153,6 +153,8 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y wget curl bzip2 p7zip-full patchelf desktop-file-utils imagemagick
       - name: Build Linux
         run: bash build-linux/build.sh
+      - name: Test Linux extension installation
+        run: python3 tests/test-linux-addon-install.py
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:

@@ -221,18 +221,22 @@ install_extensions() {
 install_config() {
     log_step "Installing config"
     cp "${CONFIG_DIR}/foxai.cfg" "${ROOT_DIR}/firefox-foxai/runtime/defaults/pref/foxai.cfg"
-    
-    # Generate policies.json with file:// URLs
-    local pol=$(cat "${CONFIG_DIR}/policies.json")
-    file_url() {
-        echo "file://$(realpath "$1" | sed 's| |%20|g')"
-    }
-    pol="${pol//%%CORE%%/$(file_url "${DIST_DIR}/foxai-core@foxai.browser.xpi")}"
-    pol="${pol//%%SEARCH%%/$(file_url "${DIST_DIR}/foxai-search-startpage@foxai.local.xpi")}"
-    pol="${pol//%%AI%%/$(file_url "${DIST_DIR}/foxai-ai@foxai.browser.xpi")}"
-    pol="${pol//%%UBLOCK%%/$(file_url "${DIST_DIR}/uBlock0@raymondhill.net.xpi")}"
-    
-    echo "${pol}" > "${ROOT_DIR}/firefox-foxai/runtime/distribution/policies.json"
+
+    # Linux packages are relocatable, so extension install URLs must not point
+    # back to the build machine.
+    cp "${CONFIG_DIR}/policies-linux.json" "${ROOT_DIR}/firefox-foxai/runtime/distribution/policies.json"
+    local distro_ext="${ROOT_DIR}/firefox-foxai/runtime/distribution/extensions"
+    local addon
+    for addon in \
+        "foxai-core@foxai.browser.xpi" \
+        "foxai-search-startpage@foxai.local.xpi" \
+        "foxai-ai@foxai.browser.xpi" \
+        "uBlock0@raymondhill.net.xpi"; do
+        if [[ ! -f "${distro_ext}/${addon}" ]]; then
+            log_error "Required extension package missing: ${distro_ext}/${addon}"
+            return 1
+        fi
+    done
     log_success "Config installed"
 }
 

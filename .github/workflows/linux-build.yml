@@ -65,15 +65,8 @@ jobs:
 
           # Branding + enterprise policies
           cp config/distribution.ini FoxAI-Browser.AppDir/firefox/distribution/distribution.ini
-          cp config/policies.json FoxAI-Browser.AppDir/firefox/distribution/policies.json
+          cp config/policies-linux.json FoxAI-Browser.AppDir/firefox/distribution/policies.json
           cp linux/resources/distribution/extensions/*.xpi FoxAI-Browser.AppDir/firefox/distribution/extensions/
-
-          # Render %%CORE%%/%%SEARCH%%/%%AI%%/%%UBLOCK%% placeholders -> file:// paths
-          EXT="$(pwd)/FoxAI-Browser.AppDir/firefox/distribution/extensions"
-          sed -i "s|%%CORE%%|file:///$EXT/foxai-core@foxai.browser.xpi|g" FoxAI-Browser.AppDir/firefox/distribution/policies.json
-          sed -i "s|%%SEARCH%%|file:///$EXT/foxai-search-startpage@foxai.local.xpi|g" FoxAI-Browser.AppDir/firefox/distribution/policies.json
-          sed -i "s|%%AI%%|file:///$EXT/foxai-ai@foxai.browser.xpi|g" FoxAI-Browser.AppDir/firefox/distribution/policies.json
-          sed -i "s|%%UBLOCK%%|file:///$EXT/uBlock0@raymondhill.net.xpi|g" FoxAI-Browser.AppDir/firefox/distribution/policies.json
 
           # Update distribution.ini version to match tag
           sed -i "s|^version=.*|version=$APPVER|" FoxAI-Browser.AppDir/firefox/distribution/distribution.ini
@@ -143,6 +136,9 @@ jobs:
           fi
           echo "OK: AppRun is executable"
           echo "=== AppDir verification complete ==="
+
+      - name: Test Linux extension installation
+        run: python3 tests/test-linux-addon-install.py FoxAI-Browser.AppDir/firefox
 
       - name: Build AppImage
         run: |
