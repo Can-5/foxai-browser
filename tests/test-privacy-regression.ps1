@@ -39,7 +39,7 @@ $CriticalPrefs = @{
   "media.peerconnection.enabled"                    = "false"
   "media.peerconnection.ice.no_host"                = "true"
   "media.peerconnection.ice.default_address_only"   = "true"
-  "media.navigator.enabled"                         = "false"
+  "media.navigator.enabled"                         = "true"
   
   # Canvas / WebGL
   "webgl.disabled"                                  = "true"
@@ -57,6 +57,16 @@ $CriticalPrefs = @{
   "network.dns.echconfig.enabled"                   = "true"
   "network.http.echconfig.enabled"                  = "true"
   "dom.security.https_only_mode"                    = "true"
+  "permissions.default.camera"                      = "0"
+  "permissions.default.microphone"                  = "0"
+  "permissions.default.geo"                         = "0"
+  "permissions.default.desktop-notification"        = "0"
+  "dom.webnotifications.enabled"                    = "true"
+  "geo.enabled"                                     = "true"
+  "browser.safebrowsing.malware.enabled"             = "true"
+  "browser.safebrowsing.phishing.enabled"            = "true"
+  "browser.safebrowsing.downloads.enabled"           = "true"
+  "browser.safebrowsing.downloads.remote.enabled"    = "false"
   "network.http.referer.sendRefererHeader"          = "0"
   "network.http.referer.defaultPolicy"              = "0"
   "beacon.enabled"                                  = "false"
@@ -83,11 +93,10 @@ $CriticalPrefs = @{
   "browser.safebrowsing.provider.google4.dataSharingURL" = '""'
   "extensions.pocket.enabled"                       = "false"
   
-  # Updates — tamamen kapalı (supply-chain güvenliği için)
-  "app.update.enabled"                              = "false"
-  "app.update.auto"                                 = "false"
-  "app.update.autoInstallEnabled"                   = "false"
-  "extensions.update.enabled"                       = "false"
+  # Updates remain enabled so security fixes can install automatically.
+  "app.update.enabled"                              = "true"
+  "extensions.update.enabled"                       = "true"
+  "extensions.update.autoUpdateDefault"              = "true"
   "extensions.webservice.discoverURL"               = '""'
   "app.normandy.enabled"                            = "false"
   "app.shield.optoutstudies.enabled"                = "false"
@@ -166,18 +175,9 @@ if ($vib -ne "undefined") { $Fails.Add("LIVE Vibration API leak: $vib") }
 $gp = Eval-Str $s.Ws 108 $s.Ctx "typeof navigator.getGamepads"
 if ($gp -ne "undefined") { $Fails.Add("LIVE Gamepad API leak: $gp") }
 
-# 9. MediaRecorder / getUserMedia — pref check done static; live check for getUserMedia blocking
+# 9. Camera/microphone APIs remain available; default permission policy is prompt.
 $gum = Eval-Str $s.Ws 109 $s.Ctx "typeof navigator.mediaDevices.getUserMedia"
-if ($gum -ne "undefined") { 
-  # Try to call getUserMedia — should reject
-  $gumResult = Eval-Str $s.Ws 110 $s.Ctx "navigator.mediaDevices.getUserMedia({audio:true}).then(()=>'OK').catch(e=>e.name)"
-  if ("$gumResult" -eq "OK") { $Fails.Add("LIVE getUserMedia succeeded despite media.navigator.enabled=false") }
-}
-$md = Eval-Str $s.Ws 111 $s.Ctx "typeof navigator.mediaDevices"
-if ($md -ne "undefined") { 
-  $enum = Eval-Str $s.Ws 112 $s.Ctx "navigator.mediaDevices.enumerateDevices().then(a=>a.length).catch(()=>'ERR')"
-  if ($enum -ne "ERR" -and $enum -ne 0) { $Fails.Add("LIVE enumerateDevices returns $enum devices") }
-}
+if ($gum -ne "function") { $Fails.Add("LIVE getUserMedia API unavailable: $gum") }
 
 # 10. Beacon / send_pings
 $beacon = Eval-Str $s.Ws 112 $s.Ctx "typeof navigator.sendBeacon"

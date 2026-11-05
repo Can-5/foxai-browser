@@ -28,7 +28,7 @@ user_pref("network.http.referer.XOriginTrimmingPolicy", 2);
 user_pref("browser.send_pings", false);
 user_pref("device.sensors.enabled", false);
 user_pref("dom.battery.enabled", false);
-user_pref("media.navigator.enabled", false);
+user_pref("media.navigator.enabled", true);
 user_pref("media.peerconnection.enabled", false);
 user_pref("network.IDN_show_punycode", true);
 user_pref("dom.security.https_only_mode", true);
@@ -85,12 +85,10 @@ user_pref("browser.region.network.url", "");
 user_pref("network.captive-portal-service.enabled", false);
 user_pref("network.connectivity-service.enabled", false);
 
-// ---- Updates off (supply-chain) ----
-user_pref("app.update.enabled", false);
-user_pref("app.update.auto", false);
-user_pref("app.update.service.enabled", false);
-user_pref("extensions.update.enabled", false);
-user_pref("extensions.update.autoUpdateDefault", false);
+// ---- Security updates ----
+user_pref("app.update.enabled", true);
+user_pref("extensions.update.enabled", true);
+user_pref("extensions.update.autoUpdateDefault", true);
 user_pref("app.normandy.enabled", false);
 user_pref("app.shield.optoutstudies.enabled", false);
 
@@ -102,10 +100,10 @@ user_pref("network.trr.uri", "https://mozilla.cloudflare-dns.com/dns-query");
 user_pref("media.peerconnection.ice.no_host", true);
 user_pref("media.peerconnection.ice.default_address_only", true);
 
-// ---- SafeBrowsing (local checks only, no remote reports) ----
-user_pref("browser.safebrowsing.malware.enabled", false);
-user_pref("browser.safebrowsing.phishing.enabled", false);
-user_pref("browser.safebrowsing.downloads.enabled", false);
+// ---- SafeBrowsing (threat checks on; remote file reputation stays off) ----
+user_pref("browser.safebrowsing.malware.enabled", true);
+user_pref("browser.safebrowsing.phishing.enabled", true);
+user_pref("browser.safebrowsing.downloads.enabled", true);
 
 // ---- Tabs (fork style) ----
 user_pref("browser.tabs.closeWindowWithLastTab", false);
@@ -205,10 +203,10 @@ user_pref("privacy.userContext.ui.enabled", true);
 
 // ---- Media lockdown ----
 user_pref("media.autoplay.default", 5);
-user_pref("permissions.default.camera", 2);
-user_pref("permissions.default.microphone", 2);
-user_pref("permissions.default.geo", 2);
-user_pref("permissions.default.desktop-notification", 2);
+user_pref("permissions.default.camera", 0);
+user_pref("permissions.default.microphone", 0);
+user_pref("permissions.default.geo", 0);
+user_pref("permissions.default.desktop-notification", 0);
 user_pref("media.gmp-provider.enabled", false);
 user_pref("media.gmp-gmpopenh264.enabled", false);
 
@@ -249,7 +247,6 @@ user_pref("network.predictor.enabled", false);
 user_pref("privacy.reduceTimerPrecision", true);
 user_pref("browser.safebrowsing.provider.google4.dataSharingURL", "");
 user_pref("privacy.resistFingerprinting.reduceTimerPrecision", true);
-user_pref("app.update.autoInstallEnabled", false);
 user_pref("security.ssl.enable_0rtt_data", false);
 
 // ---- Mahremiyet ek sıkılaştırma (v3.1.x) ----
@@ -271,13 +268,13 @@ user_pref("browser.discovery.enabled", false);
 user_pref("browser.safebrowsing.downloads.remote.enabled", false);
 user_pref("browser.safebrowsing.downloads.remote.url", "");
 user_pref("media.webrtc.hw.h264.enabled", false);
-user_pref("dom.webnotifications.enabled", false);
+user_pref("dom.webnotifications.enabled", true);
 user_pref("dom.push.enabled", false);
-user_pref("geo.enabled", false);
-user_pref("permissions.default.geo", 2);
-user_pref("permissions.default.camera", 2);
-user_pref("permissions.default.microphone", 2);
-user_pref("permissions.default.desktop-notification", 2);
+user_pref("geo.enabled", true);
+user_pref("permissions.default.geo", 0);
+user_pref("permissions.default.camera", 0);
+user_pref("permissions.default.microphone", 0);
+user_pref("permissions.default.desktop-notification", 0);
 user_pref("dom.speech.synthesis.enabled", false);
 user_pref("dom.clipboard.enabled", false);
 user_pref("dom.event.clipboardevents.enabled", false);

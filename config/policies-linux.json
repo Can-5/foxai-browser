@@ -4,14 +4,12 @@
       "Default": "DuckDuckGo",
       "PreventInstalls": false
     },
-    "DisableAppUpdate": true,
     "DisableFirefoxStudies": true,
     "DisableTelemetry": true,
     "OverrideFirstRunPage": "",
     "OverridePostUpdatePage": "",
     "DisableFeedbackCommands": true,
     "DisableFirefoxAccounts": true,
-    "DisablePocket": true,
-    "DisableSystemAddonUpdate": true
+    "DisablePocket": true
   }
 }

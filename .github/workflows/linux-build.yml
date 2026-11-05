@@ -36,10 +36,15 @@ jobs:
           chmod +x /usr/local/bin/appimagetool
           appimagetool --version
 
-      - name: Download Firefox ESR 140
+      - name: Download and verify Firefox ESR 153.6
         run: |
           mkdir -p firefox
-          wget -q "https://archive.mozilla.org/pub/firefox/releases/140.0esr/linux-x86_64/en-US/firefox-140.0esr.tar.xz" -O firefox-esr.tar.xz
+          release="https://archive.mozilla.org/pub/firefox/releases/153.6.0esr"
+          wget -q "$release/linux-x86_64/en-US/firefox-153.6.0esr.tar.xz" -O firefox-esr.tar.xz
+          wget -q "$release/SHA256SUMS" -O firefox-SHA256SUMS
+          expected="$(awk '$2 == "linux-x86_64/en-US/firefox-153.6.0esr.tar.xz" { print $1; exit }' firefox-SHA256SUMS)"
+          test "${#expected}" -eq 64
+          echo "$expected  firefox-esr.tar.xz" | sha256sum --check --status
           tar -xJf firefox-esr.tar.xz -C firefox --strip-components=1
 
       - name: Download KoboldCpp Linux
@@ -65,7 +70,7 @@ jobs:
 
           # Branding + enterprise policies
           cp config/distribution.ini FoxAI-Browser.AppDir/firefox/distribution/distribution.ini
-          cp config/policies-linux.json FoxAI-Browser.AppDir/firefox/distribution/policies.json
+          cp config/policies-linux-appimage.json FoxAI-Browser.AppDir/firefox/distribution/policies.json
           cp linux/resources/distribution/extensions/*.xpi FoxAI-Browser.AppDir/firefox/distribution/extensions/
 
           # Update distribution.ini version to match tag
@@ -139,6 +144,8 @@ jobs:
 
       - name: Test Linux extension installation
         run: python3 tests/test-linux-addon-install.py FoxAI-Browser.AppDir/firefox
+      - name: Test security configuration
+        run: python3 tests/test-security-config.py
 
       - name: Build AppImage
         run: |

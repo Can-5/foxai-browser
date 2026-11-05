@@ -6,8 +6,10 @@ set -euo pipefail
 
 # Configuration
 VERSION="3.1.0"
-ESR_VERSION="140.0esr"
-ESR_URL="https://ftp.mozilla.org/pub/firefox/releases/140.0esr/mac/en-US/Firefox%20140.0esr.dmg"
+ESR_VERSION="153.6.0esr"
+ESR_URL="https://ftp.mozilla.org/pub/firefox/releases/153.6.0esr/mac/en-US/Firefox%20153.6.0esr.dmg"
+UBLOCK_VERSION="1.75.4"
+UBLOCK_SHA256="e2df503cce7cf5069130618c349695f62bdddb9eb8c189156d027269ae4ae267"
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BUILD_DIR="${ROOT_DIR}/build-macos/work"
 DIST_DIR="${ROOT_DIR}/release-macos"
@@ -97,6 +99,22 @@ fetch_firefox() {
             log_error "Failed to download Firefox ESR"
             exit 1
         }
+        local checksums="${BUILD_DIR}/SHA256SUMS"
+        wget -q -O "${checksums}" "https://archive.mozilla.org/pub/firefox/releases/${ESR_VERSION}/SHA256SUMS" || {
+            log_error "Failed to download Mozilla SHA256SUMS"
+            exit 1
+        }
+        local relative_path="mac/en-US/Firefox ${ESR_VERSION}.dmg"
+        local expected_hash
+        expected_hash="$(awk -v path="${relative_path}" 'index($0, "  " path) == length($0) - length(path) + 1 { print $1; exit }' "${checksums}")"
+        if [[ ! "${expected_hash}" =~ ^[[:xdigit:]]{64}$ ]]; then
+            log_error "Mozilla SHA256SUMS has no entry for ${relative_path}"
+            exit 1
+        fi
+        echo "${expected_hash}  ${installer}" | shasum -a 256 --check --status || {
+            log_error "Firefox ESR SHA-256 mismatch"
+            exit 1
+        }
         
         log_step "Extracting Firefox ESR"
         hdiutil attach "${installer}" -mountpoint /tmp/foxai-mnt -quiet
@@ -178,19 +196,16 @@ package_extensions() {
 # Download uBlock Origin
 fetch_ublock() {
     log_step "Downloading uBlock Origin"
-    local ublock_version="1.73.0"
-    local ublock_url="https://github.com/gorhill/uBlock/releases/download/1.73.0/uBlock0_1.73.0.firefox.signed.xpi"
-    
+    local ublock_url="https://github.com/gorhill/uBlock/releases/download/${UBLOCK_VERSION}/uBlock0_${UBLOCK_VERSION}.firefox.signed.xpi"
     wget -q --show-progress -O "${DIST_DIR}/ublock0.xpi" "${ublock_url}" || {
-        log_warn "uBlock download failed, using fallback"
-        # fallback to latest
-        local rel=$(curl -s "https://api.github.com/repos/gorhill/uBlock/releases/latest")
-        local asset_url=$(echo "${rel}" | grep -o '"browser_download_url": *"[^"]*firefox[^"]*\.xpi"' | head -1 | cut -d'"' -f4)
-        if [[ -n "${asset_url}" ]]; then
-            wget -q -O "${DIST_DIR}/ublock0.xpi" "${asset_url}"
-        fi
+        log_error "Failed to download uBlock Origin ${UBLOCK_VERSION}"
+        exit 1
     }
-    log_success "uBlock Origin downloaded"
+    echo "${UBLOCK_SHA256}  ${DIST_DIR}/ublock0.xpi" | shasum -a 256 --check --status || {
+        log_error "uBlock Origin SHA-256 mismatch"
+        exit 1
+    }
+    log_success "uBlock Origin ${UBLOCK_VERSION} downloaded and verified"
 }
 
 # Install extensions into runtime
@@ -365,7 +380,6 @@ main() {
 }
 
 main "$@"
-
 
 
 

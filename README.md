@@ -1,12 +1,12 @@
 ﻿# FoxAI Browser
 
-Private, privacy-first browser built on Firefox ESR 140, with an AI sidebar, a custom new-tab start page, gesture navigation, and a private search engine.
+Private, privacy-first browser built on Firefox ESR 153.6.0, with an AI sidebar, a custom new-tab start page, gesture navigation, and a private search engine.
 
 ## Components
 
 | Component | Description |
 |---|---|
-| `firefox-foxai/runtime` | Firefox ESR 140.13.0 runtime, branded "FoxAI Browser" (rcedit). Build output. |
+| `firefox-foxai/runtime` | Firefox ESR 153.6.0 runtime, branded "FoxAI Browser" (rcedit). Build output. |
 | `extensions/foxai-core` | "FoxAI Start" new-tab page (Vite + React): clock, weather, search, notes, to-do, bookmarks/top sites, 4 themes, settings modal, file upload. |
 | `extensions/foxai-ai` | AI sidebar (sidebar action): ChatGPT / Claude / Gemini / Ollama providers, optional `<all_urls>` consent for page extraction. |
 | `extensions/foxai-search-startpage` | "FoxAI Search" engine (keyword `@foxai`, DuckDuckGo) + start page. |
@@ -39,6 +39,14 @@ Launches the branded browser headless and runs 5 BiDi tests against `firefox-fox
 3. default search engine is DuckDuckGo (policy)
 4. settings modal: themes, widget toggles, file upload
 5. AI sidebar setup + enable flow
+
+## Security and updates
+
+- Firefox ESR installers are checked against Mozilla's published `SHA256SUMS`; the bundled uBlock Origin 1.75.4 XPI is pinned to its official SHA-256 digest.
+- Firefox and extension updates are enabled by default. Windows, macOS, and the Linux tarball use Firefox's update mechanism. The Linux AppImage disables Firefox's in-image updater because its mounted filesystem is read-only; use `foxai-browser --update` for AppImage releases. RPM/DEB installations should be replaced with the newer release package.
+- uBlock Origin updates are enabled. Firefox Safe Browsing phishing, malware, and download checks are enabled; standard threat-list lookups may contact Mozilla/Google services. Remote file-reputation checks and report URLs remain disabled.
+- Camera, microphone, location, and notification permissions default to **Ask**. Their browser APIs are available so Firefox can show site permission prompts; sites are not pre-authorized. Review or revoke individual grants in Firefox **Settings → Privacy & Security → Permissions**. Push messaging remains disabled.
+- HTTPS-Only mode remains enabled, as do the existing WebRTC restrictions and Cloudflare DNS-over-HTTPS configuration.
 
 ## Run
 
@@ -95,6 +103,7 @@ sudo dpkg -i foxai-browser-vX.Y.Z-amd64.deb   # sudo apt -f install if deps miss
 - `policies.json` must be UTF-8 **without BOM** (PowerShell `Set-Content -Encoding UTF8` adds one and Firefox silently ignores the file).
 - Extensions are installed via policy `force_installed` + `install_url` `file://` (absolute path rendered at build time), plus `extensions.installDistroAddons` as a fallback.
 - Linux packages use `extensions.installDistroAddons` with the bundled `distribution/extensions` directory so extension installation keeps working after the package is moved.
+- Linux AppImage's Firefox updater is disabled by a packaging-specific policy; the AppImage launcher updater and RPM/DEB package replacement are separate release-update paths.
 - Firefox allows only one active WebDriver BiDi session; tests call `session.end` after each test.
 
 ## License

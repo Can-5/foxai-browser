@@ -10,8 +10,8 @@
 param(
   [switch]$SkipProfile,
   [switch]$Reproducible,
-  [string]$ESR_VERSION = "140.0esr",
-  [string]$ESR_URL = "https://ftp.mozilla.org/pub/firefox/releases/140.0esr/win64/en-US/Firefox%20Setup%20140.0esr.exe"
+  [string]$ESR_VERSION = "153.6.0esr",
+  [string]$ESR_URL = "https://ftp.mozilla.org/pub/firefox/releases/153.6.0esr/win64/en-US/Firefox%20Setup%20153.6.0esr.exe"
 )
 $ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -41,10 +41,23 @@ function Step($msg) { Write-Host "==> $msg" -ForegroundColor Cyan }
 
 # ---------------------------------------------------------------- 0. Ensure Firefox ESR runtime
 function Ensure-FirefoxRuntime {
-  if (-not (Test-Path "$Runtime\firefox.exe")) {
+  $expectedRuntimeVersion = $ESR_VERSION -replace "esr$", ""
+  $runtimeVersion = $null
+  if (Test-Path "$Runtime\application.ini") {
+    $versionLine = Select-String -Path "$Runtime\application.ini" -Pattern "^Version=(.+)$" | Select-Object -First 1
+    if ($versionLine) { $runtimeVersion = $versionLine.Matches[0].Groups[1].Value }
+  }
+  if (-not (Test-Path "$Runtime\firefox.exe") -or $runtimeVersion -ne $expectedRuntimeVersion) {
     Step "Downloading Firefox ESR $ESR_VERSION"
     $installer = "$Root\FirefoxSetup.exe"
     Invoke-WebRequest -Uri $ESR_URL -OutFile $installer -ProgressAction SilentlyContinue
+    $checksums = (Invoke-WebRequest -Uri "https://archive.mozilla.org/pub/firefox/releases/$ESR_VERSION/SHA256SUMS").Content
+    $checksumPattern = "(?m)^([a-fA-F0-9]{64})\s+win64/en-US/Firefox Setup $([regex]::Escape($ESR_VERSION))\.exe$"
+    $checksumMatch = [regex]::Match($checksums, $checksumPattern)
+    if (-not $checksumMatch.Success) { throw "Mozilla SHA256SUMS has no Windows installer entry for Firefox ESR $ESR_VERSION" }
+    $expectedHash = $checksumMatch.Groups[1].Value.ToUpperInvariant()
+    $actualHash = (Get-FileHash -Path $installer -Algorithm SHA256).Hash
+    if ($actualHash -ne $expectedHash) { throw "Firefox ESR installer SHA-256 mismatch (expected $expectedHash, got $actualHash)" }
     Step "Extracting Firefox runtime"
     7z x $installer -o"$Runtime" -y > $null
     if (Test-Path "$Runtime\core") {
@@ -143,24 +156,13 @@ Step "Extensions packaged to $Dist"
 
 # ---------------------------------------------------------------- 3. uBlock
 Step "Downloading uBlock Origin"
-if ($Reproducible) {
-  $UBLOCK_VERSION = "1.73.0"
-  $UBLOCK_URL = "https://github.com/gorhill/uBlock/releases/download/$UBLOCK_VERSION/uBlock0_$UBLOCK_VERSION.firefox.signed.xpi"
-  Write-Host "  Using pinned uBlock version: $UBLOCK_VERSION"
-  Invoke-WebRequest -Uri $UBLOCK_URL -OutFile "$Dist\ublock0.xpi"
-  Write-Host "  downloaded uBlock0_$UBLOCK_VERSION.firefox.signed.xpi"
-} else {
-  try {
-    $rel = Invoke-RestMethod -Uri "https://api.github.com/repos/gorhill/uBlock/releases/latest" -Headers @{ "User-Agent" = "foxai-build" }
-    $asset = $rel.assets | Where-Object { $_.name -match "ublock.*firefox.*\.xpi$" -or $_.name -match "^uBlock0_.*\.xpi$" } | Select-Object -First 1
-    if (-not $asset) { $asset = $rel.assets | Where-Object { $_.name -match "\.xpi$" } | Select-Object -First 1 }
-    if (-not $asset) { throw "no xpi asset found" }
-    Invoke-WebRequest -Uri $asset.browser_download_url -OutFile "$Dist\ublock0.xpi"
-    Write-Host "  downloaded $($asset.name)"
-  } catch {
-    Write-Host "  WARN: uBlock download failed - $($_.Exception.Message)" -ForegroundColor Yellow
-  }
-}
+$UBLOCK_VERSION = "1.75.4"
+$UBLOCK_SHA256 = "E2DF503CCE7CF5069130618C349695F62BDDDB9EB8C189156D027269AE4AE267"
+$UBLOCK_URL = "https://github.com/gorhill/uBlock/releases/download/$UBLOCK_VERSION/uBlock0_$($UBLOCK_VERSION).firefox.signed.xpi"
+Invoke-WebRequest -Uri $UBLOCK_URL -OutFile "$Dist\ublock0.xpi" -ProgressAction SilentlyContinue
+$actualUblockHash = (Get-FileHash -Path "$Dist\ublock0.xpi" -Algorithm SHA256).Hash
+if ($actualUblockHash -ne $UBLOCK_SHA256) { throw "uBlock Origin SHA-256 mismatch (expected $UBLOCK_SHA256, got $actualUblockHash)" }
+Write-Host "  Downloaded and verified uBlock Origin $UBLOCK_VERSION"
 
 # ---------------------------------------------------------------- 4. install
 Step "Installing extensions into runtime distribution"
@@ -170,7 +172,7 @@ Remove-Item "$DistroExt\*" -Force -ErrorAction SilentlyContinue
 Copy-Item "$Dist\foxai-core.xpi" "$DistroExt\foxai-core@foxai.browser.xpi" -Force
 Copy-Item "$Dist\foxai-ai.xpi" "$DistroExt\foxai-ai@foxai.browser.xpi" -Force
 Copy-Item "$Dist\foxai-search-startpage.xpi" "$DistroExt\foxai-search-startpage@foxai.local.xpi" -Force
-if (Test-Path "$Dist\ublock0.xpi") { Copy-Item "$Dist\ublock0.xpi" "$DistroExt\uBlock0@raymondhill.net.xpi" -Force }
+Copy-Item "$Dist\ublock0.xpi" "$DistroExt\uBlock0@raymondhill.net.xpi" -Force
 
 Step "Installing config"
 Copy-Item "$Config\foxai.cfg" "$Runtime\defaults\pref\foxai.cfg" -Force
@@ -245,4 +247,3 @@ New-Zip -SourceDir $Stage -ZipPath $ZipPath
 Remove-Item $Stage -Recurse -Force
 [System.IO.File]::WriteAllText("$Root\version.txt", $Version, (New-Object System.Text.UTF8Encoding($false)))
 Write-Host "==> Done. Release: $ZipPath"
-

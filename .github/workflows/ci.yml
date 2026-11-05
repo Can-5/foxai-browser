@@ -13,8 +13,8 @@ permissions:
 
 env:
   NODE_VERSION: '20'
-  ESR_VERSION: '140.0esr'
-  ESR_URL: 'https://ftp.mozilla.org/pub/firefox/releases/140.0esr/win64/en-US/Firefox%20Setup%20140.0esr.exe'
+  ESR_VERSION: '153.6.0esr'
+  ESR_URL: 'https://ftp.mozilla.org/pub/firefox/releases/153.6.0esr/win64/en-US/Firefox%20Setup%20153.6.0esr.exe'
 
 jobs:
   build-and-test:
@@ -41,6 +41,13 @@ jobs:
           $out = "FirefoxSetup.exe"
           Write-Host "Downloading Firefox ESR ${{ env.ESR_VERSION }}..."
           Invoke-WebRequest -Uri $url -OutFile $out -ProgressAction SilentlyContinue
+          $checksums = (Invoke-WebRequest -Uri "https://archive.mozilla.org/pub/firefox/releases/${{ env.ESR_VERSION }}/SHA256SUMS").Content
+          $pattern = "(?m)^([a-fA-F0-9]{64})\s+win64/en-US/Firefox Setup $([regex]::Escape('${{ env.ESR_VERSION }}'))\.exe$"
+          $checksumMatch = [regex]::Match($checksums, $pattern)
+          if (-not $checksumMatch.Success) { throw "Mozilla SHA256SUMS has no Windows installer entry" }
+          $expected = $checksumMatch.Groups[1].Value.ToUpperInvariant()
+          $actual = (Get-FileHash -Path $out -Algorithm SHA256).Hash
+          if ($actual -ne $expected) { throw "Firefox ESR SHA-256 mismatch (expected $expected, got $actual)" }
           Write-Host "Downloaded $([math]::Round((Get-Item $out).Length/1MB,1)) MB"
 
       - name: Extract Firefox runtime (7zip)
@@ -97,6 +104,9 @@ jobs:
           Start-Sleep 15
           & "$Root\tests\test-privacy-regression.ps1" -Port 9223
           Get-Process firefox -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+
+      - name: Run security configuration regression
+        run: python tests/test-security-config.py
 
       - name: Run supply-chain verification
         shell: pwsh

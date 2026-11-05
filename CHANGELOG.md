@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+- Updated all build targets to Firefox ESR 153.6.0 and verify downloaded Mozilla installers against the official SHA-256 manifest.
+- Updated uBlock Origin to 1.75.4, pinned its official SHA-256 digest, and fail builds if the downloaded XPI does not match.
+- Enabled Firefox and extension security updates; Linux AppImage keeps Firefox self-update disabled because its image is read-only and uses its release updater instead.
+- Enabled Firefox Safe Browsing phishing, malware, and download checks while preserving disabled remote file-reputation checks and empty reporting URLs.
+- Changed camera, microphone, location, and notification defaults from block to prompt; enabled the APIs needed for Firefox's site permission controls.
+- Kept HTTPS-Only mode, WebRTC restrictions, and DNS-over-HTTPS consistent across platform configs.
+
 ## v3.0.0 (2026-08-24)
 
 **🚀 FoxAI One — Mega Release.** 9 güncelleme tek pakette: mükemmel parmak izi, isteğe bağlı Tor ağı ve 7 ek iyileştirme.

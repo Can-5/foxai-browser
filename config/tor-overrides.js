@@ -23,5 +23,5 @@ user_pref("media.peerconnection.turn.disable", true);
 user_pref("privacy.firstparty.isolate", true);
 user_pref("extensions.torbutton.use_nontor_proxy", false);
 
-// Otomatik guncelleme/telemetri Tor uzerinden de kapali kalir
-user_pref("app.update.enabled", false);
+// Keep Firefox security updates enabled; network requests use the Tor proxy above.
+user_pref("app.update.enabled", true);

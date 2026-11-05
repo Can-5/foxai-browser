@@ -2,7 +2,7 @@
 # Live (in-browser): HTTPS-only upgrade, empty referrer, egress IP consistency
 # across CORS-enabled reflectors, and the full fingerprint-vector report (RFP
 # masks must be active: spoofed UA/language/platform/plugins, WebRTC off, no
-# Network Info API, no battery/sensors/beacon, WebGL off, media blocked).
+# Network Info API, no battery/sensors/beacon, WebGL off; media permissions prompt.
 # Static: every critical hardening pref must exist in BOTH config/user.js and
 # config/foxai.cfg with the expected value.
 param([string]$Port = "9223")
@@ -45,7 +45,7 @@ $must = [ordered]@{
   "media.peerconnection.enabled"                                        = "false"
   "media.peerconnection.ice.no_host"                                    = "true"
   "media.peerconnection.ice.default_address_only"                       = "true"
-  "media.navigator.enabled"                                             = "false"
+  "media.navigator.enabled"                                             = "true"
   "webgl.disabled"                                                      = "true"
   "media.eme.enabled"                                                   = "false"
   "dom.battery.enabled"                                                 = "false"
@@ -58,6 +58,15 @@ $must = [ordered]@{
   "network.http.referer.sendRefererHeader"                              = "0"
   "network.http.referer.defaultPolicy"                                  = "0"
   "dom.security.https_only_mode"                                        = "true"
+  "permissions.default.camera"                                          = "0"
+  "permissions.default.microphone"                                       = "0"
+  "permissions.default.geo"                                              = "0"
+  "permissions.default.desktop-notification"                             = "0"
+  "dom.webnotifications.enabled"                                         = "true"
+  "geo.enabled"                                                          = "true"
+  "browser.safebrowsing.malware.enabled"                                 = "true"
+  "browser.safebrowsing.phishing.enabled"                                = "true"
+  "browser.safebrowsing.downloads.enabled"                               = "true"
   # removed FF148 stale: "network.dns.echconfig.enabled"                                       = "true"
   # removed FF148 stale: "network.http.echconfig.enabled"                                      = "true"
   "network.trr.mode"                                                    = "2"
@@ -74,9 +83,9 @@ $must = [ordered]@{
   # removed FF148 stale: "browser.safebrowsing.provider.google.gsbReportURL"                   = '""'
   # removed FF148 stale: "browser.safebrowsing.downloads.remote.url"                           = '""'
   # removed FF148 stale: "browser.safebrowsing.provider.google4.gsbReportURL"                  = '""'
-  "app.update.enabled"                                                  = "false"
-  "app.update.auto"                                                     = "false"
-  "extensions.update.enabled"                                           = "false"
+  "app.update.enabled"                                                  = "true"
+  "extensions.update.enabled"                                           = "true"
+  "extensions.update.autoUpdateDefault"                                  = "true"
   # removed FF148 stale: "extensions.webservice.discoverURL"                                   = '""'
   "app.normandy.enabled"                                                = "false"
   "app.shield.optoutstudies.enabled"                                    = "false"
