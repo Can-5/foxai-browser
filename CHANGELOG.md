@@ -369,3 +369,4 @@ Rebuilt from scratch from recovered salvage after the original project was delet
 ### Notes
 - Branded "FoxAI Browser" via rcedit (icon + version strings) on Firefox ESR 140.13.0.
 - uBlock Origin 1.73.0 pre-installed (GPLv3, separate license).
+# v3.4.2 - kokten sirala
