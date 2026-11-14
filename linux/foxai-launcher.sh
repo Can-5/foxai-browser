@@ -80,7 +80,7 @@ launch_browser() {
     private) args+=("-private-window") ;;
     tor)     args+=("-tor") ;;
     offline) args+=("http://127.0.0.1:$KB_PORT") ;;
-    *)       args+=("about:newtab") ;;
+    *)       args+=("about:blank") ;;
   esac
   if [[ "${SAFE_MODE:-false}" == "true" ]]; then
     args+=("-safe-mode")

@@ -120,8 +120,8 @@ user_pref("browser.sessionstore.max_windows_undo", 2);
 user_pref("browser.sessionstore.max_serialize_back", 0);
 user_pref("browser.sessionstore.max_serialize_forward", 0);
 user_pref("browser.sessionhistory.max_entries", 30);
-user_pref("browser.startup.page", 1);
-user_pref("browser.startup.homepage", "about:newtab");
+user_pref("browser.startup.page", 0);
+user_pref("browser.startup.homepage", "about:blank");
 user_pref("browser.warnOnQuit", false);
 
 // ---- URL bar (privacy) ----
