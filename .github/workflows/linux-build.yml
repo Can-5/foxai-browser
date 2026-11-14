@@ -68,6 +68,27 @@ jobs:
           cp config/policies.json FoxAI-Browser.AppDir/firefox/distribution/policies.json
           cp linux/resources/distribution/extensions/*.xpi FoxAI-Browser.AppDir/firefox/distribution/extensions/
 
+          # Safety: repackage XPIs with forward-slash entries (Windows backslash → Firefox Linux 404)
+          for xpi in FoxAI-Browser.AppDir/firefox/distribution/extensions/*.xpi; do
+            tmpdir=$(mktemp -d)
+            7z x "$xpi" -o"$tmpdir" -y > /dev/null 2>&1 || true
+            python3 -c "
+import zipfile, os, tempfile, shutil
+src = '$xpi'
+tmpdir = '$tmpdir'
+with zipfile.ZipFile(src) as z:
+    z.extractall(tmpdir)
+with zipfile.ZipFile(src, 'w', zipfile.ZIP_DEFLATED) as z:
+    for root, dirs, files in os.walk(tmpdir):
+        for f in files:
+            full = os.path.join(root, f)
+            rel = os.path.relpath(full, tmpdir).replace(os.sep, '/').replace(chr(92), '/')
+            z.write(full, rel)
+shutil.rmtree(tmpdir)
+" || true
+            rm -rf "$tmpdir"
+          done
+
           # Render %%CORE%%/%%SEARCH%%/%%AI%%/%%UBLOCK%% placeholders -> file:// paths
           EXT="$(pwd)/FoxAI-Browser.AppDir/firefox/distribution/extensions"
           sed -i "s|%%CORE%%|file:///$EXT/foxai-core@foxai.browser.xpi|g" FoxAI-Browser.AppDir/firefox/distribution/policies.json
