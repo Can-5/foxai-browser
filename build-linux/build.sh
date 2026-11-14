@@ -203,18 +203,26 @@ install_extensions() {
     local distro_ext="${ROOT_DIR}/firefox-foxai/runtime/distribution/extensions"
     mkdir -p "${distro_ext}"
     rm -f "${distro_ext}"/*
-    
-    cp "${DIST_DIR}/foxai-core.xpi" "${distro_ext}/foxai-core@foxai.browser.xpi"
-    cp "${DIST_DIR}/foxai-ai.xpi" "${distro_ext}/foxai-ai@foxai.browser.xpi"
-    cp "${DIST_DIR}/foxai-search-startpage.xpi" "${distro_ext}/foxai-search-startpage@foxai.local.xpi"
+
+    # Repackage XPIs with forward-slash entry names.
+    # Windows-created XPIs use backslash (\) → Firefox on Linux 404s subdirectories.
+    repackage_xpi() {
+        local src="$1"
+        local dst="$2"
+        local tmpdir
+        tmpdir=$(mktemp -d)
+        7z x "$src" -o"$tmpdir" -y > /dev/null 2>&1 || true
+        7z a -tzip "$dst" -r "$tmpdir"/* -mx=9 > /dev/null 2>&1 || true
+        rm -rf "$tmpdir"
+    }
+
+    repackage_xpi "${DIST_DIR}/foxai-core.xpi" "${distro_ext}/foxai-core@foxai.browser.xpi"
+    repackage_xpi "${DIST_DIR}/foxai-ai.xpi" "${distro_ext}/foxai-ai@foxai.browser.xpi"
+    repackage_xpi "${DIST_DIR}/foxai-search-startpage.xpi" "${distro_ext}/foxai-search-startpage@foxai.local.xpi"
     if [[ -f "${DIST_DIR}/ublock0.xpi" ]]; then
-        cp "${DIST_DIR}/ublock0.xpi" "${distro_ext}/uBlock0@raymondhill.net.xpi"
+        repackage_xpi "${DIST_DIR}/ublock0.xpi" "${distro_ext}/uBlock0@raymondhill.net.xpi"
     fi
-    log_success "Extensions installed"
-    # Copy FoxAI Start newtab page directly into AppImage for file:// access
-    mkdir -p "${ROOT_DIR}/firefox-foxai/runtime/foxai-start"
-    cp -r "${EXT_DIR}/foxai-core/newtab/." "${ROOT_DIR}/firefox-foxai/runtime/foxai-start/" 2>/dev/null || true
-    log_success "FoxAI Start newtab page copied to AppImage"
+    log_success "Extensions installed (forward-slash XPI entries)"
 }
 
 # Install config

@@ -165,9 +165,6 @@ sync_profile_config() {
     echo "$CURRENT_VER" > "$LAST_VER_FILE"
     log "Version changed ($LAST_VER -> $CURRENT_VER), extension cache cleared"
   fi
-
-  # Set FoxAI Start as new tab URL (file:// path, works without chrome_url_overrides)
-  echo 'user_pref("browser.newtab.url", "file://'"$ROOT"'/firefox-foxai/runtime/foxai-start/index.html");' >> "${PROFILE_DIR}/user.js"
 }
 
 if [[ ! -x "$FIREFOX" ]]; then
