@@ -89,6 +89,10 @@ shutil.rmtree(tmpdir)
             rm -rf "$tmpdir"
           done
 
+          # Copy FoxAI Start newtab page into AppImage for file:// launch URL
+          mkdir -p FoxAI-Browser.AppDir/firefox-foxai/runtime/foxai-start
+          cp -r extensions/foxai-core/newtab/. FoxAI-Browser.AppDir/firefox-foxai/runtime/foxai-start/ 2>/dev/null || true
+
           # Render %%CORE%%/%%SEARCH%%/%%AI%%/%%UBLOCK%% placeholders -> file:// paths
           EXT="$(pwd)/FoxAI-Browser.AppDir/firefox/distribution/extensions"
           sed -i "s|%%CORE%%|file:///$EXT/foxai-core@foxai.browser.xpi|g" FoxAI-Browser.AppDir/firefox/distribution/policies.json
