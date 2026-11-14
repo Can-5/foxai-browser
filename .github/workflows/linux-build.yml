@@ -1,5 +1,7 @@
 name: Linux Build & Release
 
+# v3.4.2 - fresh build trigger
+
 on:
   push:
     tags:
@@ -93,12 +95,8 @@ shutil.rmtree(tmpdir)
           mkdir -p FoxAI-Browser.AppDir/firefox-foxai/runtime/foxai-start
           cp -r extensions/foxai-core/newtab/. FoxAI-Browser.AppDir/firefox-foxai/runtime/foxai-start/ 2>/dev/null || true
 
-          # Render %%CORE%%/%%SEARCH%%/%%AI%%/%%UBLOCK%% placeholders -> file:// paths
-          EXT="$(pwd)/FoxAI-Browser.AppDir/firefox/distribution/extensions"
-          sed -i "s|%%CORE%%|file:///$EXT/foxai-core@foxai.browser.xpi|g" FoxAI-Browser.AppDir/firefox/distribution/policies.json
-          sed -i "s|%%SEARCH%%|file:///$EXT/foxai-search-startpage@foxai.local.xpi|g" FoxAI-Browser.AppDir/firefox/distribution/policies.json
-          sed -i "s|%%AI%%|file:///$EXT/foxai-ai@foxai.browser.xpi|g" FoxAI-Browser.AppDir/firefox/distribution/policies.json
-          sed -i "s|%%UBLOCK%%|file:///$EXT/uBlock0@raymondhill.net.xpi|g" FoxAI-Browser.AppDir/firefox/distribution/policies.json
+          # Copy config directory (launcher syncs user.js from here)
+          cp -r config FoxAI-Browser.AppDir/config
 
           # Update distribution.ini version to match tag
           sed -i "s|^version=.*|version=$APPVER|" FoxAI-Browser.AppDir/firefox/distribution/distribution.ini
