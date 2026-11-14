@@ -152,6 +152,19 @@ sync_profile_config() {
   if [[ -f "$ROOT/config/user-tor.js" ]]; then
     cp "$ROOT/config/user-tor.js" "$PROFILE_DIR/user-tor.js"
   fi
+
+  # Clear old extension cache when version changes (forces Firefox to reinstall XPIs)
+  local CURRENT_VER=$(tr -d '\n\r' < "$VERSION_FILE" 2>/dev/null || echo "0.0.0")
+  local LAST_VER_FILE="${PROFILE_DIR}/.last_version"
+  local LAST_VER=""
+  if [[ -f "$LAST_VER_FILE" ]]; then
+    LAST_VER=$(tr -d '\n\r' < "$LAST_VER_FILE")
+  fi
+  if [[ "$CURRENT_VER" != "$LAST_VER" ]]; then
+    rm -rf "${PROFILE_DIR}/extensions" 2>/dev/null || true
+    echo "$CURRENT_VER" > "$LAST_VER_FILE"
+    log "Version changed ($LAST_VER -> $CURRENT_VER), extension cache cleared"
+  fi
 }
 
 if [[ ! -x "$FIREFOX" ]]; then
